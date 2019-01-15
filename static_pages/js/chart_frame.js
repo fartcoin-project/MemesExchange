@@ -64,7 +64,7 @@ function UpdateMCFromLB()
       const EUR = g_LB_Data.EUR.rates.last/(g_MC_BTC_Price+1);
       const RUB = g_LB_Data.RUB.rates.last/(g_MC_BTC_Price+1);
       
-      storage.setItem("LB_DATA", {USD: USD, BTC: BTC, EUR: EUR, RUB: RUB});
+      storage.setItem("LB_DATA", {USD: USD, BTC: BTC, EUR: EUR});
       
       $('#id_MC_info').empty();
       if (MC != 'BTC')
@@ -78,8 +78,8 @@ function UpdateMCFromLB()
         $('#id_MC_info').append($('<li class="breadcrumb-item">1 ' + MC + ' = '+USD.toFixed(2)+' USD</li>'));
         $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
       }
-      
-      $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
+      // Fartcoin - BTC price in RUB
+      // $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
     }
 }
 
@@ -248,9 +248,9 @@ function SetChartLegend()
       '<ul class="nav" style="line-height: 30px;">'+
         '<li class="nav-item mr-3"><img src="'+unescape(ret.result.coin_icon_src)+'" width=40 /></li>'+
         '<li class="nav-item mr-3"><h4>'+COIN+' / '+MC+'</h4></li>'+
-        '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(4)+'</li>'+
-        '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(4)+'</li>'+
-        '<li class="nav-item mr-2 ml-3">Vol: '+(ret.result.Volume*1).toFixed(4)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(8)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(8)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">Vol: '+(1/ret.result.Volume).toFixed(8)+' BTC</li>'+
       '</ul>'
       )//('<h4>'+COIN+' / '+MC+'</h4>');
     $('#chart_legend').empty();
@@ -278,6 +278,6 @@ function AddCoinInfo(info)
     
   $('#coin_legend').text(g_CurrentPair);
   
-  const p1 = $('<p><strong>Forum</strong> ANN: <a target="_blank" href="'+(info.result.coin_info.page || "")+'">'+g_CurrentPair+' @ bitcointalk</a></p>');
+  const p1 = $('<p><a target="_blank" href="'+(info.result.coin_info.page || "")+'">'+g_CurrentPair+' Coin website</a></p>');
   $('#coin_info').empty().append(p1);
 }

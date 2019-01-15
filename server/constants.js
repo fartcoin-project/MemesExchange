@@ -1,12 +1,12 @@
 'use strict';
 
-const SUPPORT_EMAIL = 'support@email.com';
-const NOREPLY_EMAIL = 'no-reply@email.com';
-const DOMAIN = 'trade.multicoins.org';
+const SUPPORT_EMAIL = 'fartcoinproject@gmail.com';
+const NOREPLY_EMAIL = 'no-reply@memesexchange.com';
+const DOMAIN = 'memesexchange.com';
 
-const MAILER_NAME = 'OpenTrade Mailer';
-const START_MESSAGE = 'OpenTrade started!';
-const OPENTRADE = "OpenTrade";
+const MAILER_NAME = 'MemesExchange Mailer';
+const START_MESSAGE = 'MemesExchange started!';
+const OPENTRADE = "MemesExchange";
 
 exports.ALLOW_EMAIL_CHANGING = true;
 
@@ -17,23 +17,23 @@ exports.share = {
    withdrawEnabled: true,
    recaptchaEnabled: true,
    emailVerificationEnabled: 'enabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
-   pinVerificationEnabled: 'enabled', //'disabled'
+   pinVerificationEnabled: 'disabled', //'disabled'
    
-   TRADE_COMISSION: 0.001,
-   DUST_VOLUME: 0.000001,
+   TRADE_COMISSION: 0.0000,
+   DUST_VOLUME: 0.000000001,
    
-   my_portSSL: 40443,
+   my_portSSL: 13337,
    
-   TRADE_MAIN_COIN: "Marycoin",
-   TRADE_MAIN_COIN_TICKER: "MC",
-   TRADE_DEFAULT_PAIR: "Litecoin"
+   TRADE_MAIN_COIN: "Bitcoin",
+   TRADE_MAIN_COIN_TICKER: "BTC",
+   TRADE_DEFAULT_PAIR: "Fartcoin"
 };
 
 exports.my_port = process.env.PORT || 40080;
 
 exports.SESSION_TIME = 3600*1000; //one hour
 
-exports.recaptcha_pub_key = "6LeX5SQUAAAAAKTieM68Sz4MECO6kJXsSR7_sGP1";
+exports.recaptcha_pub_key = "GOOGLE_CAPTCHA_PUBLIC_KEY";
 const MAX_IP_CONNECTIONS = 100;
 
 const MAX_USER_WITHDRAW = 100; //Percentage from trade deposit
