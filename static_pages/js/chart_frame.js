@@ -13,7 +13,7 @@ catch(e)
 let g_LB_Data = {};
 //let g_MC_BTC_Price = 1000000;
 let g_CurrentPair = utils.DEFAULT_PAIR;
-let g_currentChartPeriod = 24;
+let g_currentChartPeriod = 1;
 
 $(() => {
     const currentPair = storage.getItemS('CurrentPair');
@@ -126,10 +126,10 @@ function drawChart(chartData)
     chartData = tmp;
     
     const group = 
+      (g_currentChartPeriod == 0.25) ? 3750 :
+      (g_currentChartPeriod == 1) ? 15000 :
       (g_currentChartPeriod == 24) ? 360000 :
-      (g_currentChartPeriod == 250) ? 3600000 :
-      (g_currentChartPeriod == 1000) ? 14400000 :
-      (g_currentChartPeriod == 6000) ? 86400000 : 360000;
+      (g_currentChartPeriod == 168) ? 2520000 : 360000;
 
     var globalMax = 0;
     var globalMin = 1000000000;
@@ -174,11 +174,11 @@ function drawChart(chartData)
       return;
     
     var vAxisMin = 2*globalMin > globalMax ? 2*globalMin - globalMax : 0;
-    /*var scale = (globalMin) / (globalVolMax + vAxisMin);   
+    var scale = (globalMin) / (globalVolMax + vAxisMin);   
     for (var i=0; i<table.length; i++)
     {
       table[i][1] = (table[i][1] + vAxisMin) * scale;
-    }*/
+    }
 
     g_TableLengthPrev = table.length;
       
@@ -187,21 +187,21 @@ function drawChart(chartData)
       
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
-        //title: g_CurrentPair,
-        /*hAxis: {
-          minValue: 0,
-          maxValue: 24,
-          ticks: [0, 4, 8, 12, 16, 20, 24]
-        },*/
-        //width: 800,
+        title: g_CurrentPair,
+        //hAxis: {
+        //  minValue: 0,
+        //  maxValue: 24,
+        //  ticks: [0, 4, 8, 12, 16, 20, 24]
+        //},
+        width: 1200,
         legend: 'none',
         colors: ['#7eb299'],
-        //vAxis: {viewWindow: {min: vAxisMin} },
-        /*explorer: {
+        vAxis: {viewWindow: {min: vAxisMin} },
+        explorer: {
                 axis: 'horizontal',
                 keepInBounds: true,
                 maxZoomIn: 4.0
-        },*/
+        },
         seriesType: 'candlesticks',
         series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d0e0d8'}}
     };
@@ -239,10 +239,10 @@ function SetChartLegend()
     AddCoinInfo(ret);
     
     const group = 
-      (g_currentChartPeriod == 24) ? '24h: ' :
-      (g_currentChartPeriod == 250) ? '7d: ' :
-      (g_currentChartPeriod == 1000) ? '1M: ':
-      (g_currentChartPeriod == 6000) ? '6M: ': '24h: ';
+      (g_currentChartPeriod == 0.25) ? '15m: ' :
+      (g_currentChartPeriod == 1) ? '1h: ' :
+      (g_currentChartPeriod == 24) ? '1D: ':
+      (g_currentChartPeriod == 168) ? '1W: ': '1D: ';
 
     const legend = $(
       '<ul class="nav" style="line-height: 30px;">'+
@@ -256,16 +256,16 @@ function SetChartLegend()
     $('#chart_legend').empty();
     $('#chart_legend').append(legend);
     
-    const button24 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>24 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 24); location.reload();});
-    const button250 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>7 Days</small></button>').on('click', e => {storage.setItem('ChartPeriod', 250); location.reload();});
-    const button1000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1000); location.reload();});
-    const button6000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>6M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 6000); location.reload();});
+    const button0 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>15 Min</small></button>').on('click', e => {storage.setItem('ChartPeriod', 0.25); location.reload();});
+    const button1 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1 Hour</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1); location.reload();});
+    const button24 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1D</small></button>').on('click', e => {storage.setItem('ChartPeriod', 24); location.reload();});
+    const button168 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1W</small></button>').on('click', e => {storage.setItem('ChartPeriod', 168); location.reload();});
     
     const buttons = $('<nav align="left" class="nav nav-pills"></nav>')
+      .append($('<li class="nav-item"></li>').append(button0))
+      .append($('<li class="nav-item"></li>').append(button1))
       .append($('<li class="nav-item"></li>').append(button24))
-      .append($('<li class="nav-item"></li>').append(button250))
-      .append($('<li class="nav-item"></li>').append(button1000))
-      .append($('<li class="nav-item"></li>').append(button6000));
+      .append($('<li class="nav-item"></li>').append(button168));
       
     $('#chart_legend').append(buttons);
   });
