@@ -11,16 +11,28 @@
       <% include ../partials/alerts %>
       <input id='id_token' type='hidden' <% var value = ''; try{if (status.token) value = "value='"+status.token+"'"}catch(e){} %> <%- value %>>
       <div class='row'>
+<!-- Layout Row Price Charts-->
+        <div class='col-md-10 pl-1.0'>
+<!-- Balk --><div class='container p-0'> 
+		<!--<div class='row p-0'>
+			<iframe frameBorder="0" scrolling='no' style='width: 75%' class="col-md-12" src='../chart.html'>
+			</iframe>
+		   </div>-->
+             </div>
+             <div class="embed-responsive" style='padding-top: 27%' >
+               <iframe style='height: 100%;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
+            </div>
+        </div>
+ <!-- End CHART-->
         <div class="col-md-2 p-0">
-          <div class="card">
+	<div class="card">
             <div class="card-header">
 		<div align="center" width="30px" position="relative" vertical-align="middle" border="2px" border-top-width="30" >
 			<a href="https://www.memesexchange.com:13337/signup" >
 				<img height="80%" width="80%" align="center" title="Sign Up Now!" src="https://www.fartcoin-project.com/wp-content/uploads/2019/01/Bitcoin-accepted.jpg"/> 
 			</a>           
 			<!-- <%-__('Markets')%> --> 
-		</div>
-		
+		</div>		
             </div>
             <div class="card-body p-0">
               <div id='market-flex' class="d-flex d-flex-market align-items-start bd-highlight mb-0" >
@@ -41,19 +53,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class='col-md-7 pl-1.4'>
-          <div class='container p-0'>
-            <div class='row p-0'>
-              <iframe frameBorder="0" scrolling='no' style='height: 500px;' class="col-md-12" src='../chart.html'></iframe>
-            </div>
-          </div>
-          <!--<div class="embed-responsive" style='padding-top: 75%' >
-            <iframe style='height: 500px;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
-          </div>-->
-        </div>
-        <div class="col-md-3 p-0">
+ <!-- End MARKETS-->
           <div class="card">
             <div id='id_chat_header' class="card-header">
               Chat
@@ -61,7 +61,7 @@
             <div class="card-body p-0">
               <button id='id_btn_chat_ru' type="button" class="btn btn-outline-primary btn-sm">NL</button>
               <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">En</button>
-              <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 350px">
+              <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 150px">
                 <div id='chat-container_loading' class='container'>
                   <div class='row'><div class='col-md-12'>Loading...</div></div>
                 </div>
@@ -77,10 +77,12 @@
                 </span>
               </div>
             </div>
+           </div>         
           </div>
         </div>
+<!-- End Part Tree-->
       </div>
-
+<!-- End Layout Row with 3 parts-->
       <div class='row'>
         <div class="col-md-3 p-1">
           <div class="card">

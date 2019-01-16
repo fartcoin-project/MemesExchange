@@ -49,7 +49,7 @@ exports.roundDown = function(number, decimals) {
         if (!exports.isNumeric(decimals))
             return number;
             
-        const ret =  ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) ).toFixed(8);
+        const ret =  ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) ).toFixed(8)*1;
         
         return ret; //(ret < 0.000001) ? 0 : ret;
     }

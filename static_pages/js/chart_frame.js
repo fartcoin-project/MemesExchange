@@ -195,7 +195,7 @@ function drawChart(chartData)
         },*/
         //width: 800,
         legend: 'none',
-        colors: ['blue'],
+        colors: ['#7eb299'],
         //vAxis: {viewWindow: {min: vAxisMin} },
         /*explorer: {
                 axis: 'horizontal',
@@ -203,7 +203,7 @@ function drawChart(chartData)
                 maxZoomIn: 4.0
         },*/
         seriesType: 'candlesticks',
-        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#eaeaea'}}
+        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d0e0d8'}}
     };
     
     var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
@@ -261,7 +261,7 @@ function SetChartLegend()
     const button1000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1000); location.reload();});
     const button6000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>6M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 6000); location.reload();});
     
-    const buttons = $('<nav class="nav nav-pills"></nav>')
+    const buttons = $('<nav align="left" class="nav nav-pills"></nav>')
       .append($('<li class="nav-item"></li>').append(button24))
       .append($('<li class="nav-item"></li>').append(button250))
       .append($('<li class="nav-item"></li>').append(button1000))

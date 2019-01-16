@@ -6,7 +6,8 @@ exports.SSL_KEY = '../ssl_certificates/privkey.pem'; //change to your ssl certif
 exports.SSL_CERT = '../ssl_certificates/fullchain.pem'; //change to your ssl certificates fullchain
 
 exports.walletspassphrase = {
-    'FART' : 'Wallet_encryption_Pass1',
-    'BTC' : 'Wallet_encryption_Pass2'
-
+    'LTC' : 'Wallet_encryption_Pass1',
+    'FART' : 'Wallet_encryption_Pass2',
+    'BTC' : 'Wallet_encryption_Pass3',
+    'DOGE' : 'Wallet_encryption_Pass4'
 };

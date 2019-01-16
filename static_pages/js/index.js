@@ -312,7 +312,7 @@ function UpdateMarket(message)
   for (var i=0; i<message.coins.length; i++)
   {
     const coinName = unescape(message.coins[i].name);
-    const coinIcon = '<img style="float:left;" width="20px" src="'+unescape(message.coins[i].icon)+'" />';
+    const coinIcon = '<img style="float:left;" width="25px" src="'+unescape(message.coins[i].icon)+'" />';
     
     coinNameToTicker[coinName] = {ticker: message.coins[i].ticker};
     coinTickerToName[message.coins[i].ticker] = {name: coinName};
