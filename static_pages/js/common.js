@@ -5,7 +5,7 @@ $('#id-button-lang-en').on('click', e => {
     location.reload(); 
 })
 
-$('#id-button-lang-ru').on('click', e => {
-    utils.setCookie('lang', 'ru');
+$('#id-button-lang-nl').on('click', e => {
+    utils.setCookie('lang', 'nl');
     location.reload(); 
 })

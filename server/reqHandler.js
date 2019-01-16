@@ -126,7 +126,7 @@ function CommonRender(req, res, page)
             const cookies = utils.parseCookies(req);
             info['lang'] = 
                 cookies['lang'] ? cookies['lang'] : 
-                (req.acceptsLanguages('ru') ? 'ru' : 'en');  
+                (req.acceptsLanguages('nl') ? 'nl' : 'en');  
             
             utils.render(res, page, info);
         });

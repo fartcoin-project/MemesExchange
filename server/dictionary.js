@@ -20,7 +20,7 @@ exports.object = {
     setLanguage : function(lang) {
         if (lang == 'en')
             this.lang = 0;
-        if (lang == 'ru')
+        if (lang == 'nl')
             this.lang = 1;
     },
     'lang' : 0,
@@ -44,8 +44,8 @@ exports.object = {
         'Your history' : ['Your history', 'Je geschiedenis'],
         'Trade history' : ['Trade history', 'Handel geschiedenis'],
         'Forgot your password?' : ['Forgot your password?', 'Wachtwoord vergeten?'],
-        'New to memesexchange?' : ['New to memesexchange?', 'Nieuw bij memesexchange?'],
+        'New to memesexchange?' : ['New to MemesExchange?', 'Nieuw bij MemesExchange?'],
         'Sign up now!' : ['Sign up now!', 'Schrijf je nu in!'],
-        'memesexchange - Fartcoin Exchange' : ['memesexchange - Fartcoin Exchange', 'memesexchange - Fartcoin Beurs']
+        'memesexchange - Fartcoin Exchange' : ['MemesExchange.com - Get your MemeCoins!', 'MemesExchange.com - Haal hier je MemeCoins!']
     }
 };

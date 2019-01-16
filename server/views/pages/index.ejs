@@ -14,6 +14,7 @@
 <!-- Layout Row Price Charts-->
         <div class='col-md-10 pl-1.0'>
 <!-- Balk --><div class='container p-0'> 
+<!-- Begin CHART-->
 		<!--<div class='row p-0'>
 			<iframe frameBorder="0" scrolling='no' style='width: 75%' class="col-md-12" src='../chart.html'>
 			</iframe>
@@ -23,7 +24,8 @@
                <iframe style='height: 100%;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
             </div>
         </div>
- <!-- End CHART-->
+<!-- End CHART-->
+<!-- Begin Markets & chat-->
         <div class="col-md-2 p-0">
 	<div class="card">
             <div class="card-header">
@@ -53,19 +55,19 @@
                 </div>
               </div>
             </div>
- <!-- End MARKETS-->
+          <!-- End MARKETS - Begin Chat-->
           <div class="card">
             <div id='id_chat_header' class="card-header">
               Chat
             </div>
             <div class="card-body p-0">
-              <button id='id_btn_chat_ru' type="button" class="btn btn-outline-primary btn-sm">NL</button>
+              <button id='id_btn_chat_nl' type="button" class="btn btn-outline-primary btn-sm">NL</button>
               <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">En</button>
               <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 150px">
                 <div id='chat-container_loading' class='container'>
                   <div class='row'><div class='col-md-12'>Loading...</div></div>
                 </div>
-                <div id='chat-container_ru' class='container font_14'>
+                <div id='chat-container_nl' class='container font_14'>
                 </div>
                 <div id='chat-container_en' class='container font_14'>
                 </div>
@@ -80,9 +82,14 @@
            </div>         
           </div>
         </div>
-<!-- End Part Tree-->
+       <!-- End Markets & chat-->
       </div>
-<!-- End Layout Row with 3 parts-->
+<!-- End Row -->
+
+
+
+<!-- Start new row-->
+      <!-- Begin Buy order input-->
       <div class='row'>
         <div class="col-md-3 p-1">
           <div class="card">
@@ -167,6 +174,10 @@
             </div>
           </div>          
         </div>
+	<!-- End Buy order input-->
+
+
+	<!-- Begin Sell order input-->
         <div class="col-md-3 p-1">
           <div class="card">
                   <div id='header_sell' class="card-header">
@@ -249,6 +260,10 @@
                   </div>
                 </div>          
         </div>
+	<!-- End Sell order input-->
+
+
+	<!-- Begin Active order & History-->
         <div class="col-md-6 p-1">
           <div class="card">
            <!-- <div class="card-header">
@@ -300,7 +315,13 @@
           </div>          
         </div>
       </div>
-      <div class='row'>
+<!-- Begin Active order & History-->
+<!-- End of row-->
+
+
+<!-- Start new row-->
+       <!-- Sell Orders-->
+       <div class='row'>
         <div class="col-md-3 p-1">
             <div class="card">
               <div class="card-header p-0">
@@ -324,6 +345,9 @@
               </div>
             </div>          
           </div>
+	<!-- End Sell Orders-->
+
+	<!-- Begin Buy Orders-->
         <div class="col-md-3 p-1">
             <div class="card">
               <div class="card-header p-0">
@@ -347,6 +371,9 @@
               </div>
             </div> 
           </div>
+	<!-- End Buy Orders-->
+
+	<!-- Begin Trade History-->
         <div class="col-md-6 p-1">
             <div class="card">
              <!-- <div class="card-header">

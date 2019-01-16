@@ -3,13 +3,11 @@
 const SUPPORT_EMAIL = 'fartcoinproject@gmail.com';
 const NOREPLY_EMAIL = 'no-reply@memesexchange.com';
 const DOMAIN = 'memesexchange.com';
-
-const MAILER_NAME = 'MemesExchange Mailer';
-const START_MESSAGE = 'MemesExchange started!';
+const MAILER_NAME = 'MemesExchange-Mail';
+const START_MESSAGE = 'MemesExchange.com Online!';
 const OPENTRADE = "MemesExchange";
 
 exports.ALLOW_EMAIL_CHANGING = true;
-
 exports.DEBUG_LOG = true;
 
 exports.share = {
@@ -18,26 +16,19 @@ exports.share = {
    recaptchaEnabled: true,
    emailVerificationEnabled: 'enabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
    pinVerificationEnabled: 'disabled', //'disabled'
-   
    TRADE_COMISSION: 0.0000,
-   DUST_VOLUME: 0.000000001,
-   
+   DUST_VOLUME: 0.000000001,  
    my_portSSL: 13337,
-   
    TRADE_MAIN_COIN: "Bitcoin",
    TRADE_MAIN_COIN_TICKER: "BTC",
    TRADE_DEFAULT_PAIR: "Fartcoin"
 };
 
 exports.my_port = process.env.PORT || 40080;
-
 exports.SESSION_TIME = 3600*1000; //one hour
-
 exports.recaptcha_pub_key = "6Ldzp4UUAAAAABrqV9wGU_25f0qBYL5WAbpnvJaD";
 const MAX_IP_CONNECTIONS = 100;
-
 const MAX_USER_WITHDRAW = 100; //Percentage from trade deposit
-
 const DATABASE_PATH = './database/sqlite.db';
 const PRIVATE_CONSTANTS_PATH = "./modules/private_constants";
 

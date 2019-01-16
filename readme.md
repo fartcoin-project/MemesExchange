@@ -24,7 +24,7 @@ Website constants
 cd  ~/memesexchange/server
 sudo node main.js
 ```
-You will now see memesexchange at https://127.0.0.1:40443
+You will now see memesexchange at https://127.0.0.1:13337
 
 # Add trade pairs
 For each coin you should create *.conf file
@@ -32,7 +32,7 @@ For each coin you should create *.conf file
 rpcuser=long_random_string_one
 rpcpassword=long_random_string_two
 rpcport=12345
-rpcclienttimeout=10
+
 rpcallowip=127.0.0.1
 server=1
 daemon=1

@@ -11,9 +11,9 @@ catch(e)
 }
 
 let g_LB_Data = {};
-//let g_FART_BTC_Price = 1000000;
+//let g_MC_BTC_Price = 1000000;
 let g_CurrentPair = utils.DEFAULT_PAIR;
-let g_currentChartPeriod = 1;
+let g_currentChartPeriod = 24;
 
 $(() => {
     const currentPair = storage.getItemS('CurrentPair');
@@ -26,21 +26,21 @@ $(() => {
 
     utils.CreateSocket(onSocketMessage, onOpenSocket);
 
-    UpdateFARTFromLB();
-    setInterval(UpdateFARTFromLB, 30000);
+    UpdateMCFromLB();
+    setInterval(UpdateMCFromLB, 30000);
 });
 
-function UpdateFARTFromLB()
+function UpdateMCFromLB()
 {
   const cntObject = storage.getItem('coinNameToTicker');
   if (cntObject == null || !cntObject.value)
       return;
   const coinNameToTicker = cntObject.value;
 
-  const FART_price = storage.getItem("FART_BTC_Price");
-  const g_FART_BTC_Price = (FART_price == null || !FART_price.value) ? 1000000 : FART_price.value;
+  const MC_price = storage.getItem("MC_BTC_Price");
+  const g_MC_BTC_Price = (MC_price == null || !MC_price.value) ? 1000000 : MC_price.value;
   
-  const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART';
+  const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
   
   fetch('/bitcoinaverage/ticker-all-currencies/')
     .then(response => {
@@ -50,36 +50,36 @@ function UpdateFARTFromLB()
     })
     .then( data => {
       g_LB_Data = data;
-      UpdateFARTInfo();
+      UpdateMCInfo();
     });
     
-    function UpdateFARTInfo() {
+    function UpdateMCInfo() {
       if (!g_LB_Data || !g_LB_Data.USD || !g_LB_Data.RUB)
         return;
       
-      if (FART == 'BTC') g_FART_BTC_Price = 0;
+      if (MC == 'BTC') g_MC_BTC_Price = 0;
         
-      const USD = g_LB_Data.USD.rates.last/(g_FART_BTC_Price+1);
-      const BTC = 1/(g_FART_BTC_Price+1);
-      const EUR = g_LB_Data.EUR.rates.last/(g_FART_BTC_Price+1);
-      const RUB = g_LB_Data.RUB.rates.last/(g_FART_BTC_Price+1);
+      const USD = g_LB_Data.USD.rates.last/(g_MC_BTC_Price+1);
+      const BTC = 1/(g_MC_BTC_Price+1);
+      const EUR = g_LB_Data.EUR.rates.last/(g_MC_BTC_Price+1);
+      const RUB = g_LB_Data.RUB.rates.last/(g_MC_BTC_Price+1);
       
       storage.setItem("LB_DATA", {USD: USD, BTC: BTC, EUR: EUR});
       
-      $('#id_FART_info').empty();
-      if (FART != 'BTC')
+      $('#id_MC_info').empty();
+      if (MC != 'BTC')
       {
-        $('#id_FART_info').append($('<li class="breadcrumb-item">1 ' + FART + ' = '+BTC.toFixed(8)+' BTC</li>'));
-        $('#id_FART_info').append($('<li class="breadcrumb-item">'+USD.toFixed(3)+' USD</li>'));
-        $('#id_FART_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(3)+' EUR</li>'));
+        $('#id_MC_info').append($('<li class="breadcrumb-item">1 ' + MC + ' = '+BTC.toFixed(8)+' BTC</li>'));
+        $('#id_MC_info').append($('<li class="breadcrumb-item">'+USD.toFixed(3)+' USD</li>'));
+        $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(3)+' EUR</li>'));
       }
       else
       {
-        $('#id_FART_info').append($('<li class="breadcrumb-item">1 ' + FART + ' = '+USD.toFixed(2)+' USD</li>'));
-        $('#id_FART_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
+        $('#id_MC_info').append($('<li class="breadcrumb-item">1 ' + MC + ' = '+USD.toFixed(2)+' USD</li>'));
+        $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
       }
       // Fartcoin - BTC price in RUB
-      // $('#id_FART_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
+      // $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
     }
 }
 
@@ -87,7 +87,7 @@ function UpdateFARTFromLB()
 function onOpenSocket()
 {
   socket.send(JSON.stringify({request: 'getchart', message: [utils.MAIN_COIN, g_CurrentPair, g_currentChartPeriod]}));
-  setInterval(() => {  socket.send(JSON.stringify({request: 'getchart', message: [utils.MAIN_COIN, g_CurrentPair, g_currentChartPeriod]}));}, 600)
+  setInterval(() => {  socket.send(JSON.stringify({request: 'getchart', message: [utils.MAIN_COIN, g_CurrentPair, g_currentChartPeriod]}));}, 60000)
 }
 
 function onSocketMessage(event)
@@ -126,10 +126,10 @@ function drawChart(chartData)
     chartData = tmp;
     
     const group = 
-      (g_currentChartPeriod == 0.25) ? 3750 :
-      (g_currentChartPeriod == 1) ? 15000 :
-      (g_currentChartPeriod == 24) ? 360000 :
-      (g_currentChartPeriod == 168) ? 2520000 : 3750;
+      (g_currentChartPeriod == 0.25) ? 360000 :
+      (g_currentChartPeriod == 1) ? 3600000 :
+      (g_currentChartPeriod == 12) ? 14400000 :
+      (g_currentChartPeriod == 168) ? 86400000 : 360000;
 
     var globalMax = 0;
     var globalMin = 1000000000;
@@ -174,11 +174,11 @@ function drawChart(chartData)
       return;
     
     var vAxisMin = 2*globalMin > globalMax ? 2*globalMin - globalMax : 0;
-    var scale = (globalMin) / (globalVolMax + vAxisMin);   
+    /*var scale = (globalMin) / (globalVolMax + vAxisMin);   
     for (var i=0; i<table.length; i++)
     {
       table[i][1] = (table[i][1] + vAxisMin) * scale;
-    }
+    }*/
 
     g_TableLengthPrev = table.length;
       
@@ -188,11 +188,11 @@ function drawChart(chartData)
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
         title: g_CurrentPair,
-        //hAxis: {
-        //  minValue: 0,
-        //  maxValue: 24,
-        //  ticks: [0, 4, 8, 12, 16, 20, 24]
-        //},
+        hAxis: {
+          minValue: 0,
+          maxValue: 24,
+          ticks: [0, 4, 8, 12, 16, 20, 24]
+        },
         width: 1200,
         legend: 'none',
         colors: ['#7eb299'],
@@ -228,43 +228,43 @@ function SetChartLegend()
         return setTimeout(SetChartLegend, 1000);
 
     
-  const FART = coinNameToTicker[utils.MAIN_COIN].ticker; 
+  const MC = coinNameToTicker[utils.MAIN_COIN].ticker; 
   const COIN = coinNameToTicker[g_CurrentPair].ticker
   
 
-  $.getJSON( "/api/v1/public/getmarketsummary?market="+FART+"-"+COIN+"&period="+g_currentChartPeriod, ret => {
-    if (!ret || !ret.success || ret.success != true || FART != coinNameToTicker[utils.MAIN_COIN].ticker || COIN != coinNameToTicker[g_CurrentPair].ticker) 
+  $.getJSON( "/api/v1/public/getmarketsummary?market="+MC+"-"+COIN+"&period="+g_currentChartPeriod, ret => {
+    if (!ret || !ret.success || ret.success != true || MC != coinNameToTicker[utils.MAIN_COIN].ticker || COIN != coinNameToTicker[g_CurrentPair].ticker) 
       return;
     
     AddCoinInfo(ret);
     
     const group = 
-      (g_currentChartPeriod == 0.25) ? '15m: ' :
+      (g_currentChartPeriod == 0.25) ? '0.25h: ' :
       (g_currentChartPeriod == 1) ? '1h: ' :
-      (g_currentChartPeriod == 24) ? '1D: ':
-      (g_currentChartPeriod == 168) ? '1W: ': '15m: ';
+      (g_currentChartPeriod == 12) ? '12h: ':
+      (g_currentChartPeriod == 168) ? '1W: ': '0.25h: ';
 
     const legend = $(
       '<ul class="nav" style="line-height: 30px;">'+
         '<li class="nav-item mr-3"><img src="'+unescape(ret.result.coin_icon_src)+'" width=40 /></li>'+
-        '<li class="nav-item mr-3"><h4>'+COIN+' / '+FART+'</h4></li>'+
+        '<li class="nav-item mr-3"><h4>'+COIN+' / '+MC+'</h4></li>'+
         '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(8)+'</li>'+
         '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(8)+'</li>'+
         '<li class="nav-item mr-2 ml-3">Vol: '+(1/ret.result.Volume).toFixed(8)+' BTC</li>'+
       '</ul>'
-      )//('<h4>'+COIN+' / '+FART+'</h4>');
+      )/('<h4>'+COIN+' / '+MC+'</h4>');
     $('#chart_legend').empty();
     $('#chart_legend').append(legend);
     
-    const button0 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>15 Min</small></button>').on('click', e => {storage.setItem('ChartPeriod', 0.25); location.reload();});
+    const button0 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>0.25 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 0.25); location.reload();});
     const button1 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1 Hour</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1); location.reload();});
-    const button24 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1D</small></button>').on('click', e => {storage.setItem('ChartPeriod', 24); location.reload();});
-    const button168 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1W</small></button>').on('click', e => {storage.setItem('ChartPeriod', 168); location.reload();});
+    const button12 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>12 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 12); location.reload();});
+    const button168 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1 Week</small></button>').on('click', e => {storage.setItem('ChartPeriod', 168); location.reload();});
     
     const buttons = $('<nav align="left" class="nav nav-pills"></nav>')
       .append($('<li class="nav-item"></li>').append(button0))
       .append($('<li class="nav-item"></li>').append(button1))
-      .append($('<li class="nav-item"></li>').append(button24))
+      .append($('<li class="nav-item"></li>').append(button12))
       .append($('<li class="nav-item"></li>').append(button168));
       
     $('#chart_legend').append(buttons);

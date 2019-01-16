@@ -367,7 +367,7 @@ $('#add_coin').click(e => {
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-ticker'>Coin ticker</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='FART'>" +
+                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='MC'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-icon'>Icon URL</label>" +

@@ -103,7 +103,7 @@ const utils =
     DEFAULT_PAIR: DEFAULT_PAIR,
     COMISSION: TRADE_COMISSION,
     
-    OPENTRADE: "OpenTrade",
+    OPENTRADE: "MemesExchange",
     USD_NAME: "US Dollar",
     USD_TICKER: "USD",
     RUB_NAME: "Ruble",
@@ -170,11 +170,11 @@ const utils =
         
         socket.onclose = function(event) {
           if (event.wasClean) {
-            //alert('Соединение закрыто чисто');
+                       // alert ('Verbinding is netjes afgesloten');
           } else {
-            //alert('Обрыв соединения'); // например, "убит" процесс сервера
+            // alert ('Disconnection'); // bijvoorbeeld, het serverproces is "vermoord"
           }
-          //alert('Код: ' + event.code + ' причина: ' + event.reason);
+         // alert ('Code:' + event.code + 'reason:' + event.reason);
           setTimeout(utils.CreateSocket, 10000, onmessage, onopen);
         };
         

@@ -9,9 +9,9 @@
     <div class="container">
       <% include ../../partials/alerts %>
       <div class="row" <% var success = ''; if (error) success = 'style="display:none;"'%> <%- success %>>
-        <div class="offset2 col-md-6">
+        <div class="offset2 col-md-12">
             <h2>Registration confirmed!</h2>
-            <p>You can <a href='/login'>login</a> to OpenTrade now.
+            <p>You can <a href='/login'>login</a> to MemesExchange.com now.
         </div>
       </div>
       <div class="row" <% var fail = ''; var errMessage = message || "(unknown)"; if (!error) fail = 'style="display:none;"'%> <%- fail %>>
