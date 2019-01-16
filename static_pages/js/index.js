@@ -155,7 +155,7 @@ $('#form_sell').submit(e => {
 
 function AddOrder(order)
 {
-  const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC'; 
+  const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART'; 
   const bodyModal = 
     '<table class="table">'+
       '<tr>'+
@@ -168,7 +168,7 @@ function AddOrder(order)
         '<td>'+order.order+'</td>'+
         '<td>'+order.amount.toFixed(8)*1+'</td>'+
         '<td>'+order.coin+'</td>'+
-        '<td>'+order.price.toFixed(8)*1+" "+MC+'</td>'+
+        '<td>'+order.price.toFixed(8)*1+" "+FART+'</td>'+
       '</tr>'
     '</table>';
   
@@ -328,19 +328,19 @@ function UpdateMarket(message)
     
     if (coinName == 'Bitcoin')
     {
-      /*g_MC_BTC_Price = price;
-      setTimeout(UpdateMCFromLB, 1);*/
-      storage.setItem("MC_BTC_Price", price);
+      /*g_FART_BTC_Price = price;
+      setTimeout(UpdateFARTFromLB, 1);*/
+      storage.setItem("FART_BTC_Price", price);
     }
 
-    const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
+    const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART';
     const BTC = coinNameToTicker[coinName].ticker;
     
-    const prevPrice = g_LastPrices[MC+'-'+BTC] || 0;
-    g_LastPrices[MC+'-'+BTC] = price;
+    const prevPrice = g_LastPrices[FART+'-'+BTC] || 0;
+    g_LastPrices[FART+'-'+BTC] = price;
     
-    const prevVolume = g_LastVolumes[MC+'-'+BTC] || 0;
-    g_LastVolumes[MC+'-'+BTC] = vol;
+    const prevVolume = g_LastVolumes[FART+'-'+BTC] || 0;
+    g_LastVolumes[FART+'-'+BTC] = vol;
     
     const rowClass = 
       (prevVolume*1 != vol*1) ? (ch*1 < 0 ? "table-danger" : "table-success") :
@@ -362,7 +362,7 @@ function UpdateMarket(message)
         if (coinName == g_CurrentPair)
           return;
           
-        utils.ChangeUrl(document.title + "(" + coinName + ' market)', '/market/'+MC+'-'+BTC);
+        utils.ChangeUrl(document.title + "(" + coinName + ' market)', '/market/'+FART+'-'+BTC);
         storage.setItemS('CurrentPair', coinName);
         location.reload(); 
       });
@@ -391,10 +391,10 @@ function UpdateMarket(message)
   
   UpdateBuySellTickers();
   
-  const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
+  const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART';
   const BTC = coinNameToTicker[g_CurrentPair].ticker;
 
-  utils.ChangeUrl(document.title + "(" + g_CurrentPair+' market)', '/market/'+MC+'-'+BTC+(window.location.search || ""));
+  utils.ChangeUrl(document.title + "(" + g_CurrentPair+' market)', '/market/'+FART+'-'+BTC+(window.location.search || ""));
   
 //  if (bNeedUpdate)
 //    setTimeout(UpdateMarket, 2000, message);
@@ -405,20 +405,20 @@ function UpdateBuySellTickers()
   if (!coinNameToTicker[g_CurrentPair])
     return;
   
-  const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
+  const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART';
   const BTC = coinNameToTicker[g_CurrentPair].ticker;
   
   $('#id_amount_buy').text(BTC);
   $('#id_amount_sell').text(BTC);
   
-  $('#id_price_buy').text(MC);
-  $('#id_price_sell').text(MC);
+  $('#id_price_buy').text(FART);
+  $('#id_price_sell').text(FART);
   
-  $('#id_comission_buy').text(MC);
-  $('#id_comission_sell').text(MC);
+  $('#id_comission_buy').text(FART);
+  $('#id_comission_sell').text(FART);
   
-  $('#id_total_buy').text(MC);
-  $('#id_total_sell').text(MC);
+  $('#id_total_buy').text(FART);
+  $('#id_total_sell').text(FART);
 
 }
 
@@ -876,33 +876,33 @@ function UpdateHelpers()
   
   const coinNameToTicker = cntObject.value;
 
-  const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
+  const FART = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'FART' : 'FART';
   
   const LB_data = storage.getItem('LB_DATA') != null &&  storage.getItem('LB_DATA').value ?
     storage.getItem('LB_DATA').value : false;
     
   if (!LB_data || !LB_data.USD || !LB_data.EUR || !LB_data.RUB) return;
   
-  SetHelper("inputSellTotal", MC, LB_data);
-  SetHelper("inputSellComission", MC, LB_data);
-  SetHelper("inputSellPrice", MC, LB_data);
-  SetHelper("inputBuyTotal", MC, LB_data);
-  SetHelper("inputBuyComission", MC, LB_data);
-  SetHelper("inputBuyPrice", MC, LB_data);
-  SetHelper("buy_balance_button", MC, LB_data);
-  SetHelper("button_max_ask", MC, LB_data);
-  SetHelper("button_max_bid", MC, LB_data);
+  SetHelper("inputSellTotal", FART, LB_data);
+  SetHelper("inputSellComission", FART, LB_data);
+  SetHelper("inputSellPrice", FART, LB_data);
+  SetHelper("inputBuyTotal", FART, LB_data);
+  SetHelper("inputBuyComission", FART, LB_data);
+  SetHelper("inputBuyPrice", FART, LB_data);
+  SetHelper("buy_balance_button", FART, LB_data);
+  SetHelper("button_max_ask", FART, LB_data);
+  SetHelper("button_max_bid", FART, LB_data);
   
-  function SetHelper(name, MC, LB_data)
+  function SetHelper(name, FART, LB_data)
   {
     const total = $('#' + name).val() ? $('#' + name).val()*1 || 0 : $('#' + name).text()*1 || 0;
 
     const helper = " = " + utils.MakePrice2(LB_data.USD*total) + " USD = " + utils.MakePrice2(LB_data.EUR*total) + " EUR = " + utils.MakePrice2(LB_data.RUB*total) + " RUB";
 
-    if (MC != 'BTC')
-      $('#' + name).attr('title', utils.MakePrice2(total) + " MC = " + utils.MakePrice2(LB_data.BTC*total) + " BTC" + helper); 
+    if (FART != 'BTC')
+      $('#' + name).attr('title', utils.MakePrice2(total) + " FART = " + utils.MakePrice2(LB_data.BTC*total) + " BTC" + helper); 
     else
-      $('#' + name).attr('title', utils.MakePrice2(total) +" MC" + helper); 
+      $('#' + name).attr('title', utils.MakePrice2(total) +" FART" + helper); 
   }
 
 }
