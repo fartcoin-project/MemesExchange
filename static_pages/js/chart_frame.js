@@ -64,7 +64,7 @@ function UpdateMCFromLB()
       const EUR = g_LB_Data.EUR.rates.last/(g_MC_BTC_Price+1);
       const RUB = g_LB_Data.RUB.rates.last/(g_MC_BTC_Price+1);
       
-      storage.setItem("LB_DATA", {USD: USD, BTC: BTC, EUR: EUR});
+      storage.setItem("LB_DATA", {USD: USD, BTC: BTC, EUR: EUR, RUB: RUB});
       
       $('#id_MC_info').empty();
       if (MC != 'BTC')
@@ -79,7 +79,7 @@ function UpdateMCFromLB()
         $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
       }
       // Fartcoin - BTC price in RUB
-      // $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
+       $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
     }
 }
 
@@ -126,10 +126,10 @@ function drawChart(chartData)
     chartData = tmp;
     
     const group = 
-      (g_currentChartPeriod == 0.25) ? 360000 :
-      (g_currentChartPeriod == 1) ? 3600000 :
-      (g_currentChartPeriod == 12) ? 14400000 :
-      (g_currentChartPeriod == 168) ? 86400000 : 360000;
+      (g_currentChartPeriod == 24) ? 360000 :
+      (g_currentChartPeriod == 250) ? 3600000 :
+      (g_currentChartPeriod == 1000) ? 14400000 :
+      (g_currentChartPeriod == 6000) ? 86400000 : 360000;
 
     var globalMax = 0;
     var globalMin = 1000000000;
@@ -188,12 +188,12 @@ function drawChart(chartData)
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
         title: g_CurrentPair,
-        hAxis: {
+        /*hAxis: {
           minValue: 0,
           maxValue: 24,
           ticks: [0, 4, 8, 12, 16, 20, 24]
         },
-        width: 1200,
+        width: 1200,*/
         legend: 'none',
         colors: ['#7eb299'],
         vAxis: {viewWindow: {min: vAxisMin} },
@@ -239,10 +239,10 @@ function SetChartLegend()
     AddCoinInfo(ret);
     
     const group = 
-      (g_currentChartPeriod == 0.25) ? '0.25h: ' :
-      (g_currentChartPeriod == 1) ? '1h: ' :
-      (g_currentChartPeriod == 12) ? '12h: ':
-      (g_currentChartPeriod == 168) ? '1W: ': '0.25h: ';
+      (g_currentChartPeriod == 24) ? '24h: ' :
+      (g_currentChartPeriod == 250) ? '7d: ' :
+      (g_currentChartPeriod == 1000) ? '1M: ':
+      (g_currentChartPeriod == 6000) ? '6M: ': '24h: ';
 
     const legend = $(
       '<ul class="nav" style="line-height: 30px;">'+
@@ -250,22 +250,22 @@ function SetChartLegend()
         '<li class="nav-item mr-3"><h4>'+COIN+' / '+MC+'</h4></li>'+
         '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(8)+'</li>'+
         '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(8)+'</li>'+
-        '<li class="nav-item mr-2 ml-3">Vol: '+(1/ret.result.Volume).toFixed(8)+' BTC</li>'+
+        '<li class="nav-item mr-2 ml-3">Vol: '+(ret.result.Volume*1).toFixed(8)+'</li>'+
       '</ul>'
-      )/('<h4>'+COIN+' / '+MC+'</h4>');
+      )//('<h4>'+COIN+' / '+MC+'</h4>');
     $('#chart_legend').empty();
     $('#chart_legend').append(legend);
     
-    const button0 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>0.25 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 0.25); location.reload();});
-    const button1 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1 Hour</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1); location.reload();});
-    const button12 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>12 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 12); location.reload();});
-    const button168 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1 Week</small></button>').on('click', e => {storage.setItem('ChartPeriod', 168); location.reload();});
+    const button24 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>24 Hours</small></button>').on('click', e => {storage.setItem('ChartPeriod', 24); location.reload();});
+    const button250 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>7 Days</small></button>').on('click', e => {storage.setItem('ChartPeriod', 250); location.reload();});
+    const button1000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>1M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 1000); location.reload();});
+    const button6000 = $('<button type="button" class="btn btn-outline-dark btn-sm"><small>6M</small></button>').on('click', e => {storage.setItem('ChartPeriod', 6000); location.reload();});
     
-    const buttons = $('<nav align="left" class="nav nav-pills"></nav>')
-      .append($('<li class="nav-item"></li>').append(button0))
-      .append($('<li class="nav-item"></li>').append(button1))
-      .append($('<li class="nav-item"></li>').append(button12))
-      .append($('<li class="nav-item"></li>').append(button168));
+    const buttons = $('<nav class="nav nav-pills"></nav>')
+      .append($('<li class="nav-item"></li>').append(button24))
+      .append($('<li class="nav-item"></li>').append(button250))
+      .append($('<li class="nav-item"></li>').append(button1000))
+      .append($('<li class="nav-item"></li>').append(button6000));
       
     $('#chart_legend').append(buttons);
   });

@@ -10,28 +10,37 @@
     <div class="container pt-2">
       <% include ../partials/alerts %>
       <input id='id_token' type='hidden' <% var value = ''; try{if (status.token) value = "value='"+status.token+"'"}catch(e){} %> <%- value %>>
+
+
+
+<!-- Start new row----------------------------------------------------------------------------------------------------->
       <div class='row'>
-<!-- Layout Row Price Charts-->
-        <div class='col-md-10 pl-1.0'>
-<!-- Balk --><div class='container p-0'> 
-<!-- Begin CHART-->
-		<!--<div class='row p-0'>
-			<iframe frameBorder="0" scrolling='no' style='width: 75%' class="col-md-12" src='../chart.html'>
-			</iframe>
-		   </div>-->
-             </div>
-             <div class="embed-responsive" style='padding-top: 27%' >
-               <iframe style='height: 100%;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
+
+
+<!--Begin CHART Layout -->
+        <div class='col-md-10 pl-1.4'>
+          <div class='container p-0'>
+            <div class='row p-0'>
+              <iframe frameBorder="0" scrolling='no' style='height: 470px;' class="col-md-12" src='../chart.html'></iframe>
             </div>
+          </div>
+          <!--<div class="embed-responsive" style='padding-top: 75%' >
+            <iframe style='height: 500px;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
+          </div>-->
         </div>
 <!-- End CHART-->
+
+
+
 <!-- Begin Markets & chat-->
         <div class="col-md-2 p-0">
-	<div class="card">
+	
+	<!--- MARKETS --->
+	  <div class="card">
             <div class="card-header">
 		<div align="center" width="30px" position="relative" vertical-align="middle" border="2px" border-top-width="30" >
 			<a href="https://www.memesexchange.com:13337/signup" >
-				<img height="80%" width="80%" align="center" title="Sign Up Now!" src="https://www.fartcoin-project.com/wp-content/uploads/2019/01/Bitcoin-accepted.jpg"/> 
+				<img height="50" align="center" title="Sign Up Now!" src="https://www.fartcoin-project.com/wp-content/uploads/2019/01/Bitcoin-accepted.jpg"/> 
 			</a>           
 			<!-- <%-__('Markets')%> --> 
 		</div>		
@@ -55,22 +64,20 @@
                 </div>
               </div>
             </div>
-          <!-- End MARKETS - Begin Chat-->
+         <!--- End MARKETS --->
+
+	 <!---  Begin Chat --->
           <div class="card">
-            <div id='id_chat_header' class="card-header">
-              Chat
-            </div>
+            <div id='id_chat_header' class="card-header">Chat</div>
             <div class="card-body p-0">
               <button id='id_btn_chat_nl' type="button" class="btn btn-outline-primary btn-sm">NL</button>
               <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">En</button>
               <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 150px">
-                <div id='chat-container_loading' class='container'>
-                  <div class='row'><div class='col-md-12'>Loading...</div></div>
-                </div>
-                <div id='chat-container_nl' class='container font_14'>
-                </div>
-                <div id='chat-container_en' class='container font_14'>
-                </div>
+		        <div id='chat-container_loading' class='container'>
+		          <div class='row'><div class='col-md-12'>Loading...</div></div>
+		        </div>
+		        <div id='chat-container_nl' class='container font_14'></div>
+		        <div id='chat-container_en' class='container font_14'></div>
               </div>
               <div class="input-group">
                 <input id='chat_message' type="text" class="form-control" maxlength="150">
@@ -78,23 +85,37 @@
                   <button id='button_chat' class="btn btn-secondary" type="button">Submit</button>
                 </span>
               </div>
-            </div>
-           </div>         
+            </div> 
+           </div> 
+	  <!---- End chat---->  
+
+      
           </div>
+<!-- End Markets & chat-->
+
+
+
         </div>
-       <!-- End Markets & chat-->
-      </div>
-<!-- End Row -->
 
 
 
-<!-- Start new row-->
-      <!-- Begin Buy order input-->
-      <div class='row'>
-        <div class="col-md-3 p-1">
+      </div> <!-- <div class='row'> -->
+<!-- End of row----------------------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+<!-- Start new row----------------------------------------------------------------------------------------------------->
+     
+      <div class='row' >
+
+ <!-- Begin Buy order input-->
+        <div class="col-md-3 p-2">
           <div class="card">
-            <div id='header_buy' class="card-header">
-              
+            <div id='header_buy' class="card-header" style="background-color:#9ed3ca" position='relative' float="left" >              
             </div>
             <div class="card-body p-1">
               <div class="alert alert-secondary p-1" role="alert">
@@ -174,13 +195,71 @@
             </div>
           </div>          
         </div>
-	<!-- End Buy order input-->
+<!-- End Buy order input-->
+	
+	
 
 
-	<!-- Begin Sell order input-->
-        <div class="col-md-3 p-1">
+
+<!-- Begin Active order & History-->	     
+        <div class="col-md-4 p-2">
           <div class="card">
-                  <div id='header_sell' class="card-header">
+                  <div class="card-header" style="background-color:#d5e7e8" position='relative' float="center">
+              Your active orders:
+            </div>
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" id="active-orders-tab" data-toggle="tab" href="#active_orders" role="tab" aria-controls="active_orders" aria-selected="true"><%-__('Your active orders')%></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="history-orders-tab" data-toggle="tab" href="#history-orders" role="tab" aria-controls="history-orders" aria-selected="false"><%-__('Your history')%></a>
+              </li>
+            </ul>
+
+            <div class="card-body div-orders p-2">
+              <div class="tab-content" id="user-orders-tab-content">
+                <div class="tab-pane fade show active" id="active_orders" role="tabpanel" aria-labelledby="active-orders-tab">
+                  <table class="table table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id='id_user_orders'>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="tab-pane fade" id="history-orders" role="tabpanel" aria-labelledby="history-orders-tab">
+                  <table class="table table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id='id_user_orders_history'>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>          
+        </div>     
+<!-- End Active order & History-->
+     
+
+
+<!-- Begin Sell order input-->
+        <div class="col-md-3 p-2">
+          <div class="card">
+                  <div id='header_sell' class="card-header" style="background-color:#c4717f" position='relative' float="right" >
                     
                   </div>
                   <div class="card-body p-1">
@@ -259,70 +338,23 @@
                       </form>
                   </div>
                 </div>          
-        </div>
-	<!-- End Sell order input-->
+         </div>
+<!-- End Sell order input-->
 
 
-	<!-- Begin Active order & History-->
-        <div class="col-md-6 p-1">
-          <div class="card">
-           <!-- <div class="card-header">
-              Your active orders:
-            </div>-->
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" id="active-orders-tab" data-toggle="tab" href="#active_orders" role="tab" aria-controls="active_orders" aria-selected="true"><%-__('Your active orders')%></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="history-orders-tab" data-toggle="tab" href="#history-orders" role="tab" aria-controls="history-orders" aria-selected="false"><%-__('Your history')%></a>
-              </li>
-            </ul>
 
-            <div class="card-body div-orders p-2">
-              <div class="tab-content" id="user-orders-tab-content">
-                <div class="tab-pane fade show active" id="active_orders" role="tabpanel" aria-labelledby="active-orders-tab">
-                  <table class="table table-striped table-sm">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id='id_user_orders'>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="tab-pane fade" id="history-orders" role="tabpanel" aria-labelledby="history-orders-tab">
-                  <table class="table table-striped table-sm">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id='id_user_orders_history'>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>          
-        </div>
-      </div>
-<!-- Begin Active order & History-->
-<!-- End of row-->
+</div> <!-- <div class='row'> -->
+<!-- End of row-----------------------------------------------------------------------------------------------------> 
 
 
-<!-- Start new row-->
+
+
+
+
+<!-- Start new row----------------------------------------------------------------------------------------------------->
        <!-- Sell Orders-->
        <div class='row'>
-        <div class="col-md-3 p-1">
+        <div class="col-md-5 p-2">
             <div class="card">
               <div class="card-header p-0">
                 <table class='table table-orders m-0'>
@@ -347,8 +379,9 @@
           </div>
 	<!-- End Sell Orders-->
 
+
 	<!-- Begin Buy Orders-->
-        <div class="col-md-3 p-1">
+        <div class="col-md-5 p-2">
             <div class="card">
               <div class="card-header p-0">
                 <table class='table table-orders m-0'>
@@ -373,8 +406,16 @@
           </div>
 	<!-- End Buy Orders-->
 
+      </div> <!-- <div class='row'> -->
+<!-- End of row----------------------------------------------------------------------------------------------------->
+
+
+
+<!-- Start new row----------------------------------------------------------------------------------------------------->      
+       <div class='row'>
+
 	<!-- Begin Trade History-->
-        <div class="col-md-6 p-1">
+        <div class="col-md-10 p-2">
             <div class="card">
              <!-- <div class="card-header">
                 Trade history:
@@ -386,26 +427,33 @@
                   </tr>
                 </table>
               </div>
-              
-              
               <div class="card-body div-orders p-0">
-                <table class="table table-striped table-sm table-orders">
-                  <thead>
-                    <tr>
-                      <th>Time</th>
-                      <th>Type</th>
-                      <th>Volume</th>
-                      <th>Price</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id='id_trade_history'>
-                  </tbody>
-                </table>
-              </div>
-            </div>          
-          </div>
-      </div>
+		        <table class="table table-striped table-sm table-orders">
+		          <thead>
+		            <tr>
+		              <th>Time</th>
+		              <th>Type</th>
+		              <th>Volume</th>
+		              <th>Price</th>
+		              <th></th>
+		            </tr>
+		          </thead>
+		          <tbody id='id_trade_history'>
+		          </tbody>
+		        </table>
+             </div>
+           </div>        
+         </div> 
+	<!-- End Trade History-->
+
+	</div> 
+<!-- End of row-----------------------------------------------------------------------------------------------------> 
+
+
+
+
+
+
 
     </div> <!-- /container -->
 

@@ -8,8 +8,8 @@
 
     <div class="container">
         <% include ../../partials/alerts %>
-        <div class="row">
-            <div class="offset2 col-md-12">
+        <div class="row" align="center">
+            <div padding-left="200px" class="offset1 col-md-2">
               <h2 class="login-heading bold-text"><%-__('Login')%></h2>
               <form class="login-form" method="post" action="/login"> 
                 <% var redirect='/'; try{redirect=path_redirect}catch(e){}%>
