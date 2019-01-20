@@ -18,7 +18,7 @@
 
 
 <!--Begin CHART Layout -->
-        <div class='col-md-10 pl-1.4'>
+        <div class='col-md-9 pl-1.4'>
           <div class='container p-0'>
             <div class='row p-0'>
               <iframe frameBorder="0" scrolling='no' style='height: 470px;' class="col-md-12" src='../chart.html'></iframe>
@@ -33,7 +33,7 @@
 
 
 <!-- Begin Markets & chat-->
-        <div class="col-md-2 p-0">
+        <div class="col-md-2.5 p-2">
 	
 	<!--- MARKETS --->
 	  <div class="card">
@@ -92,14 +92,8 @@
       
           </div>
 <!-- End Markets & chat-->
-
-
-
         </div>
-
-
-
-      </div> <!-- <div class='row'> -->
+      </div> 
 <!-- End of row----------------------------------------------------------------------------------------------------->
 
 
@@ -109,9 +103,7 @@
 
 
 <!-- Start new row----------------------------------------------------------------------------------------------------->
-     
-      <div class='row' >
-
+       <div class='row' >
  <!-- Begin Buy order input-->
         <div class="col-md-3 p-2">
           <div class="card">
@@ -202,7 +194,7 @@
 
 
 <!-- Begin Active order & History-->	     
-        <div class="col-md-4 p-2">
+        <div class="col-md-3.5 p-2">
           <div class="card">
                   <div class="card-header" style="background-color:#d5e7e8" position='relative' float="center">
               Your active orders:
@@ -334,7 +326,7 @@
                             <span class="currency" id="id_total_sell"></span>
                           </div>
                         </div>
-                        <button type="submit" class="btn btn-primary"><%-__('Sell')%></button>
+                        <button type="submit" class="btn btn-primary"><%-__('Sell')%></button> 
                       </form>
                   </div>
                 </div>          
@@ -354,9 +346,9 @@
 <!-- Start new row----------------------------------------------------------------------------------------------------->
        <!-- Sell Orders-->
        <div class='row'>
-        <div class="col-md-5 p-2">
+        <div class="col-md-4 p-2">
             <div class="card">
-              <div class="card-header p-0">
+              <div class="card-header p-0" style="background-color:#c4717f" >
                 <table class='table table-orders m-0'>
                   <tr>
                     <td><strong>Sell orders</strong></td>
@@ -380,10 +372,14 @@
 	<!-- End Sell Orders-->
 
 
+        <div class="col-md-1 p-2">
+
+        </div>          
+
 	<!-- Begin Buy Orders-->
-        <div class="col-md-5 p-2">
+        <div class="col-md-4 p-2">
             <div class="card">
-              <div class="card-header p-0">
+              <div class="card-header p-0"  style="background-color:#9ed3ca" >
                 <table class='table table-orders m-0'>
                   <tr>
                     <td><strong>Buy orders</strong></td>
@@ -415,12 +411,12 @@
        <div class='row'>
 
 	<!-- Begin Trade History-->
-        <div class="col-md-10 p-2">
+        <div class="col-md-9 p-2">
             <div class="card">
              <!-- <div class="card-header">
                 Trade history:
               </div>-->
-              <div class="card-header p-0">
+              <div class="card-header p-0" style="background-color:#d5e7e8">
                 <table class='table table-orders m-0'>
                   <tr>
                     <td><strong><%-__('Trade history')%>:</strong></td>

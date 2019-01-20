@@ -79,7 +79,7 @@ function UpdateMCFromLB()
         $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
       }
       // Fartcoin - BTC price in RUB
-       $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
+       //$('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
     }
 }
 
@@ -206,8 +206,8 @@ function drawChart(chartData)
         series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d0e0d8'}}
     };
     
-    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-    //var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    //var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
     chart.draw(data, options);
     
   }

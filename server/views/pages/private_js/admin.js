@@ -363,11 +363,11 @@ $('#add_coin').click(e => {
         "<form>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-name'>Coin name</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Marycoin'>" +
+                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Bitcoin'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-ticker'>Coin ticker</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='MC'>" +
+                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='BTC'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-icon'>Icon URL</label>" +
@@ -375,7 +375,7 @@ $('#add_coin').click(e => {
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-rpcaddress'>RPC address</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-rpcaddress' placeholder='http://127.0.0.1:33332'>" +
+                "<input type='text' class='form-control' id='id-newcoin-rpcaddress' placeholder='http://192.168.2.2:8332'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-rpcuser'>RPC user</label>" +

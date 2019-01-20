@@ -60,7 +60,7 @@ function UpdateExchangeSummary()
             const BTC = data.result[i].MarketCurrency;
             const MC = data.result[i].BaseCurrency;
             
-            utils.getJSON('https://www.memesexchange.com:13337/api/v1/public/getmarketsummary?market='+FART+'-'+BTC+'&period=24', (status2, data2) => {
+            utils.getJSON('https://www.memesexchange.com:13337/api/v1/public/getmarketsummary?market='+MC+'-'+BTC+'&period=24', (status2, data2) => {
                 if (status2 != 200 || !data2 || data2.success != true || !data2.result)
                     return;
 
