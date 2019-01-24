@@ -187,27 +187,29 @@ function drawChart(chartData)
       
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
-        title: g_CurrentPair,
-        /*hAxis: {
+        /*title: g_CurrentPair,
+        hAxis: {
           minValue: 0,
           maxValue: 24,
           ticks: [0, 4, 8, 12, 16, 20, 24]
-        },
-        width: 1200,*/
+        },*/
+        //width: 1200,
+
+	height: 400,
         legend: 'none',
         colors: ['#7eb299'],
         vAxis: {viewWindow: {min: vAxisMin} },
-        explorer: {
+        /*explorer: {
                 axis: 'horizontal',
                 keepInBounds: true,
                 maxZoomIn: 4.0
-        },
+        },*/
         seriesType: 'candlesticks',
-        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d0e0d8'}}
+        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d9e0dd'}}
     };
     
-    //var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+    //var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
     chart.draw(data, options);
     
   }

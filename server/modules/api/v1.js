@@ -212,7 +212,7 @@ exports.onGetMarketSummary = function(req, res)
             return;
         }
         
-        g_constants.dbTables['history'].selectAll('max((fromBuyerToSeller*1)/fromSellerToBuyer) AS Height, min((fromBuyerToSeller*1)/fromSellerToBuyer) AS Low, sum(fromSellerToBuyer*1) AS Volume', WHERE, 'GROUP BY coin', (err, rows) => {
+        g_constants.dbTables['history'].selectAll('max((fromBuyerToSeller*1)/fromSellerToBuyer) AS Height, min((fromBuyerToSeller*1)/fromSellerToBuyer) AS Low, sum(fromBuyerToSeller*1) AS Volume', WHERE, 'GROUP BY coin', (err, rows) => {
             if (err || !rows)
             {
                 onError(req, res, err && err.message ? err.message : 'unknown database error');

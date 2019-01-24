@@ -16,8 +16,8 @@ exports.share = {
    recaptchaEnabled: true,
    emailVerificationEnabled: 'enabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
    pinVerificationEnabled: 'disabled', //'disabled'
-   TRADE_COMISSION: 0.0000,
-   DUST_VOLUME: 0.000000001,  
+   TRADE_COMISSION: 0.00025,
+   DUST_VOLUME: 0.00000001,  
    my_portSSL: 13337,
    TRADE_MAIN_COIN: "Bitcoin",
    TRADE_MAIN_COIN_TICKER: "BTC",

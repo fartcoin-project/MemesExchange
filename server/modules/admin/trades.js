@@ -84,7 +84,7 @@ exports.onDeleteOrders = function(ws, req, data)
         if (status.id != 1)
             return;
             
-       const WHERE = 'coin="'+escape(data.coinName)+'" AND price*1+0.000001 > '+escape(data.price)+'*1 AND price*1-0.000001 < '+escape(data.price) + '*1';
+       const WHERE = 'coin="'+escape(data.coinName)+'" AND price*1+0.00000001 > '+escape(data.price)+'*1 AND price*1-0.00000001 < '+escape(data.price) + '*1';
        g_constants.dbTables['orders'].selectAll('ROWID AS id, *', WHERE, '', (err, rows) => {
            if (err || !rows || !rows.length)
             return;

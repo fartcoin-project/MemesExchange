@@ -20,8 +20,8 @@
 <!--Begin CHART Layout -->
         <div class='col-md-9 pl-1.4'>
           <div class='container p-0'>
-            <div class='row p-0'>
-              <iframe frameBorder="0" scrolling='no' style='height: 470px;' class="col-md-12" src='../chart.html'></iframe>
+            <div class='row pl-0'>
+              <iframe frameBorder="0" scrolling='no' style='height: 500px;' class="col-md-12" src='../chart.html'></iframe>
             </div>
           </div>
           <!--<div class="embed-responsive" style='padding-top: 75%' >
@@ -33,7 +33,7 @@
 
 
 <!-- Begin Markets & chat-->
-        <div class="col-md-2.5 p-2">
+        <div class="col-md-3 p-2">
 	
 	<!--- MARKETS --->
 	  <div class="card">
@@ -71,8 +71,8 @@
             <div id='id_chat_header' class="card-header">Chat</div>
             <div class="card-body p-0">
               <button id='id_btn_chat_nl' type="button" class="btn btn-outline-primary btn-sm">NL</button>
-              <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">En</button>
-              <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 150px">
+              <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">EN</button>
+              <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 200px">
 		        <div id='chat-container_loading' class='container'>
 		          <div class='row'><div class='col-md-12'>Loading...</div></div>
 		        </div>
@@ -141,7 +141,7 @@
                     <div class='col-md-6'>
                       <table>
                         <thead>
-                          <tr><th>Highest Ask:</th></tr>
+                          <tr><th>Lowest Ask:</th></tr>
                         </thead>
                         <tbody>
                           <tr><td id='id_max_ask'></td></tr>
@@ -194,7 +194,7 @@
 
 
 <!-- Begin Active order & History-->	     
-        <div class="col-md-3.5 p-2">
+        <div class="col-md-3 p-2">
           <div class="card">
                   <div class="card-header" style="background-color:#d5e7e8" position='relative' float="center">
               Your active orders:
@@ -346,7 +346,7 @@
 <!-- Start new row----------------------------------------------------------------------------------------------------->
        <!-- Sell Orders-->
        <div class='row'>
-        <div class="col-md-4 p-2">
+        <div class="col-md-3 p-2">
             <div class="card">
               <div class="card-header p-0" style="background-color:#c4717f" >
                 <table class='table table-orders m-0'>
@@ -372,12 +372,40 @@
 	<!-- End Sell Orders-->
 
 
-        <div class="col-md-1 p-2">
-
-        </div>          
+	<!-- Begin Trade History-->
+        <div class="col-md-3 p-2">
+            <div class="card">
+             <!-- <div class="card-header">
+                Trade history:
+              </div>-->
+              <div class="card-header p-0" style="background-color:#d5e7e8">
+                <table class='table table-orders m-0'>
+                  <tr>
+                    <td><strong><%-__('Trade history')%>:</strong></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body div-orders p-0">
+		        <table class="table table-striped table-sm table-orders">
+		          <thead>
+		            <tr>
+		              <th>Time</th>
+		              <th>Type</th>
+		              <th>Volume</th>
+		              <th>Price</th>
+		              <th></th>
+		            </tr>
+		          </thead>
+		          <tbody id='id_trade_history'>
+		          </tbody>
+		        </table>
+             </div>
+           </div>        
+         </div> 
+	<!-- End Trade History-->         
 
 	<!-- Begin Buy Orders-->
-        <div class="col-md-4 p-2">
+        <div class="col-md-3 p-2">
             <div class="card">
               <div class="card-header p-0"  style="background-color:#9ed3ca" >
                 <table class='table table-orders m-0'>
@@ -410,37 +438,7 @@
 <!-- Start new row----------------------------------------------------------------------------------------------------->      
        <div class='row'>
 
-	<!-- Begin Trade History-->
-        <div class="col-md-9 p-2">
-            <div class="card">
-             <!-- <div class="card-header">
-                Trade history:
-              </div>-->
-              <div class="card-header p-0" style="background-color:#d5e7e8">
-                <table class='table table-orders m-0'>
-                  <tr>
-                    <td><strong><%-__('Trade history')%>:</strong></td>
-                  </tr>
-                </table>
-              </div>
-              <div class="card-body div-orders p-0">
-		        <table class="table table-striped table-sm table-orders">
-		          <thead>
-		            <tr>
-		              <th>Time</th>
-		              <th>Type</th>
-		              <th>Volume</th>
-		              <th>Price</th>
-		              <th></th>
-		            </tr>
-		          </thead>
-		          <tbody id='id_trade_history'>
-		          </tbody>
-		        </table>
-             </div>
-           </div>        
-         </div> 
-	<!-- End Trade History-->
+
 
 	</div> 
 <!-- End of row-----------------------------------------------------------------------------------------------------> 
