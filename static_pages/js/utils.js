@@ -144,13 +144,14 @@ const utils =
         
         if ((str*1.0).toFixed(8)*1.0 == str*1.0)
             return str*1.0;
-        
+
         const str0 = str.toString();
         const ret = str0.substring(0, str0.indexOf(".") + 8);
         
         if ((ret*1.0).toString().length < ret.length)
             return ret*1.0;
         return ret;
+
     },
     GetCurrentLang: function()
     {
@@ -172,7 +173,7 @@ const utils =
           if (event.wasClean) {
                        // alert ('Verbinding is netjes afgesloten');
           } else {
-            // alert ('Disconnection'); // bijvoorbeeld, het serverproces is "vermoord"
+            // alert ('Disconnection'); // bijvoorbeeld, het serverproces is "Killed"
           }
          // alert ('Code:' + event.code + 'reason:' + event.reason);
           setTimeout(utils.CreateSocket, 10000, onmessage, onopen);
@@ -188,14 +189,31 @@ const utils =
       var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       var year = a.getFullYear();
       var month = months[a.getMonth()];
+
       var date = a.getDate();
       var hour = a.getHours();
       var min = a.getMinutes();
       var sec = a.getSeconds();
-      var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+
+/*Function to change date notation 1 Jan 8:5:0   into  01 Jan 08:05:00 */
+	function datechecker(number){
+		if(number >= 0 && number <= 9){
+			return "0"+number;
+		}
+		else {
+			return number;
+		}
+	}	
+	
+      var nicedate = datechecker(date);
+      var nicehour = datechecker(hour);
+      var nicemins = datechecker(min);
+      var nicesecs = datechecker(sec);
+
+      var time = nicedate + ' ' + month + ' ' + year + ' ' + nicehour + ':' + nicemins + ':' + nicesecs ;
 
       if (hideSeconds) 
-        time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+        time = nicedate + ' ' + month + ' ' + year + ' ' + nicehour + ':' + nicemins;
       return time;
     },
     alert_fail: function(message) {

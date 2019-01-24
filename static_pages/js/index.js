@@ -690,11 +690,11 @@ function UpdateOrders(orders)
   const txtBuyPrice = utils.MakePrice(orders.buy[0].price);
   const txtSellPrice = utils.MakePrice(orders.sell[0].price);
   
-  const askButton = $('<button id="button_max_ask" type="button" class="p-0 btn btn-link"></button>').append(txtBuyPrice).on('click', e => {
-        $('#inputBuyPrice').val(txtBuyPrice);
+  const askButton = $('<button id="button_max_ask" type="button" class="p-0 btn btn-link"></button>').append(txtSellPrice).on('click', e => {
+        $('#inputBuyPrice').val(txtSellPrice);
       })
-  const bidButton = $('<button id="button_max_bid"type="button" class="p-0 btn btn-link"></button>').append(txtSellPrice).on('click', e => {
-        $('#inputSellPrice').val(txtSellPrice);
+  const bidButton = $('<button id="button_max_bid"type="button" class="p-0 btn btn-link"></button>').append(txtBuyPrice).on('click', e => {
+        $('#inputSellPrice').val(txtBuyPrice);
       })
   
   $('#id_max_bid').empty().append(bidButton); //.text(utils.MakePrice(orders.buy[0].price)); //((orders.buy[0].price*1.0).toFixed(8)*1);
