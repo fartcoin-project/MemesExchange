@@ -320,6 +320,15 @@ function UpdateMarket(message)
     if (coinName == utils.MAIN_COIN)
       continue;
     
+/*	
+SELECT TOP 1 * FROM "history"
+WHERE coin = 'Fartcoin' and coin_pair = 'Bitcoin'
+ORDER BY ABS( time - yesterday ) 
+  
+	var yesterday = Date.now()-1000*60*60*24;
+    g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, fromBuyerToSeller, price, buysell, time', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'ORDER BY (time*1-'+yesterday+') DESC LIMIT 1', (err, rows) => {*/
+
+
     const price = (message.coins[i].fromBuyerToSeller/(message.coins[i].volume == 0 ? 1 : message.coins[i].volume)).toFixed(8)*1;
     const vol = (message.coins[i].volume*1).toFixed(8)*1;
     const ch = message.coins[i].prev_frombuyertoseller ? ((price - message.coins[i].prev_frombuyertoseller*1) / (price != 0 ? price : 1))*100 : 100;
@@ -582,11 +591,11 @@ function UpdateTradeHistoryUser(history)
     //history[i].buysell = history[i].buysell == 'sell' ? 'buy' : 'sell';
     
     const typeColor = history[i].buysell == 'sell' ? "text-danger" : "text-success";
-    const tr = $('<tr></tr>')
-      .append($('<td>'+utils.timeConverter(history[i].time*1)+'</td>'))
-      .append($('<td><span class="'+typeColor+'">'+history[i].buysell+'</span></td>'))
-      .append($('<td>'+(history[i].volume*1).toFixed(7)*1+'</td>'))
-      .append($('<td>'+(history[i].fromBuyerToSeller/history[i].volume).toFixed(7)*1+'</td>'));
+    const tr = $('<tr ></tr>')
+      .append($('<td style="font-size:0.75rem">'+utils.timeConverter(history[i].time*1)+'</td>'))
+      .append($('<td><span style="font-size:0.75rem" class="'+typeColor+'">'+history[i].buysell+'</span></td>'))
+      .append($('<td style="font-size:0.75rem">'+(history[i].volume*1).toFixed(7)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
+      .append($('<td style="font-size:0.75rem">'+(history[i].fromBuyerToSeller/history[i].volume).toFixed(7)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'));
     
     $('#id_user_orders_history').append(tr);
   }
@@ -738,10 +747,10 @@ function UpdateUserOrders(userOrders)
     
     const typeColor = userOrders[i].buysell == 'sell' ? "text-danger" : "text-success";
     const tr = $('<tr></tr>')
-      .append($('<td>'+utils.timeConverter(userOrders[i].time*1)+'</td>'))
-      .append($('<td><span class="'+typeColor+'">'+userOrders[i].buysell+'</span></td>'))
-      .append($('<td>'+(userOrders[i].amount*1).toFixed(8)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
-      .append($('<td>'+(userOrders[i].price*1).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'))
+      .append($('<td style="font-size:0.75rem">'+utils.timeConverter(userOrders[i].time*1)+'</td>'))
+      .append($('<td><span style="font-size:1rem" class="'+typeColor+'">'+userOrders[i].buysell+'</span></td>'))
+      .append($('<td style="font-size:0.9rem">'+(userOrders[i].amount*1).toFixed(8)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
+      .append($('<td style="font-size:0.9rem">'+(userOrders[i].price*1).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'))
       .append($('<td></td>').append(close));
       
     $('#id_user_orders').append(tr);

@@ -13,9 +13,9 @@ exports.Init = function()
     mailer.SendStartAppNotification(ret => {
         console.log(ret.message);
     })
-    setInterval(exports.UpdateMarket, 1000);
+    setInterval(exports.UpdateMarket, 10000);
     
-    setTimeout(UpdateExchangeSummary, 1000);
+    setTimeout(UpdateExchangeSummary, 10000);
     setInterval(UpdateExchangeSummary, 3600000);
     
     setInterval(require("../admin/trades").DeleteDustOrders, 60000);
