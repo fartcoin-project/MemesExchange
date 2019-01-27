@@ -161,8 +161,8 @@ exports.SubmitOrder = function(req, res)
                 if (err || !rows || !rows.length) return onError(req, res, (err && err.message) ? err.message : 'User balance not found');
 
                 const fullAmount = req.body.order == 'buy' ?
-                    utils.roundDown(req.body.amount*req.body.price+g_constants.share.TRADE_COMISSION*req.body.amount*req.body.price) :
-                    utils.roundDown(req.body.amount*1);
+                    utils.roundDown(req.body.amount*req.body.price+g_constants.share.TRADE_COMISSION*req.body.amount*req.body.price).toFixed(8) :
+                    utils.roundDown(req.body.amount*1).toFixed(8);
                 
                 if (fullAmount*1 < 0.000001) return onError(req, res, 'Bad order total ( total < 0.000001 ) '+'( '+fullAmount*1+' < 0.000001 )');
                 

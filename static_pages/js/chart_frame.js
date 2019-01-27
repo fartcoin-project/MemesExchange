@@ -167,7 +167,7 @@ function drawChart(chartData)
       if (globalVolMax < volume) globalVolMax = volume;
       
       table.push([time, volume, min/1000000, init/1000000, final/1000000, max/1000000]);
-      //table.push([time, min/1000000, init/1000000, final/1000000, max/1000000]);
+      //table.push([time, 1000000/min, 1000000/init, 1000000/final, 1000000/max]);
     }
     
     if (!table.length || table.length < g_TableLengthPrev-2)
@@ -182,30 +182,40 @@ function drawChart(chartData)
 
     g_TableLengthPrev = table.length;
       
-    if (table.length > 24)
-      table = table.slice(table.length - 24);
+    if (table.length > 36)
+      table = table.slice(table.length - 36);
       
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
-        /*title: g_CurrentPair,
-        hAxis: {
-          minValue: 0,
-          maxValue: 24,
-          ticks: [0, 4, 8, 12, 16, 20, 24]
-        },*/
-        //width: 1200,
+        title: 'Volume & Price ',
+        titleTextStyle : {color: 'grey', fontSize: 11},
+	height: 500,
+        legend: { position: 'top' },
+        hAxis: {textStyle: {fontSize:10, color:'black', bold:'false'}, viewWindowMode: 'maximized', gridlines: {count:-1} },
+        vAxis: {title: 'Volume - Price in BTC', titleTextStyle: {color: 'Grey'}, viewWindow: {min: vAxisMin} },
 
-	height: 400,
-        legend: 'none',
-        colors: ['#7eb299'],
-        vAxis: {viewWindow: {min: vAxisMin} },
-        /*explorer: {
-                axis: 'horizontal',
-                keepInBounds: true,
-                maxZoomIn: 4.0
-        },*/
+ 	focusTarget:'category',
+        tooltip: {textStyle:{ color: '#333', fontSize:12 },legend: 'none'},
+        colors: ['#7eb299'], //price
+	
+        chartArea: {
+                left: 100,
+		right: 100, 
+                top: 50
+
+            },
+        explorer: {axis: 'horizontal',keepInBounds: true,maxZoomIn: 4.0},
         seriesType: 'candlesticks',
-        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d9e0dd'}}
+	candlestick: {
+            fallingColor: { strokeWidth: 1, fill: '#b27D7D' }, // red
+            risingColor: { strokeWidth: 1, fill: '#7eb299' }   // green
+	},
+        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d9e0dd'}}, //volume
+
+        //width: 1200,
+ 	/*'backgroundColor':'#fbfbee', 	*/
+
+
     };
     
     var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
