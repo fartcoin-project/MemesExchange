@@ -6,7 +6,6 @@ const WebSocket = require('ws');
 const RPC = require("../rpc.js");
 const mailer = require("../mailer.js");
 const orders = require("./orders");
-const database = require("../../database");
 const adminUtils = require("../admin/utils");
 
 const commands = {
@@ -302,7 +301,7 @@ function GetCachedBalance(socket, userID, coin, callback, newBalance)
         balances[userID][coin.id]['data'] = JSON.stringify({message: {awaiting: 0.0}});
 
     const oldData = JSON.parse(balances[userID][coin.id].data);
-    const awaiting = oldData.message.awaiting;
+    let awaiting = oldData.message.awaiting;
        
     const WHERE = 'userID="'+escape(userID)+'" AND coin="'+coin.name+'"';
     
@@ -773,7 +772,7 @@ function ProcessWithdraw(userID, address, amount, coinName, callback)
             return callback({result: false, message: '<b>Withdraw error ('+(ret && ret.code ? ret.code : 0)+'): check balance error</b>'});
         }
         MoveBalance(g_constants.ExchangeBalanceAccountID, userID, coin, utils.roundDown(amount*1+(rows[0].info.hold || 0.002)), ret => {
-            if (!ret || !ret.result)
+            if (!ret || !ret.result || !ret.balanceupdated)
             {
                 require("./orderupdate").UnlockUser(userID);
                 return callback({result: false, message: '<b>Withdraw error (1):</b> '+ ret.message});
@@ -784,14 +783,19 @@ function ProcessWithdraw(userID, address, amount, coinName, callback)
                     
             console.log('RPC call from ProcessWithdraw1');
             RPC.send3(userID, coinID, commands.walletpassphrase, [walletPassphrase, 60], ret => {
-                if (walletPassphrase.length && (!ret || !ret.result || ret.result != 'success') && ret.data && ret.data.length)
+                if (!ret || !ret.result || ret.result != 'success')
                 {
-                    const err = ret.data;
+                    const err = (ret.data && ret.data.length) ? ret.data : "RPC walletpassphrase returned bad answer";
                     //if false then return coins to user balance
-                    MoveBalance(userID, g_constants.ExchangeBalanceAccountID, coin, amount, ret =>{
+                    if (walletPassphrase.length)
+                    {
+                        MoveBalance(userID, g_constants.ExchangeBalanceAccountID, coin, amount, ret =>{
+                            require("./orderupdate").UnlockUser(userID);
+                        }); 
+                    }
+                    else
                         require("./orderupdate").UnlockUser(userID);
-                    });
-                        
+                    
                     return callback({result: false, message: '<b>Withdraw error (2):</b> '+ err});
                 }    
                         
@@ -820,9 +824,12 @@ function ProcessWithdraw(userID, address, amount, coinName, callback)
     
                         const err = ret ? ret.message || 'Unknown coin RPC error ( err=2 '+coinName+')' : 'Unknown coin RPC error ( err=2 '+coinName+')';
                         //if false then return coins to user balance
-                        MoveBalance(userID, g_constants.ExchangeBalanceAccountID, coin, amount, ret =>{
-                            require("./orderupdate").UnlockUser(userID);
-                        });
+                        
+                        //I have disabled this because it seems that we can return coins when withdraw was succeeded. 
+                        //If here will be real error then admin can fix it from admin panel
+                        //MoveBalance(userID, g_constants.ExchangeBalanceAccountID, coin, amount, ret =>{
+                        //    require("./orderupdate").UnlockUser(userID);
+                        //});
                         return callback({result: false, message: '<b>Withdraw error (3):</b> '+ err});
                     });
                 });
@@ -885,7 +892,11 @@ function MoveBalance(userID_from, userID_to, coin, amount, callback)
                 }
 
                 console.log('MoveBalance return with message="amount<=0" userID='+userID+' coin='+coin.name+" amount="+(amount*1).toFixed(7)*1);
-                callback({result: true, balance: rows[0].balance});
+                
+                //BUG! Should return result: false because no actual moving done! 
+                //callback({result: true, balance: rows[0].balance, balanceupdated: false});
+                
+                callback({result: false, balance: rows[0].balance, balanceupdated: false});
             });
             return;
         }
@@ -904,7 +915,7 @@ function MoveBalance(userID_from, userID_to, coin, amount, callback)
                     }
 
                     console.log('MoveBalance return with error message="" userID='+userID+' coin='+coin.name);
-                    callback({result: true, balance: rows[0].balance});
+                    callback({result: true, balance: rows[0].balance, balanceupdated: false});
                 });
                 return;
             }
@@ -973,7 +984,7 @@ function UpdateBalanceDB(userID_from, userID_to, coin, amount, comment, callback
                         utils.balance_log('Insert DB balance error (userID_from='+userID_from+'), wait 10 sec and try again. ERROR: '+JSON.stringify(err));
                         return setTimeout(UpdateBalanceDB, 10000, userID_from, userID_to, coin, amount, comment, callback, nTry+1);
                     }*/
-                    callback({result: true, balance: amount}); 
+                    callback({result: true, balance: amount, balanceupdated: true}); 
                 }
             );
             return;
@@ -1013,7 +1024,7 @@ function UpdateBalanceDB(userID_from, userID_to, coin, amount, comment, callback
             }*/
 
             g_CachedBalance[WHERE] = {};
-            callback({result: true, balance: newBalance}); 
+            callback({result: true, balance: newBalance, balanceupdated: true}); 
         });
     });
 }

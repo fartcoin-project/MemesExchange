@@ -38,7 +38,7 @@ function UpdateMCFromLB()
   const coinNameToTicker = cntObject.value;
 
   const MC_price = storage.getItem("MC_BTC_Price");
-  const g_MC_BTC_Price = (MC_price == null || !MC_price.value) ? 1000000 : MC_price.value;
+  let g_MC_BTC_Price = (MC_price == null || !MC_price.value) ? 1000000 : MC_price.value;
   
   const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
   
@@ -57,7 +57,7 @@ function UpdateMCFromLB()
       if (!g_LB_Data || !g_LB_Data.USD || !g_LB_Data.RUB)
         return;
       
-      if (MC == 'BTC') g_MC_BTC_Price = 0;
+      if (MC === 'BTC') g_MC_BTC_Price = 0;
         
       const USD = g_LB_Data.USD.rates.last/(g_MC_BTC_Price+1);
       const BTC = 1/(g_MC_BTC_Price+1);
@@ -78,8 +78,8 @@ function UpdateMCFromLB()
         $('#id_MC_info').append($('<li class="breadcrumb-item">1 ' + MC + ' = '+USD.toFixed(2)+' USD</li>'));
         $('#id_MC_info').append($('<li class="breadcrumb-item">'+EUR.toFixed(2)+' EUR</li>'));
       }
-      // Fartcoin - BTC price in RUB
-       //$('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
+      
+      $('#id_MC_info').append($('<li class="breadcrumb-item">'+RUB.toFixed(2)+' RUB</li>'));
     }
 }
 
@@ -167,7 +167,7 @@ function drawChart(chartData)
       if (globalVolMax < volume) globalVolMax = volume;
       
       table.push([time, volume, min/1000000, init/1000000, final/1000000, max/1000000]);
-      //table.push([time, 1000000/min, 1000000/init, 1000000/final, 1000000/max]);
+      //table.push([time, min/1000000, init/1000000, final/1000000, max/1000000]);
     }
     
     if (!table.length || table.length < g_TableLengthPrev-2)
@@ -182,40 +182,28 @@ function drawChart(chartData)
 
     g_TableLengthPrev = table.length;
       
-    if (table.length > 36)
-      table = table.slice(table.length - 36);
+    if (table.length > 24)
+      table = table.slice(table.length - 24);
       
     var data = google.visualization.arrayToDataTable(table, true);
     var options = {
-        title: 'Volume & Price ',
-        titleTextStyle : {color: 'grey', fontSize: 11},
-	height: 500,
-        legend: { position: 'top' },
-        hAxis: {textStyle: {fontSize:10, color:'black', bold:'false'}, viewWindowMode: 'maximized', gridlines: {count:-1} },
-        vAxis: {title: 'Volume - Price in BTC', titleTextStyle: {color: 'Grey'}, viewWindow: {min: vAxisMin} },
-
- 	focusTarget:'category',
-        tooltip: {textStyle:{ color: '#333', fontSize:12 },legend: 'none'},
-        colors: ['#7eb299'], //price
-	
-        chartArea: {
-                left: 100,
-		right: 100, 
-                top: 50
-
-            },
-        explorer: {axis: 'horizontal',keepInBounds: true,maxZoomIn: 4.0},
+        //title: g_CurrentPair,
+        /*hAxis: {
+          minValue: 0,
+          maxValue: 24,
+          ticks: [0, 4, 8, 12, 16, 20, 24]
+        },*/
+        //width: 800,
+        legend: 'none',
+        colors: ['blue'],
+        //vAxis: {viewWindow: {min: vAxisMin} },
+        /*explorer: {
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomIn: 4.0
+        },*/
         seriesType: 'candlesticks',
-	candlestick: {
-            fallingColor: { strokeWidth: 1, fill: '#b27D7D' }, // red
-            risingColor: { strokeWidth: 1, fill: '#7eb299' }   // green
-	},
-        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#d9e0dd'}}, //volume
-
-        //width: 1200,
- 	/*'backgroundColor':'#fbfbee', 	*/
-
-
+        series: {0: {type: 'bars', targetAxisIndex: 1, color: '#eaeaea'}}
     };
     
     var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
@@ -260,9 +248,9 @@ function SetChartLegend()
       '<ul class="nav" style="line-height: 30px;">'+
         '<li class="nav-item mr-3"><img src="'+unescape(ret.result.coin_icon_src)+'" width=40 /></li>'+
         '<li class="nav-item mr-3"><h4>'+COIN+' / '+MC+'</h4></li>'+
-        '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(8)+'</li>'+
-        '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(8)+'</li>'+
-        '<li class="nav-item mr-2 ml-3">Vol: '+(ret.result.Volume*1).toFixed(8)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">'+group+'High: '+(ret.result.High*1).toFixed(4)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">Low: '+(ret.result.Low*1).toFixed(4)+'</li>'+
+        '<li class="nav-item mr-2 ml-3">Vol: '+(ret.result.Volume*1).toFixed(4)+'</li>'+
       '</ul>'
       )//('<h4>'+COIN+' / '+MC+'</h4>');
     $('#chart_legend').empty();
@@ -290,6 +278,6 @@ function AddCoinInfo(info)
     
   $('#coin_legend').text(g_CurrentPair);
   
-  const p1 = $('<p><a target="_blank" href="'+(info.result.coin_info.page || "")+'">'+g_CurrentPair+' Coin website</a></p>');
+  const p1 = $('<p><strong>Forum</strong> ANN: <a target="_blank" href="'+(info.result.coin_info.page || "")+'">'+g_CurrentPair+' @ bitcointalk</a></p>');
   $('#coin_info').empty().append(p1);
 }

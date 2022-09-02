@@ -161,10 +161,10 @@ exports.SubmitOrder = function(req, res)
                 if (err || !rows || !rows.length) return onError(req, res, (err && err.message) ? err.message : 'User balance not found');
 
                 const fullAmount = req.body.order == 'buy' ?
-                    utils.roundDown(req.body.amount*req.body.price+g_constants.share.TRADE_COMISSION*req.body.amount*req.body.price).toFixed(8) :
-                    utils.roundDown(req.body.amount*1).toFixed(8);
+                    utils.roundDown(req.body.amount*req.body.price+g_constants.share.TRADE_COMISSION*req.body.amount*req.body.price) :
+                    utils.roundDown(req.body.amount*1);
                 
-                if (fullAmount*1 < 0.000001) return onError(req, res, 'Bad order total ( total < 0.000001 ) '+'( '+fullAmount*1+' < 0.000001 )');
+                if (fullAmount*1 < 0.00001) return onError(req, res, 'Bad order total ( total < 0.00001 ) '+'( '+fullAmount*1+' < 0.00001 )');
                 
                 if (!IsValidBalance(fullAmount)) return onError(req, res, 'Amount error ( '+fullAmount+' )');
                 if (!IsValidBalance(rows[0].balance)) return onError(req, res, 'Balance error ( '+rows[0].balance+' )');
@@ -253,9 +253,9 @@ exports.GetAllOrders = function(coinsOrigin, callback)
     if (allOrders[coin0]) delete allOrders[coin0];
     
 
-        g_constants.dbTables['orders'].selectAll('SUM(amount*1) AS amount, coin, price, time', 'coin="'+escape(coin0)+'" AND buysell="buy" AND amount*price>0 AND amount*1>0 ', 'GROUP BY price*1000000 ORDER BY price*1000000 DESC LIMIT 30', (err, rows) => {
+    g_constants.dbTables['orders'].selectAll('SUM(amount*1) AS amount, coin, price, time', 'coin="'+escape(coin0)+'" AND buysell="buy" AND amount*price>0 AND amount*1>0 ', 'GROUP BY price*1000000 ORDER BY price*1000000 DESC LIMIT 30', (err, rows) => {
         g_constants.dbTables['orders'].selectAll('SUM(amount*1) AS amount, coin, price, time', 'coin="'+escape(coin0)+'" AND buysell="sell" AND amount*price>0 AND amount*1>0 ', 'GROUP BY price*1000000 ORDER BY price*1000000 LIMIT 30', (err2, rows2) => {
-        g_constants.dbTables['orders'].selectAll('SUM(amount*1) AS sum_amount, SUM(amount*price) AS sum_amount_price', 'amount*price>0 AND amount*1>0 AND coin="'+escape(coin0)+'"', 'GROUP BY buysell', (err3, rows3) => {
+            g_constants.dbTables['orders'].selectAll('SUM(amount*1) AS sum_amount, SUM(amount*price) AS sum_amount_price', 'amount*price>0 AND amount*1>0 AND coin="'+escape(coin0)+'"', 'GROUP BY buysell', (err3, rows3) => {
                 //g_GetAllOrders_start = false;
                 //setTimeout(callback, 1, {result: true, data: {}}); return;
                 
@@ -289,14 +289,14 @@ function ValidateOrderRequest(req)
         req['message'] = 'Bad price ('+req.body.price+')';
         return false;
     }
-    if (req.body.amount*1 < 0.000001)
+    if (req.body.amount*1 < 0.00001)
     {
-        req['message'] = 'Bad order amount ( amount < 0.000001 ) '+'( '+req.body.amount*1+' < 0.000001 )';
+        req['message'] = 'Bad order amount ( amount < 0.00001 ) '+'( '+req.body.amount*1+' < 0.00001 )';
         return false;
     }
-    if (req.body.price*1 < 0.000001)
+    if (req.body.price*1 < 0.00001)
     {
-        req['message'] = 'Bad order price ( price < 0.000001 )'+' ( '+req.body.price*1+' < 0.000001 )';
+        req['message'] = 'Bad order price ( price < 0.00001 )'+' ( '+req.body.price*1+' < 0.00001 )';
         return false;
     }
     return true;
@@ -408,7 +408,7 @@ exports.ProcessExchange = function(coin)
     const SQL = 'SELECT * FROM (' +
                 'SELECT * FROM (SELECT ROWID as id, * FROM orders where coin="'+coin+'"  AND amount*price > 0 AND amount*100>0.000001 AND price*100>0.000001 AND buysell="buy" ORDER BY price*1 DESC, time*1 LIMIT 1 ) '+
                 'UNION ' +
-                'SELECT * FROM (SELECT ROWID as id, * FROM orders where coin="'+coin+'"  AND amount*price > 0 AND amount*100>0.000001 AND price*100>0.000001 AND buysell="sell"  ORDER BY price*1, time*1 LIMIT 1 )' +
+                'SELECT * FROM (SELECT ROWID as id, * FROM orders where coin="'+coin+'"  AND amount*price > 0  AND amount*100>0.000001 AND price*100>0.000001 AND buysell="sell"  ORDER BY price*1, time*1 LIMIT 1 )' +
                 ') ORDER BY buysell';
      
     database.SELECT(SQL, (err, rows) => {
@@ -421,8 +421,8 @@ exports.ProcessExchange = function(coin)
         LockOrder(rows[0].id);
         LockOrder(rows[1].id);
         
-       // if (rows[0].buysell == 'buy' && rows[0].price*1000000 >= rows[1].price*1000000)    
-        if (rows[0].price*1000000 >= rows[1].price*1000000)    
+       // if (rows[0].buysell == 'buy' && rows[0].price*100000000 >= rows[1].price*100000000)    
+        if (rows[0].price*100000000 >= rows[1].price*100000000)    
         {
             RunExchange(rows[0], rows[1], ret => { 
                 UnlockOrder(rows[0].id);

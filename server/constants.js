@@ -1,34 +1,41 @@
 'use strict';
 
-const SUPPORT_EMAIL = 'fartcoinproject@gmail.com';
-const NOREPLY_EMAIL = 'no-reply@memesexchange.com';
+const SUPPORT_EMAIL = 'info@omariskandarani.com';
+const NOREPLY_EMAIL = 'noreply@memesexchange.com';
 const DOMAIN = 'memesexchange.com';
-const MAILER_NAME = 'MemesExchange-Mail';
-const START_MESSAGE = 'MemesExchange.com Online!';
+const MAILER_NAME = 'MemesExchange';
+const START_MESSAGE = 'The MemesExchange.com Server is Online!';
 const OPENTRADE = "MemesExchange";
 
+exports.ACCOUNTS_SERVER = "127.0.0.1";
+exports.ACCOUNTS_PORT = 13336;
+
 exports.ALLOW_EMAIL_CHANGING = true;
+
 exports.DEBUG_LOG = true;
 
 exports.share = {
    tradeEnabled: true,
    withdrawEnabled: true,
-   recaptchaEnabled: true,
-   emailVerificationEnabled: 'enabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
+   recaptchaEnabled: false,
+   emailVerificationEnabled: 'disabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
    pinVerificationEnabled: 'disabled', //'disabled'
-   TRADE_COMISSION: 0.00025,
-   DUST_VOLUME: 0.000000001,  
-   my_portSSL: 13337,
+   
+   TRADE_COMISSION: 0.001, //change trade comission percent
+   DUST_VOLUME: 0.000001, //change minimal order volume
+   
    TRADE_MAIN_COIN: "Bitcoin",
    TRADE_MAIN_COIN_TICKER: "BTC",
    TRADE_DEFAULT_PAIR: "Fartcoin"
 };
 
-exports.my_port = process.env.PORT || 40080;
 exports.SESSION_TIME = 3600*1000; //one hour
+
 exports.recaptcha_pub_key = "6Ldzp4UUAAAAABrqV9wGU_25f0qBYL5WAbpnvJaD";
 const MAX_IP_CONNECTIONS = 100;
+
 const MAX_USER_WITHDRAW = 100; //Percentage from trade deposit
+
 const DATABASE_PATH = './database/sqlite.db';
 const PRIVATE_CONSTANTS_PATH = "./modules/private_constants";
 
@@ -239,6 +246,11 @@ exports.MAX_USER_WITHDRAW = PRIVATE.MAX_USER_WITHDRAW || MAX_USER_WITHDRAW;
 exports.OPENTRADE = PRIVATE.OPENTRADE || OPENTRADE;
 exports.DOMAIN = PRIVATE.DOMAIN || DOMAIN;
 
+exports.share["my_portSSL"] = PRIVATE.SSL_PORT || 443;
+exports.my_port = PRIVATE.PORT || 80;
+
+exports.PORT_DB = PRIVATE.SSL_PORTDB || 13335;
+
 exports.FIAT_ID = PRIVATE.FIAT_ID || [];
 
 
@@ -254,8 +266,8 @@ exports.walletpassphrase = function (ticker)
 }
 
 exports.SSL_options = {
-    key: require("fs").readFileSync(PRIVATE.SSL_KEY),
-    cert: require("fs").readFileSync(PRIVATE.SSL_CERT)
+    key: require("fs").readFileSync(PRIVATE.MOD_SSL_KEY),
+    cert: require("fs").readFileSync(PRIVATE.MOD_SSL_CERT)
 };
 
 ////////////////////////////////////////////////////////////////////////////////////

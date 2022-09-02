@@ -76,7 +76,6 @@ exports.GetLastCoinHistory = function(coin)
     if (!tradeHistory[coin.name].data.length) 
         tradeHistory[coin.name].data.push({volume: 0.0, price: 0.0, fromBuyerToSeller: 0.0, prev_frombuyertoseller: 0.0, buysell: 'buy', prev_price: 0.0, prev_buysell: 'buy'});
     
-
     coin['volume'] = tradeHistory[coin.name].data[0].volume;
     coin['price'] = tradeHistory[coin.name].data[0].price;
     coin['fromBuyerToSeller'] = tradeHistory[coin.name].data[0].fromBuyerToSeller;
@@ -210,23 +209,11 @@ function GetUserTradeHistory(status, data, callback)
 
 function GetTradeHistory(data, callback)
 {
-
-/*	
-SELECT TOP 1 * FROM "history"
-WHERE coin = 'Fartcoin' and coin_pair = 'Bitcoin'
-ORDER BY ABS( time - yesterday ) 
-  
-	var yesterday = Date.now()-1000*60*60*24;
-    g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, fromBuyerToSeller, price, buysell, time', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'ORDER BY ABS(time*1-'+yesterday+') DESC LIMIT 200', (err, rows) => {*/
-
-
-
     if (tradeHistory && tradeHistory[data[1]] && tradeHistory[data[1]].time && Date.now() - tradeHistory[data[1]].time < 5000) 
         return callback({result: true, data: tradeHistory[data[1]].data});
+    
 
-
-
-    g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, fromBuyerToSeller, price, buysell, time', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'ORDER BY time*1 DESC LIMIT 200', (err, rows) => { 
+    g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, fromBuyerToSeller, price, buysell, time', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'ORDER BY time*1 DESC LIMIT 200', (err, rows) => {
         if (err || !rows) callback({result: false, data: []});
         
         if (tradeHistory[data[1]])
@@ -273,7 +260,7 @@ function GetChartData(data, callback)
             (data[2] == 6000) ? 86400000 : 360000;
             
         //g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, AVG(price*1000000) AS avg_10min, (time/360000) AS t10min', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'GROUP BY t10min ORDER BY t10min DESC LIMIT 60', (err, rows) => {
-        g_constants.dbTables['history'].selectAll('SUM(fromBuyerToSeller*1) AS volume, AVG((fromBuyerToSeller/fromSellerToBuyer)*1000000) AS avg_10min, (time/'+group+') AS t10min', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'GROUP BY t10min ORDER BY t10min*1 DESC LIMIT 200', (err, rows) => {
+        g_constants.dbTables['history'].selectAll('SUM(fromSellerToBuyer*1) AS volume, AVG((fromBuyerToSeller/fromSellerToBuyer)*1000000) AS avg_10min, (time/'+group+') AS t10min', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'GROUP BY t10min ORDER BY t10min*1 DESC LIMIT 200', (err, rows) => {
             if (err || !rows) callback({result: false, data: []});
             
             if (chartData[data[1]][data[2]]) delete chartData[data[1]][data[2]];

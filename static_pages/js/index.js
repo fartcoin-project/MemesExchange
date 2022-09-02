@@ -1,10 +1,10 @@
 'use strict';
 
 var g_CurrentPair = utils.DEFAULT_PAIR;
-var g_CurrentLang = 'en';
+var g_CurrentLang = 'ru';
 
 var g_bFirstChatFilling = true;
-const chat_languages = ['nl', 'en'];
+const chat_languages = ['ru', 'en'];
 
 var coinNameToTicker = {};
 var coinTickerToName = {};
@@ -111,8 +111,8 @@ function ShowLanguageChat()
   
 }
 
-$('#id_btn_chat_nl').on('click', e => {
-  storage.setItem('CurrentLang', 'nl');
+$('#id_btn_chat_ru').on('click', e => {
+  storage.setItem('CurrentLang', 'ru');
   ShowLanguageChat();
 });
 
@@ -312,7 +312,7 @@ function UpdateMarket(message)
   for (var i=0; i<message.coins.length; i++)
   {
     const coinName = unescape(message.coins[i].name);
-    const coinIcon = '<img style="float:left;" width="25px" src="'+unescape(message.coins[i].icon)+'" />';
+    const coinIcon = '<img style="float:left;" width="16px" src="'+unescape(message.coins[i].icon)+'" />';
     
     coinNameToTicker[coinName] = {ticker: message.coins[i].ticker};
     coinTickerToName[message.coins[i].ticker] = {name: coinName};
@@ -320,15 +320,6 @@ function UpdateMarket(message)
     if (coinName == utils.MAIN_COIN)
       continue;
     
-/*	
-SELECT TOP 1 * FROM "history"
-WHERE coin = 'Fartcoin' and coin_pair = 'Bitcoin'
-ORDER BY ABS( time - yesterday ) 
-  
-	var yesterday = Date.now()-1000*60*60*24;
-    g_constants.dbTables['history'].selectAll('fromSellerToBuyer AS volume, fromBuyerToSeller, price, buysell, time', 'coin="'+escape(data[1])+'" AND coin_pair="'+escape(data[0])+'"', 'ORDER BY (time*1-'+yesterday+') DESC LIMIT 1', (err, rows) => {*/
-
-
     const price = (message.coins[i].fromBuyerToSeller/(message.coins[i].volume == 0 ? 1 : message.coins[i].volume)).toFixed(8)*1;
     const vol = (message.coins[i].volume*1).toFixed(8)*1;
     const ch = message.coins[i].prev_frombuyertoseller ? ((price - message.coins[i].prev_frombuyertoseller*1) / (price != 0 ? price : 1))*100 : 100;
@@ -479,7 +470,7 @@ function AddChatMessage(message, noscroll, method)
   delButton.on('click', e => {
     e.preventDefault();
     
-    modals.OKCancel("Confirmation", $('<p>'+"Delete message: '"+oldMessage.message.text+"'"+'</p>'), ret => {
+    modals.OKCancel("Confirmation", $('<p>'+"Delete message: '"+encodeURI(oldMessage.message.text)+"'"+'</p>'), ret => {
       if (ret != 'ok')
         return;
         
@@ -591,11 +582,11 @@ function UpdateTradeHistoryUser(history)
     //history[i].buysell = history[i].buysell == 'sell' ? 'buy' : 'sell';
     
     const typeColor = history[i].buysell == 'sell' ? "text-danger" : "text-success";
-    const tr = $('<tr ></tr>')
-      .append($('<td style="font-size:0.75rem">'+utils.timeConverter(history[i].time*1)+'</td>'))
-      .append($('<td><span style="font-size:0.75rem" class="'+typeColor+'">'+history[i].buysell+'</span></td>'))
-      .append($('<td style="font-size:0.75rem">'+(history[i].volume*1).toFixed(7)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
-      .append($('<td style="font-size:0.75rem">'+(history[i].fromBuyerToSeller/history[i].volume).toFixed(7)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'));
+    const tr = $('<tr></tr>')
+      .append($('<td>'+utils.timeConverter(history[i].time*1)+'</td>'))
+      .append($('<td><span class="'+typeColor+'">'+history[i].buysell+'</span></td>'))
+      .append($('<td>'+(history[i].volume*1).toFixed(7)*1+'</td>'))
+      .append($('<td>'+(history[i].fromBuyerToSeller/history[i].volume).toFixed(7)*1+'</td>'));
     
     $('#id_user_orders_history').append(tr);
   }
@@ -699,11 +690,11 @@ function UpdateOrders(orders)
   const txtBuyPrice = utils.MakePrice(orders.buy[0].price);
   const txtSellPrice = utils.MakePrice(orders.sell[0].price);
   
-  const askButton = $('<button id="button_max_ask" type="button" class="p-0 btn btn-link"></button>').append(txtSellPrice).on('click', e => {
-        $('#inputBuyPrice').val(txtSellPrice);
+  const askButton = $('<button id="button_max_ask" type="button" class="p-0 btn btn-link"></button>').append(txtBuyPrice).on('click', e => {
+        $('#inputBuyPrice').val(txtBuyPrice);
       })
-  const bidButton = $('<button id="button_max_bid"type="button" class="p-0 btn btn-link"></button>').append(txtBuyPrice).on('click', e => {
-        $('#inputSellPrice').val(txtBuyPrice);
+  const bidButton = $('<button id="button_max_bid"type="button" class="p-0 btn btn-link"></button>').append(txtSellPrice).on('click', e => {
+        $('#inputSellPrice').val(txtSellPrice);
       })
   
   $('#id_max_bid').empty().append(bidButton); //.text(utils.MakePrice(orders.buy[0].price)); //((orders.buy[0].price*1.0).toFixed(8)*1);
@@ -747,10 +738,10 @@ function UpdateUserOrders(userOrders)
     
     const typeColor = userOrders[i].buysell == 'sell' ? "text-danger" : "text-success";
     const tr = $('<tr></tr>')
-      .append($('<td style="font-size:0.75rem">'+utils.timeConverter(userOrders[i].time*1)+'</td>'))
-      .append($('<td><span style="font-size:1rem" class="'+typeColor+'">'+userOrders[i].buysell+'</span></td>'))
-      .append($('<td style="font-size:0.9rem">'+(userOrders[i].amount*1).toFixed(8)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
-      .append($('<td style="font-size:0.9rem">'+(userOrders[i].price*1).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'))
+      .append($('<td>'+utils.timeConverter(userOrders[i].time*1)+'</td>'))
+      .append($('<td><span class="'+typeColor+'">'+userOrders[i].buysell+'</span></td>'))
+      .append($('<td>'+(userOrders[i].amount*1).toFixed(8)*1+' '+coinNameToTicker[g_CurrentPair].ticker+'</td>'))
+      .append($('<td>'+(userOrders[i].price*1).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker+'</td>'))
       .append($('<td></td>').append(close));
       
     $('#id_user_orders').append(tr);

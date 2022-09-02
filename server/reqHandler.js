@@ -2,7 +2,6 @@
 
 const url = require('url');
 const utils = require("./utils");
-const index = require("./modules/index");
 const support = require("./modules/support");
 const login = require("./modules/registration/login");
 const signup = require("./modules/registration/signup");
@@ -126,7 +125,7 @@ function CommonRender(req, res, page)
             const cookies = utils.parseCookies(req);
             info['lang'] = 
                 cookies['lang'] ? cookies['lang'] : 
-                (req.acceptsLanguages('nl') ? 'nl' : 'en');  
+                (req.acceptsLanguages('nl') ? 'nl' : 'en');
             
             utils.render(res, page, info);
         });
@@ -146,7 +145,6 @@ function onGetAPIKeys(req, res)
 {
     CommonRender(req, res, 'pages/api_keys');
 }
-
 
 function onShowAPI(req, res)
 {

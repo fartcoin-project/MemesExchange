@@ -21,7 +21,9 @@ exports.onExit = function(req, res)
 exports.onSubmit = async function(req, res)
 {
     try {
-        await utils.validateRecaptcha(req)
+        if (g_constants.share.recaptchaEnabled)
+            await utils.validateRecaptcha(req);
+
         await validateForm(req);
 
         const ret = await utils.CheckUserExist(req.body['username'], req.body['username']);
@@ -88,10 +90,10 @@ function validateForm(request)
 
 function Login(req, res, info)
 {
-    const strToken = utils.Hash(Date.now() + Math.random() + info.password);
+    const strToken = utils.CreateToken(info.password);
     res.append('Set-Cookie', 'token='+strToken);
     utils.UpdateSession(info.id, strToken, err => {
-        LoginSuccess(req, res, {token: strToken});
+        LoginSuccess(req, res, {token: ""});
     });
 }
 

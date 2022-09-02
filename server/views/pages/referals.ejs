@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     
-    <% include ../partials/head %>
+    <%- include ('../partials/head') %>
   <body>
 
-    <% include ../partials/header %>
+    <%- include ('../partials/header') %>
 
 
     <div class="container pt-2">
-      <% include ../partials/alerts %>
+      <%- include ('../partials/alerts') %>
       <div class='row'>
         <div class="offset2 col-md-12">
           <h1>OpenTrade affiliate program</h1>
@@ -16,8 +16,8 @@
           <p>Affiliation is registered when any user activates new account from a flyer generated from your affiliate account.</p>
           <h2>Example links:</h2>
           <pre>
-            https://memesexchange.com:13337/?ref=<span id='refid'><%- status.id || 0 %></span>
-            https://memesexchange.com:13337/market/FART-BTC?ref=<span id='refid'><%- status.id || 0 %></span>
+            https://memesexchange.com/?ref=<span id='refid'><%- status.id || 0 %></span>
+            https://memesexchange.com/market/BTC-FART?ref=<span id='refid'><%- status.id || 0 %></span>
           </pre>
           <h2>Statistics</h2>
           <p>You are currently registered as an affiliate for <strong id='usersAll'>0</strong> users and will earn commissions from all <span class='text-danger'>BUY orders</span> done by these. Total <strong id='allVisits'></strong> visits have been done through your links.</p>
@@ -55,7 +55,7 @@
     </div> <!-- /container -->
 
 
-    <% include ../partials/footer %>
+    <%- include ('../partials/footer') %>
     <script src='/js/referals.js'></script>
   </body>
 </html>

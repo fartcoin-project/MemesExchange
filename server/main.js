@@ -8,7 +8,6 @@ const util = require('util');
 const express = require('express');
 const bodyParser = require('body-parser');
 const WebSocketServer = require('ws').Server;
-const utils = require("./utils");
 
 const log_file = require("fs").createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 const log_stdout = process.stdout;
@@ -91,7 +90,7 @@ setInterval(function ping() {
 app.use(express.static('../static_pages'));
 app.set('view engine', 'ejs');
 
-require('./reqHandler.js').handle(app, g_constants.WEB_SOCKETS);
+//require('./reqHandler.js').handle(app, g_constants.WEB_SOCKETS);
 
 /*process.on('uncaughtException', function (err) {
   console.error(err.stack);
@@ -99,14 +98,16 @@ require('./reqHandler.js').handle(app, g_constants.WEB_SOCKETS);
   console.log("Node NOT Exiting...");
 });*/
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     res.send(500, 'Something broke!');
 });
 
 //console.log(JSON.stringify(process.versions));
-require("./database").Init();
-require("./modules/users/market").Init();
+require("./database").Init(() => {
+    require("./modules/users/market").Init();
+    require('./reqHandler.js').handle(app, g_constants.WEB_SOCKETS);
+});
+//require("./modules/users/market").Init();
 
-//require("./modules/admin/utils").FixAllBalances();
 
 

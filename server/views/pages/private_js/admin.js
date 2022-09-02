@@ -16,7 +16,7 @@ $('#id_findtrades').submit(e => {
     $.post( "/admin/findtrades", $( '#id_findtrades' ).serialize(), function( data ) {
         $('#loader').hide();
 
-        if (data.result != true)
+        if (data.result !== true)
         {
             utils.alert_fail(data.message);
             return;
@@ -33,7 +33,7 @@ $('#id_finduser_balance').submit(e => {
     $.post( "/admin/findbalances", $( '#id_finduser_balance' ).serialize(), function( data ) {
         $('#loader').hide();
 
-        if (data.result != true)
+        if (data.result !== true)
             return utils.alert_fail(data.message);
 
         ShowUserBalances(data.data.ret);
@@ -53,7 +53,7 @@ function ShowUserBalances(balances)
             $("html, body").animate({ scrollTop: 0 }, "slow");
             $.getJSON( "/fixbalance", {coin: balances[i].coin, userID: balances[i]["userID"]}, ret => {
                 $('#loader').hide();
-                if (ret.result != true)
+                if (ret.result !== true)
                   return utils.alert_fail(ret.message);
             
                 return utils.alert_success('Balance updated!');
@@ -363,11 +363,11 @@ $('#add_coin').click(e => {
         "<form>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-name'>Coin name</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Bitcoin'>" +
+                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Marycoin'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-ticker'>Coin ticker</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='BTC'>" +
+                "<input type='text' class='form-control' id='id-newcoin-ticker' placeholder='MC'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-icon'>Icon URL</label>" +
@@ -375,7 +375,7 @@ $('#add_coin').click(e => {
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-rpcaddress'>RPC address</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-rpcaddress' placeholder='http://192.168.2.2:8332'>" +
+                "<input type='text' class='form-control' id='id-newcoin-rpcaddress' placeholder='http://127.0.0.1:33332'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-rpcuser'>RPC user</label>" +

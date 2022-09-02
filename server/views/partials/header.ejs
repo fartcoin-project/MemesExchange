@@ -1,51 +1,75 @@
-<!-- ALERT MESSAGE --
+<!-- primary=blue secondary= grey succes=green danger=red warning=yellow info=babyblue light=lightgrey dark=darkgrey -->
      <div class="container pt-2">
-      <div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >
-        <div id="fail-message"><b>MemesExchange.com</b> Is currently under construction. Please <b>do not deposit</b> any coins to your wallet.</div>
-        <button id="close_fail" type="button" class="close"  aria-label="Close">
+      <div id="alert-fail" class="alert alert-info alert-dismissible fade show col-md-12" role="alert" >
+        <div id="fail-message" align="center">
+		(21-06-19) MemesExchange beta is back online, <b>you can deposit/trade/withdraw</b>, we've added the <b>Fartcoin Mining-Pool</b> to the server. Trouble? Contact support.
+
+	</div>
+        <button id="close_fail" type="button" class="close"  data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
         </div>
       </div>
     </div>
- <!-- ALERT MESSAGE -->
+
+
+
+<!-- ALERT MESSAGE -->
+    <% var message = "";
+        if (!share.tradeEnabled || !share.withdrawEnabled) {
+          message =
+            '<div class="container pt-2">'+
+              '<div id="alert-fail" class="alert alert-warning alert-dismissible col-md-12  fade show " role="alert" >'+
+                '<div id="fail-message" align="center"><b>https://www.MemesExchange.com</b> Is currently under maintenance. Please be patient and <b>do not deposit/withdraw</b> any coins to your wallets. <b>Withdraw</b> of coins is temporarily disabled.</div>'+
+                '<button id="close_fail" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                  '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+              '</div>'+
+            '</div>'
+        }
+    %>
+    <%- message %>
 
 <nav class="navbar navbar-expand-lg navbar-light static-top bg-light" >
     <div class="container" style="max-width: 90%;">
-        <a class="navbar-brand" href="/">
-            <img  height="50" border="0" align="center"  src="/OpenTrade6.png"/>
-        </a>
+	<figure>
+	        <a class="navbar-brand" href="/">
+	        <img  height="55" border="0" align="center" alt="Exchange your MemeCoins"  src="/MemesExchangeLogo.png"/>
+			<figcaption>Trade your MemeCoins </figcaption>
+		</a>
+	</figure>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-
             <li class="nav-item active">
-              <a class="nav-link" href="/"><%-__('Exchange')%></a>
+              <a class="nav-link" href="/"><%-__('Trade')%></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="https://fartcoin-project.com"><%-__('Fartcoin-Project')%></a>
             </li>
 
             <li class="nav-item active">
-              <a class="nav-link" href="http://www.fartcoin-project.com"><%-__('Fartcoin-Project')%></a>
+              <a class="nav-link" href="http://explorer.fartcoin-project.com"><%-__('FartBlockExplorer')%></a>
             </li>
 
-            <li class="nav-item active">
-              <a class="nav-link" href="http://www.fartcoin-project.com:11337"><%-__('FartBlockExplorer')%></a>
+	    <li class="nav-item active">
+              <a class="nav-link" href="http://mining.fartcoin-project.com"><%-__('MiningPool')%></a>
             </li>
-
             <li class="nav-item active">
               <a class="nav-link" href="/API">API</a>
             </li>
 
 <!--
- 	    <li class="nav-item active">
+	    <li class="nav-item active">
               <a class="nav-link" href="/"><%-__('Trade')%></a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/forum"><%-__('Forum')%></a>
+              <a class="nav-link" href="/API">API</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/add_coin">About memesexchange.com</a>
+              <a class="nav-link" href="/add_coin">Add coin</a>
             </li>
 -->
 
@@ -54,8 +78,8 @@
         </div>
         <ul class="navbar-nav ml-auto">
             <% var key = ''; try{if (status.active) key = status.token || '';}catch(e){}%>
-            <% if (!key.length) {%><% include ../partials/nav_not_logged %><% }%>
-            <% if (key.length) {%><%  include ../partials/nav_logged %><% }%>
+            <% if (!key.length) {%><%- include ('../partials/nav_not_logged') %><% }%>
+            <% if (key.length) {%><%-  include ('../partials/nav_logged') %><% }%>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span ><%-__('Help')%></span>
@@ -66,20 +90,40 @@
                 </div>
             </li>
         </ul>
-        
+
         <button type="button" id='id-button-lang-en' class="btn btn-outline-success btn-sm m-1">EN</button>
-        <button type="button" id='id-button-lang-nl' class="btn btn-outline-success btn-sm">NL</button>
+        <button type="button" id='id-button-lang-ru' class="btn btn-outline-success btn-sm">RU</button>
     </div>
 </nav>
     <div id="loader" style="display:none;"></div>
     <input id='id_lang' type='hidden' <% var value = 'value="en"'; try{if (lang) value = "value='"+lang+"'"}catch(e){} %> <%- value %>>
 
-    <% var message = ""; 
-        if (!share.tradeEnabled || !share.withdrawEnabled) {
-          message = 
+    <% var message = "";
+        if (!share.tradeEnabled && !share.withdrawEnabled) {
+          message =
             '<div class="container pt-2">'+
               '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
-                '<div id="fail-message">Technical work is carried out. Please be patient. <b>Trading and Withdraw</b> is temporarily disabled</div>'+
+                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Trading and Withdraws disabled</b></div>'+
+                '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
+                  '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+              '</div>'+
+            '</div>'
+        } else if (!share.tradeEnabled && share.withdrawEnabled) {
+          message =
+            '<div class="container pt-2">'+
+              '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
+                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Trading is disabled</b></div>'+
+                '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
+                  '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+              '</div>'+
+            '</div>'
+        } else if (!share.withdrawEnabled && share.tradeEnabled) {
+          message =
+            '<div class="container pt-2">'+
+              '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
+                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Withdraws are disabled</b></div>'+
                 '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
                   '<span aria-hidden="true">&times;</span>'+
                 '</button>'+
@@ -87,5 +131,13 @@
             '</div>'
         }
     %>
-
+    <!--<div class="container pt-2">
+      <div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >
+        <div id="fail-message"><b>Crew (CREW)</b> will delisted. Please close your orders and withdraw CREW balances</div>
+        <button id="close_fail" type="button" class="close"  aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+      </div>
+    </div>-->
     <%- message %>

@@ -44,12 +44,12 @@ exports.roundDown = function(number, decimals) {
         if (!exports.isNumeric(number)) 
             return number;
             
-        decimals = decimals || 9;
+        decimals = decimals || 7;
         
         if (!exports.isNumeric(decimals))
             return number;
             
-        const ret =  ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) ).toFixed(8)*1;
+        const ret =  ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) )*1;
         
         return ret; //(ret < 0.000001) ? 0 : ret;
     }
@@ -94,6 +94,28 @@ exports.Decrypt = function(str)
 let validTokens = {};
 let validSessions = {};
 
+const g_tokenSecret = Math.random();
+exports.CreateToken = function(password)
+{
+    const tokenPublic = Math.random();
+    const ret = tokenPublic+"-"+exports.Hash(g_tokenSecret+""+tokenPublic+"").substr(0, 7)+"-"+exports.Hash(g_tokenSecret+""+tokenPublic+""+password+"").substr(0, 7);
+    
+    return ret;
+}
+
+exports.IsValidToken = function(token)
+{
+    const parts = token.split('-');
+    if (parts.length != 3)
+        return false;
+    
+    if (parts[1] != exports.Hash(g_tokenSecret+""+parts[0]+"").substr(0, 7))
+        return false;
+        
+    return true;
+}
+
+
 exports.UpdateSession = function(userid, token, callback)
 {
     if (!userid) 
@@ -136,11 +158,11 @@ exports.CheckUserExist = function(user, email)
     return new Promise((ok, cancel) => {
         
         IsUserExist(user, exist => {
-            if (exist.result == true)
+            if (exist.result === true)
                 return ok({message: 'Sorry. This user already registered', info: exist.row});
     
             IsEmailExist(email, exist => {
-                if (exist.result == true)
+                if (exist.result === true)
                     return ok({message: 'Sorry. This email already registered', info: exist.row});
     
                 cancel(new Error('Checking user failed. Error: user not found'));
@@ -243,7 +265,7 @@ function InsertRef(req)
         return;
     
     g_constants.dbTables['users'].selectAll('ROWID AS id', 'ROWID='+escape(req.query['ref']), '', (err, rows) => {
-        if (err || !rows || rows.length != 1)
+        if (err || !rows || rows.length !== 1)
             return;
             
         g_constants.dbTables['referals'].insert(
@@ -280,7 +302,10 @@ exports.GetSessionStatus = function(req, callback)
     
     if (validSessions[token] && validSessions[token]['data'] && Date.now() - validSessions[token] < 60000)
         return setTimeout(callback, 10, validSessions[token]['data']);
-        
+
+    if (!exports.IsValidToken(token))
+        return setTimeout(callback, 10, {active: false, message: "invalid token"});
+	
     g_constants.dbTables['sessions'].selectAll('*', 'token="'+token+'"', '', (err, rows) => {
         if (err || !rows || !rows.length)
             return setTimeout(callback, 10, {active: false, message: errMessage});
@@ -313,6 +338,9 @@ let allUsersCount = {count: 0, time: Date.now()};
 exports.GetAllUsersCount = function()
 {
     if (allUsersCount.count && Date.now() - allUsersCount.time < 1000*60)
+        return allUsersCount.count;
+        
+    if (!g_constants.dbTables['users'])
         return allUsersCount.count;
         
     g_constants.dbTables['users'].selectAll('count(login) AS ret', '', '', (err, rows) => {
@@ -393,8 +421,8 @@ exports.getJSON = function(query, callback)
 {
     const parsed = url.parse(query, true);
     const options = {
-        host: parsed.host,
-        port: parsed.port || parsed.protocol=='https:' ? 443 : 80,
+        host: parsed.hostname,
+        port: parsed.port || (parsed.protocol=='https:' ? 443 : 80),
         path: parsed.path,
         method: 'GET',
         headers: {
@@ -403,12 +431,14 @@ exports.getJSON = function(query, callback)
     };
     exports.getHTTP(options, callback);
 };
+
 exports.postJSON = function(query, body, callback)
 {
     const parsed = url.parse(query, true);
     const options = {
-        host: parsed.host,
-        port: parsed.port || parsed.protocol=='https:' ? 443 : 80,
+        protocol: parsed.protocol,
+        host: parsed.hostname,
+        port: parsed.port || (parsed.protocol=='https:' ? 443 : 80),
         path: parsed.path,
         method: 'POST',
         body: body,
@@ -435,7 +465,7 @@ exports.postString = function(host, port, path, headers, strBody, callback)
     {
         var i=0;
     }
-    var proto = (port.nPort == 443 || port.name.indexOf('https')==0) ? https : http;
+    var proto = (port.nPort === 443 || port.name.indexOf('https')==0) ? https : http;
         
     var req = proto.request(options, function(res) { 
         console.log('Status: ' + res.statusCode); 
@@ -485,7 +515,7 @@ exports.postHTTP = function(query, headers, callback)
     const parsed = url.parse(query, true);
     const options = {
         host: parsed.host,
-        port: parsed.port || parsed.protocol=='https:' ? 443 : 80,
+        port: parsed.port || parsed.protocol==='https:' ? 443 : 80,
         path: parsed.path,
         method: 'POST',
         headers: headers
@@ -498,46 +528,44 @@ exports.getHTTP = function(options, onResult)
     console.log("rest::getJSON");
 
     const port = options.port || 80;
-    const prot = port == 443 ? https : http;
+    const prot = (port == 443 || options.protocol == 'https:') ? https : http;
     
     if (!options.method)
         options.method = 'GET';
     if (!options.headers)
         options.headers = {'Content-Type': 'application/json'};
         
-    var req = prot.request(options, function(res)
-    {
+    var req = prot.request(options, res => {
         var output = '';
         console.log(options.host + ':' + res.statusCode);
         res.setEncoding('utf8');
 
-        res.on('data', function (chunk) {
+        res.on('data', chunk => {
             output += chunk;
         });
 
-        res.on('end', function() {
-            if (options.headers['Content-Type'] == 'application/json')
+        res.on('end', () => {
+            if (options.headers['Content-Type'] === 'application/json')
             {
                 try {
-                    var obj = JSON.parse(output);
-                    onResult(res.statusCode, obj);
-
+                    return onResult(res.statusCode, JSON.parse(output));
                 }catch(e) {
                     console.log(e.message);
-                    onResult(res.statusCode, e);
+                    return onResult(res.statusCode, e);
                 }
-                
-                return;
             }
             onResult(res.statusCode, output);
         });
     });
 
-    req.on('error', function(err) {
+    req.on('error', err => {
         console.log(err.message)
         onResult('0', 'unknown error');
     });
 
+    if (options.body)
+        req.write(options.body);
+        
     req.end();
 };
 
@@ -603,13 +631,13 @@ exports.LoadPrivateJS = function(req, res, path)
 {
     try {
         exports.GetSessionStatus(req, status => {
-            if (status.id == 1)
+            if (status.id === 1)
                 return responseFile('./views/pages'+path, res);
             
             admin_utils.GetUserRole(status.id, info => {
-                if (info.role == 'Support' && path.indexOf('staff.js') > 0)
+                if (info.role === 'Support' && path.indexOf('staff.js') > 0)
                     return responseFile('./views/pages'+path, res);
-                if (info.role == 'Chat-admin' && path.indexOf('chatadmin.js') > 0)
+                if (info.role === 'Chat-admin' && path.indexOf('chatadmin.js') > 0)
                     return responseFile('./views/pages'+path, res);
 
                 responseFile('./views/pages/private_js/empty.js'+path, res);
@@ -630,13 +658,13 @@ exports.CheckCoin = function(coin, callback)
         try { rows[0].info = JSON.parse(exports.Decrypt(rows[0].info));}
         catch(e) {callback({result: false, message: e.message});}
 
-        if (rows[0].info.active != true)
+        if (rows[0].info.active !== true)
             return setTimeout(callback, 10, {result: false, message: 'Coin "'+coin+'" is not active', info: rows[0].info});
  
-        if (rows[0].info.orders == 'Disabled')
+        if (rows[0].info.orders === 'Disabled')
             return setTimeout(callback, 10, {result: false, message: 'Coin "'+coin+'" orders is temporarily disabled', info: rows[0].info});
         
-        if (g_constants.share.tradeEnabled == false)
+        if (g_constants.share.tradeEnabled === false)
             return setTimeout(callback, 10, {result: false, message: 'Trading is temporarily disabled', info: rows[0].info});
 
         setTimeout(callback, 10, {result: true, info: rows[0].info});
@@ -645,8 +673,14 @@ exports.CheckCoin = function(coin, callback)
 
 exports.GetCoinFromTicker = function(ticker, callback)
 {
-    g_constants.dbTables['coins'].selectAll('ROWID AS id, *', 'ticker="'+escape(ticker)+'"', '', (err, rows) => {
-        if (err || !rows || !rows.length) return callback({});
-        callback(rows[0]);
-    })
+    return new Promise(async (ok, cancel) => {
+        try {
+            const rows = await g_constants.dbTables['coins'].Select('ROWID AS id, *', 'ticker="'+escape(ticker)+'"', '');
+            if (!rows || !rows.length || !rows[0].name) throw new Error('Coin ticker ('+escape(ticker)+') not found!');
+            return ok(rows[0]);
+        }
+        catch(e) {
+            return cancel(e);
+        }
+    });
 }

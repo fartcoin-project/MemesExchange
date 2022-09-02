@@ -11,7 +11,7 @@ const WebSocket = require('ws')
 
 exports.onConnect = function(ws, req)
 {
-   //ws.on('open', function open() {});
+   ws.on('open', function open() {});
 
     const request = req;
     ws.on('message', data => {
@@ -38,22 +38,22 @@ function SendResponce(ws, req, client)
         delete ws['client_request'];
         
     ws['client_request'] = client.request;
-    if (client.request == 'getchat')
+    if (client.request === 'getchat')
         return chat.onRequestMessages(ws);
 
-    if (client.request == 'getchart')
+    if (client.request === 'getchart')
         return trade.onGetChart(ws, req, client.message);
 
-    if (client.request == 'getrole')
+    if (client.request === 'getrole')
         return tradeAdmin.onQueryRole(ws, req, client.message);
         
-    if (client.request == 'del_orders')
+    if (client.request === 'del_orders')
         return tradeAdmin.onDeleteOrders(ws, req, client.message);
 
-    if (client.request == 'del_chat_message')
+    if (client.request === 'del_chat_message')
         return chat.onDeleteMessage(ws, req, client.message);
 
-    if (client.request == 'ban_chat_user')
+    if (client.request === 'ban_chat_user')
         return chat.onBanUser(ws, req, client.message);
 
     if (client.request == 'deleteBan')

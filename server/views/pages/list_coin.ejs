@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     
-    <% include ../partials/head %>
+    <%- include ('../partials/head') %>
   <body>
 
-    <% include ../partials/header %>
+    <%- include ('../partials/header') %>
 
 
 <div class="featured-bg-1" id="about"><br><br>
@@ -15,7 +15,8 @@
               <div class="card-body">
                 <h2>Coin Listing</h2>
                 <p class="card-text">
-
+We only accept bitcoin based altcoins (coins with <a href="https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list">RPC 1.0</a> compatibility).<br>
+Cryptonote and Zcash forks and Ethereum tokens are currently not accepted<br><hr><br>
 
 
 <br>
@@ -29,7 +30,7 @@
  </div><br><br><br><br>
     </div> <!-- /container -->
 
-    <% include ../partials/footer %>
+    <%- include ('../partials/footer') %>
     <script src='/js/support.js'></script>
   </body>
 </html>

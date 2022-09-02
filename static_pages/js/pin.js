@@ -22,6 +22,6 @@ $('#pin_check_form').submit(e => {
         if (data.result != true)
             return utils.alert_fail(data.message);
 
-        window.location.href = "https://"+window.location.hostname+":13337"($('#id_redirect').val() || "/");
+        window.location.href = "https://"+window.location.hostname+($('#id_redirect').val() || "/");
     }, "json" );
 })

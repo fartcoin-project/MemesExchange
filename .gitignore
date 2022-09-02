@@ -1,16 +1,32 @@
 # SQLite Database
-/server/database/sqlite.db
+/databaseServer/database/sqlite.db
+server/database/sqlite.db
 *.db
 
 # Node Modules
 node_modules/
 
 # Certificates
+/accountsserver/ssl_certificates/
 *.key
 *.crt
 
 # Others
-/server/modules/private_constants.js
+server/modules/private_constants.js
+accountsserver/private.js
 *.log
 *.py
 *.out
+/.idea/aws.xml
+/.idea/jsLibraryMappings.xml
+/.idea/MemesExchange.com.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/accountsserver/debug/
+
+accountsserver/ssl_certificates/
+/.idea/
+/accountsserver/database/
+/OLD_MemesExchange_OLD/
+/server/modules/ssl_certificates/
