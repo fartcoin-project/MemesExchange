@@ -7,7 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const WebSocketServer = require('ws').Server;
 
-const log_file = require("fs").createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+const log_file = require("fs").createWriteStream(__dirname + '/debug/debug.log', {flags : 'w'});
 const log_stdout = process.stdout;
 
 console.log = function(d, userID) { 
@@ -86,7 +86,7 @@ require('./reqHandler.js').handle(app, g_constants.WEB_SOCKETS);
 process.on('uncaughtException', err => {
   console.error(err.stack);
   console.log("Node NOT Exiting...");
-  require("fs").writeFileSync(__dirname + '/debug'+Date.now()+'.log', err.stack);
+  require("fs").writeFileSync(__dirname + '/debug/debug'+Date.now()+'.log', err.stack);
 
  // process.exit(0);
 });

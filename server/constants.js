@@ -2,7 +2,7 @@
 
 const SUPPORT_EMAIL = 'info@omariskandarani.com';
 const NOREPLY_EMAIL = 'noreply@memesexchange.com';
-const DOMAIN = 'memesexchange.com';
+const DOMAIN = 'localhost';
 const MAILER_NAME = 'MemesExchange';
 const START_MESSAGE = 'The MemesExchange.com Server is Online!';
 const OPENTRADE = "MemesExchange";

@@ -11,7 +11,7 @@ const getaddressesbyaccount = require("./RPC/getaddressesbyaccount");
 const setaccount = require("./RPC/setaccount");
 
 
-const log_file_db = require("fs").createWriteStream(__dirname + '/debug_db.log', {flags : 'w'});
+const log_file_db = require("fs").createWriteStream(__dirname + '/debug/debug_db.log', {flags : 'w'});
 
 exports.log_db = function(d) {
     log_file_db.write(util.format(d) + '\n');

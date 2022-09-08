@@ -78,8 +78,8 @@ try { PRIVATE = require("./private.js");}catch(e){}
 exports.DOMAIN = DOMAIN;
 exports.PORT_DB = 13335;
 exports.dbName = PRIVATE ? PRIVATE.DATABASE_PATH : DATABASE_PATH;
-exports.SSL_KEY = './ssl_certificates/privkey.pem';
-exports.SSL_CERT = './ssl_certificates/fullchain.pem';
+exports.SSL_KEY = './ssl_certificates/localhost.key';
+exports.SSL_CERT = './ssl_certificates/localhost.crt';
 
 exports.SSL_options = {
     key: require("fs").readFileSync(exports.SSL_KEY),
