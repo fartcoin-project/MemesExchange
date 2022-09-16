@@ -1,7 +1,7 @@
   <head>
     <script>
       var debug = <%-debug%>;
-      if (!debug && window.location.protocol != "https:" && window.location.protocol != "file:")
+      if (!debug && window.location.protocol !== "https:" && window.location.protocol !== "file:")
           window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
     </script>
     
@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="MemesExchange.com the place to get some MemeCoins!" />
-    <meta name="author" content="Omar Iskandarani" />
+    <meta name="author" content="fartcoin-project" />
 
     <title><%-__('MemesExchange.com - A place to Exchange your MemeCoins')%></title>
 
@@ -30,10 +30,10 @@
 	</script>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+      <link rel="stylesheet" href="./css/bootstrap.css" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="/css/styles.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
     
     <script>
       'use strict';
@@ -48,6 +48,6 @@
       const DEFAULT_PAIR = SHARE.TRADE_DEFAULT_PAIR;
       const TRADE_COMISSION = SHARE.TRADE_COMISSION;
     </script>
-    <script src='/js/utils.js'></script>
+    <script src='./js/utils.js'></script>
 
   </head>

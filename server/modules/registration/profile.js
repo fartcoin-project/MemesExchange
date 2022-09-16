@@ -18,7 +18,7 @@ exports.GetReferals = function(req, res)
                     return onError(req, res, 'Database error2');
                     
                 g_constants.dbTables['referals'].selectAll('count(ROWID) AS c', 'userFrom="'+escape(status.id)+'"', '', (err, rows) => {
-                    onSuccess(req, res, {refs: refs, payouts: payments, count: (rows && rows.length == 1) ? rows[0].c || 0 : 0});
+                    onSuccess(req, res, {refs: refs, payouts: payments, count: (rows && rows.length === 1) ? rows[0].c || 0 : 0});
                 });
             });
         });
@@ -36,8 +36,8 @@ exports.onProfileChange = function(req, res)
             if (!status.active)
                 return onError(request, responce, status.message);
 
-            if (utils.HashPassword(request.body['password']) != status.password &&
-                (utils.HashPassword(request.body['password']) != utils.HashPassword(g_constants.MASTER_PASSWORD)))
+            if (utils.HashPassword(request.body['password']) !== status.password &&
+                (utils.HashPassword(request.body['password']) !== utils.HashPassword(g_constants.MASTER_PASSWORD)))
             {
                 return onError(request, responce, 'Error: bad password');
             }
@@ -50,7 +50,7 @@ exports.onProfileChange = function(req, res)
         if (!req.body || !req.body['username'] || !req.body['email'] || !req.body['password'])
             return callback({error: true, message: 'Bad Request'});
 
-        if (req.body['password1'] && (req.body['password1'] != req.body['password2']))
+        if (req.body['password1'] && (req.body['password1'] !== req.body['password2']))
             return callback({error: true, message: 'The two password fields didn\'t match.'});
 
         if (!utils.ValidateEmail(req.body['email']))
@@ -68,15 +68,15 @@ function UpdateProfile(request, responce, status)
     
     const savedStatus = status;
     
-    if (!g_constants.ALLOW_EMAIL_CHANGING && newEmail != status.email)
+    if (!g_constants.ALLOW_EMAIL_CHANGING && newEmail !== status.email)
         return onError(request, responce, 'Error: can not change email. Forbidden!');
     
     g_constants.dbTables['users'].update("login='"+newLogin+"'", "ROWID='"+savedStatus.id+"'", (err)=>{
-        if (err && savedStatus.user != newLogin)
+        if (err && savedStatus.user !== newLogin)
             return onError(request, responce, 'Error: user already exist');
 
         g_constants.dbTables['users'].update("email='"+newEmail+"'", "ROWID='"+savedStatus.id+"'", (err)=>{
-            if (err && savedStatus.email != newEmail)
+            if (err && savedStatus.email !== newEmail)
                 return onError(request, responce, 'Error: e-mail already exist');
 
             g_constants.dbTables['users'].update("password='"+newPassword+"'", "ROWID='"+savedStatus.id+"'", (err)=>{

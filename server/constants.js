@@ -5,7 +5,7 @@ const NOREPLY_EMAIL = 'noreply@memesexchange.com';
 const DOMAIN = 'localhost';
 const MAILER_NAME = 'MemesExchange';
 const START_MESSAGE = 'The MemesExchange.com Server is Online!';
-const OPENTRADE = "MemesExchange";
+const MemesExchange = "MemesExchange";
 
 exports.ACCOUNTS_SERVER = "127.0.0.1";
 exports.ACCOUNTS_PORT = 13336;
@@ -243,7 +243,7 @@ exports.NOREPLY_EMAIL = PRIVATE.NOREPLY_EMAIL || NOREPLY_EMAIL;
 exports.START_MESSAGE = PRIVATE.START_MESSAGE || START_MESSAGE;
 exports.MAILER_NAME = PRIVATE.MAILER_NAME || MAILER_NAME;
 exports.MAX_USER_WITHDRAW = PRIVATE.MAX_USER_WITHDRAW || MAX_USER_WITHDRAW;
-exports.OPENTRADE = PRIVATE.OPENTRADE || OPENTRADE;
+exports.MemesExchange = PRIVATE.MemesExchange || MemesExchange;
 exports.DOMAIN = PRIVATE.DOMAIN || DOMAIN;
 
 exports.share["my_portSSL"] = PRIVATE.SSL_PORT || 443;

@@ -17,7 +17,7 @@ function validate()
     $('#id_password2').removeClass("is-invalid");
     $('#id_email').removeClass("is-invalid");
 
-    if ($("#id_username")[0].value == "" || $("#id_password")[0].value.length == 0)
+    if ($("#id_username")[0].value === "" || $("#id_password")[0].value.length === 0)
         return false;
 
     $("#id_email").val($("#id_email")[0].value.toLowerCase());
@@ -27,7 +27,7 @@ function validate()
         return false;
     }
 
-    if ($("#id_password1")[0].value != $("#id_password2")[0].value)
+    if ($("#id_password1")[0].value !== $("#id_password2")[0].value)
     {
         $('#id_password2').addClass("is-invalid");
         return false;
@@ -42,7 +42,7 @@ function onSubmit()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $.post( "/profile", $( '#profile-form' ).serialize(), function( data ) {
         $('#loader').hide();
-        if (data.result != true)
+        if (data.result !== true)
         {
             //$('#alert-fail').text(data.message);
             //$('#alert-fail').show();

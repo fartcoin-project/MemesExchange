@@ -1,10 +1,10 @@
 'use strict';
 
 var g_CurrentPair = utils.DEFAULT_PAIR;
-var g_CurrentLang = 'ru';
+var g_CurrentLang = 'nl';
 
 var g_bFirstChatFilling = true;
-const chat_languages = ['ru', 'en'];
+const chat_languages = ['nl', 'en'];
 
 var coinNameToTicker = {};
 var coinTickerToName = {};
@@ -13,17 +13,17 @@ var g_role = 'User';
 
 function UpdatePageWithRole()
 {
-  if (!g_role || g_role == 'User')
+  if (!g_role || g_role === 'User')
     return;
   
-  if (g_role == 'root')
+  if (g_role === 'root')
   {
     $('.del_message_button').show();
     $('.del_order_button').show();
   }
-  if (g_role == 'Support')
+  if (g_role === 'Support')
     $('.staff_area').show();
-  if (g_role == 'Chat-admin')
+  if (g_role === 'Chat-admin')
   {
     $('.del_message_button').show();
     $('.chat_admin_area').show();
@@ -112,7 +112,7 @@ function ShowLanguageChat()
 }
 
 $('#id_btn_chat_ru').on('click', e => {
-  storage.setItem('CurrentLang', 'ru');
+  storage.setItem('CurrentLang', 'nl');
   ShowLanguageChat();
 });
 
@@ -173,14 +173,14 @@ function AddOrder(order)
     '</table>';
   
   modals.OKCancel("Order confirmation", bodyModal, ret => {
-    if (ret != 'ok')
+    if (ret !== 'ok')
       return;
       
     $('#loader').show();
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $.post( "/submitorder", order, function( data ) {
         $('#loader').hide();
-        if (data.result != true)
+        if (data.result !== true)
         {
           utils.alert_fail(data.message);
           return;
@@ -216,18 +216,18 @@ function onSocketMessage(event)
   try { data = JSON.parse(event.data); }
   catch(e) {return;}
   
-  if (!data.request || data.request == 'error' || !data.message)
+  if (!data.request || data.request === 'error' || !data.message)
     return;
-    
-  if (data.request == 'chat-message')
+
+  if (data.request === 'chat-message')
     return AddChatMessage(data.message)
 
-  if (data.request == 'user-role')
+  if (data.request === 'user-role')
   {
     g_role = data.message;
     return UpdatePageWithRole();
   }
-  if (data.request == 'chat-messages')
+  if (data.request === 'chat-messages')
   {
     //$('#chat-container').empty();
     
@@ -236,19 +236,19 @@ function onSocketMessage(event)
     
     return setTimeout(AsyncAddChatMessage, 0, messagesAll, messagesAll.length-1);
   }
-  if (data.request == 'pairdata')
+  if (data.request === 'pairdata')
     return UpdatePairData(data.message)
 
-  if (data.request == 'pairbalance')
+  if (data.request === 'pairbalance')
     return UpdatePairBalance(data.message)
 
-  if (data.request == 'wallet')
+  if (data.request === 'wallet')
     return UpdateBalance(data.message);
 
-  if (data.request == 'market')
+  if (data.request === 'market')
     return UpdateMarket(data.message)
 
-  if (data.request == 'exchange-updated')
+  if (data.request === 'exchange-updated')
     return UpdateExchange(data.message);
 }
 
@@ -263,7 +263,7 @@ function AsyncAddChatMessage(messages, index)
 
 function UpdateExchange(message)
 {
-  if (!message || !message.coin || message.coin != g_CurrentPair)
+  if (!message || !message.coin || message.coin !== g_CurrentPair)
     return;
   
   socket.send(JSON.stringify({request: 'getpair', message: [utils.MAIN_COIN, g_CurrentPair]}));
@@ -283,11 +283,11 @@ function RedirectToCurrentPair()
 
   const uri = window.location.href.split("?")[0];
   const posMarket  = uri.indexOf('/market/');
-  const pair = (posMarket == -1 && uri.split("-").length == 2) ?
+  const pair = (posMarket === -1 && uri.split("-").length === 2) ?
     coinNameToTicker[g_CurrentPair].ticker :
     uri.split("-")[1];
     
-  if (coinNameToTicker[g_CurrentPair] && coinTickerToName[pair] && pair != coinNameToTicker[g_CurrentPair].ticker)
+  if (coinNameToTicker[g_CurrentPair] && coinTickerToName[pair] && pair !== coinNameToTicker[g_CurrentPair].ticker)
   {
     storage.setItemS('CurrentPair', coinTickerToName[pair].name);
     location.reload(); 
@@ -312,21 +312,22 @@ function UpdateMarket(message)
   for (var i=0; i<message.coins.length; i++)
   {
     const coinName = unescape(message.coins[i].name);
-    const coinIcon = '<img style="float:left;" width="16px" src="'+unescape(message.coins[i].icon)+'" />';
+    const coinIcon = '<img style="float:left;" width="16px" src="'+unescape(message.coins[i].icon)+'"  alt="CoinIcon"/>';
     
     coinNameToTicker[coinName] = {ticker: message.coins[i].ticker};
     coinTickerToName[message.coins[i].ticker] = {name: coinName};
     
-    if (coinName == utils.MAIN_COIN)
+    if (coinName === utils.MAIN_COIN)
       continue;
     
-    const price = (message.coins[i].fromBuyerToSeller/(message.coins[i].volume == 0 ? 1 : message.coins[i].volume)).toFixed(8)*1;
+    const price = (message.coins[i].fromBuyerToSeller/(message.coins[i].volume === 0 ? 1 : message.coins[i].volume)).toFixed(8)*1;
     const vol = (message.coins[i].volume*1).toFixed(8)*1;
-    const ch = message.coins[i].prev_frombuyertoseller ? ((price - message.coins[i].prev_frombuyertoseller*1) / (price != 0 ? price : 1))*100 : 100;
+    const ch = message.coins[i].prev_frombuyertoseller ? ((price - message.coins[i].prev_frombuyertoseller*1) / (price !== 0 ? price : 1))*100 : 100;
     
     const chColor = ch*1 < 0 ? "text-danger" : "text-success";
     
-    if (coinName == 'Bitcoin')
+    if (coinName === 'Bitcoin')
+
     {
       /*g_MC_BTC_Price = price;
       setTimeout(UpdateMCFromLB, 1);*/
@@ -343,10 +344,11 @@ function UpdateMarket(message)
     g_LastVolumes[MC+'-'+BTC] = vol;
     
     const rowClass = 
-      (prevVolume*1 != vol*1) ? (ch*1 < 0 ? "table-danger" : "table-success") :
-      prevPrice == 0 ? "" :
-      prevPrice*1 > price*1 ? "table-success" : 
-      prevPrice*1 < price*1 ? "table-danger" : "";
+      (prevVolume*1 !== vol) ? (ch*1 < 0 ? "table-danger" : "table-success") :
+
+      prevPrice === 0 ? "" :
+      prevPrice*1 > price ? "table-success" :
+      prevPrice*1 < price ? "table-danger" : "";
       
 //    if (rowClass.length != 0) bNeedUpdate = true;
    // else if (rowClass == chColor) chColor = "";
@@ -359,7 +361,7 @@ function UpdateMarket(message)
       .append($('<td class="align-middle"><span class="'+chColor+'">'+(ch*1).toFixed(2)+'</span></td>'))
       .css( 'cursor', 'pointer' )
       .on('click', e => {
-        if (coinName == g_CurrentPair)
+        if (coinName === g_CurrentPair)
           return;
           
         utils.ChangeUrl(document.title + "(" + coinName + ' market)', '/market/'+MC+'-'+BTC);
@@ -425,7 +427,7 @@ function UpdateBuySellTickers()
 function IsIgnoredUser(user)
 {
   const saved = storage.getItem('ignore_'+user);
-  if (!saved || !saved.value || saved.value != 'true') return false;
+  if (!saved || !saved.value || saved.value !== 'true') return false;
   
   return true;
 }
@@ -439,7 +441,7 @@ function AddChatMessage(message, noscroll, method)
   
   const bIgnoredUser = IsIgnoredUser(userName);
   
-  if (bIgnoredUser && prevUser == userName)
+  if (bIgnoredUser && prevUser === userName)
     return;
   prevUser = userName;
 
@@ -471,7 +473,7 @@ function AddChatMessage(message, noscroll, method)
     e.preventDefault();
     
     modals.OKCancel("Confirmation", $('<p>'+"Delete message: '"+encodeURI(oldMessage.message.text)+"'"+'</p>'), ret => {
-      if (ret != 'ok')
+      if (ret !== 'ok')
         return;
         
       socket.send(JSON.stringify({request: 'del_chat_message', message: oldMessage}));
@@ -480,7 +482,7 @@ function AddChatMessage(message, noscroll, method)
   banButton.on('click', e => {
     e.preventDefault();
     modals.OKCancel("Confirmation", $('<p>'+"Ban user: '"+oldMessage.user+"'"+'</p>'), ret => {
-      if (ret != 'ok')
+      if (ret !== 'ok')
         return;
         
       oldMessage['info'] = {endTime: Date.now()+1000*60*60*24*365, comment: {role: g_role, comment: 'User '+oldMessage.user+' banned on 365 days'}};
@@ -531,10 +533,10 @@ function UpdatePairData(message)
     UpdateTradeHistoryUser(message.data.historyUser);
     
   let chatHeader = "<span>Chat</span>";
-  if (message.data.online != undefined)
+  if (message.data.online !== undefined)
     chatHeader = '<span>Online: </span><strong>'+message.data.online+'</strong>';
     //$('#id_chat_header').html('<span>Online: </span><strong>'+message.data.online+'</strong>')
-  if (message.data.allusers != undefined && message.data.allusers > 0)
+  if (message.data.allusers !== undefined && message.data.allusers > 0)
     chatHeader = '<span>Online: </span><strong>'+message.data.online+'</strong>&nbsp&nbsp(Registered: '+ message.data.allusers +')';
     
   $('#id_chat_header').html(chatHeader);
@@ -550,12 +552,12 @@ function UpdateTradeHistory(history)
   $('#id_trade_history').empty();
   for (var i=0; i<history.length; i++)
   {
-    if (!history[i].time || history[i].volume*1 == 0)
+    if (!history[i].time || history[i].volume*1 === 0)
       continue;
       
-    history[i].buysell = history[i].buysell == 'sell' ? 'buy' : 'sell';
+    history[i].buysell = history[i].buysell === 'sell' ? 'buy' : 'sell';
     
-    const typeColor = history[i].buysell == 'sell' ? "text-danger" : "text-success";
+    const typeColor = history[i].buysell === 'sell' ? "text-danger" : "text-success";
     
     const volume = utils.MakePrice(history[i].volume);
     const price = utils.MakePrice((history[i].fromBuyerToSeller/history[i].volume).toFixed(7));
@@ -623,8 +625,8 @@ function UpdateOrders(orders)
     volumeBuy += amountMain*1;
     volumeBuyPair += amountPair*1;
     
-    const curVolumeBuy = (volumeBuy*1.0).toFixed(8)*1;
-    const curVolumePair = (volumeBuyPair*1.0).toFixed(8)*1;
+    const curVolumeBuy = (volumeBuy).toFixed(8)*1;
+    const curVolumePair = (volumeBuyPair).toFixed(8)*1;
     
     tr.on('click', e => {
       $('#inputSellAmount').val(curVolumePair);
@@ -639,7 +641,7 @@ function UpdateOrders(orders)
   if (orders.volumes && orders.volumes.length && orders.volumes[0].sum_amount_price)
     volumeBuy = orders.volumes[0].sum_amount_price
   
-  $('#id_buy_volume').text(" " + (volumeBuy*1).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker);
+  $('#id_buy_volume').text(" " + (volumeBuy).toFixed(8)*1+" "+coinNameToTicker[utils.MAIN_COIN].ticker);
   
   var volumeSell = 0.0;
   var volumeSellPair = 0.0;
@@ -664,8 +666,8 @@ function UpdateOrders(orders)
     volumeSell += amountPair*1;
     volumeSellPair += amountMain*1;
     
-    const curVolumeSell = (volumeSell*1.0).toFixed(8)*1;
-    const curVolumePair = (volumeSellPair*1.0).toFixed(8)*1;
+    const curVolumeSell = (volumeSell).toFixed(8)*1;
+    const curVolumePair = (volumeSellPair).toFixed(8)*1;
     
     tr.on('click', e => {
       $('#inputBuyAmount').val(curVolumeSell);
@@ -700,8 +702,8 @@ function UpdateOrders(orders)
   $('#id_max_bid').empty().append(bidButton); //.text(utils.MakePrice(orders.buy[0].price)); //((orders.buy[0].price*1.0).toFixed(8)*1);
   $('#id_max_ask').empty().append(askButton); //.text(utils.MakePrice(orders.sell[0].price)); //((orders.sell[0].price*1.0).toFixed(8)*1);
   
-  if ($('#inputSellPrice').val().length == 0) $('#inputSellPrice').val($('#id_max_bid').text());
-  if ($('#inputBuyPrice').val().length == 0) $('#inputBuyPrice').val($('#id_max_ask').text());
+  if ($('#inputSellPrice').val().length === 0) $('#inputSellPrice').val($('#id_max_bid').text());
+  if ($('#inputBuyPrice').val().length === 0) $('#inputBuyPrice').val($('#id_max_ask').text());
   
   $('#id_max_bid_coin').text(utils.MAIN_COIN);
   $('#id_max_ask_coin').text(utils.MAIN_COIN);
@@ -716,7 +718,7 @@ function UpdateUserOrders(userOrders)
   
   for (var i=0; i<userOrders.length; i++)
   {
-    if (unescape(userOrders[i].coin) != g_CurrentPair)
+    if (unescape(userOrders[i].coin) !== g_CurrentPair)
       continue;
       
     const orderID = userOrders[i].id;
@@ -726,7 +728,7 @@ function UpdateUserOrders(userOrders)
       $("html, body").animate({ scrollTop: 0 }, "slow");
       $.post( "/closeorder", {orderID: orderID}, function( data ) {
         $('#loader').hide();
-        if (data.result != true)
+        if (data.result !== true)
         {
           utils.alert_fail(data.message);
           return;
@@ -736,7 +738,7 @@ function UpdateUserOrders(userOrders)
       }, "json" );
     });
     
-    const typeColor = userOrders[i].buysell == 'sell' ? "text-danger" : "text-success";
+    const typeColor = userOrders[i].buysell === 'sell' ? "text-danger" : "text-success";
     const tr = $('<tr></tr>')
       .append($('<td>'+utils.timeConverter(userOrders[i].time*1)+'</td>'))
       .append($('<td><span class="'+typeColor+'">'+userOrders[i].buysell+'</span></td>'))
@@ -753,9 +755,9 @@ function UpdateBalance(message)
   var buyBalance = 0.0;
   var sellBalance = 0.0;
   
-  if (message.coin && (message.balance != undefined))
+  if (message.coin && (message.balance !== undefined))
   {
-    if (unescape(message.coin.name) == utils.MAIN_COIN)
+    if (unescape(message.coin.name) === utils.MAIN_COIN)
     {
       $('#id_balance_spiner1').hide();
       $('#id_buy_balance').empty();

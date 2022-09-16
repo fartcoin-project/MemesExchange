@@ -2,7 +2,7 @@
      <div class="container pt-2">
       <div id="alert-fail" class="alert alert-info alert-dismissible fade show col-md-12" role="alert" >
         <div id="fail-message" align="center">
-		(21-06-19) MemesExchange beta is back online, <b>you can deposit/trade/withdraw</b>, we've added the <b>Fartcoin Mining-Pool</b> to the server. Trouble? Contact support.
+		(22-09-19) MemesExchange alpha is online, <b>you can deposit/trade/withdraw</b> Trouble? Contact support.
 
 	</div>
         <button id="close_fail" type="button" class="close"  data-dismiss="alert" aria-label="Close">
@@ -10,8 +10,6 @@
         </button>
         </div>
       </div>
-    </div>
-
 
 
 <!-- ALERT MESSAGE -->
@@ -61,7 +59,7 @@
               <a class="nav-link" href="/API">API</a>
             </li>
 
-<!--
+
 	    <li class="nav-item active">
               <a class="nav-link" href="/"><%-__('Trade')%></a>
             </li>
@@ -71,7 +69,6 @@
             <li class="nav-item active">
               <a class="nav-link" href="/add_coin">Add coin</a>
             </li>
--->
 
 
         </ul>
@@ -92,7 +89,7 @@
         </ul>
 
         <button type="button" id='id-button-lang-en' class="btn btn-outline-success btn-sm m-1">EN</button>
-        <button type="button" id='id-button-lang-ru' class="btn btn-outline-success btn-sm">RU</button>
+        <button type="button" id='id-button-lang-nl' class="btn btn-outline-success btn-sm">NL</button>
     </div>
 </nav>
     <div id="loader" style="display:none;"></div>
@@ -103,7 +100,7 @@
           message =
             '<div class="container pt-2">'+
               '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
-                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Trading and Withdraws disabled</b></div>'+
+                '<div id="fail-message">MemesExchange is performing maintenance. Please be patient. <b>Trading and Withdraws disabled</b></div>'+
                 '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
                   '<span aria-hidden="true">&times;</span>'+
                 '</button>'+
@@ -113,7 +110,7 @@
           message =
             '<div class="container pt-2">'+
               '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
-                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Trading is disabled</b></div>'+
+                '<div id="fail-message">MemesExchange is performing maintenance. Please be patient. <b>Trading is disabled</b></div>'+
                 '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
                   '<span aria-hidden="true">&times;</span>'+
                 '</button>'+
@@ -123,7 +120,7 @@
           message =
             '<div class="container pt-2">'+
               '<div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >'+
-                '<div id="fail-message">OpenTrade is performing maintenance. Please be patient. <b>Withdraws are disabled</b></div>'+
+                '<div id="fail-message">MemesExchange is performing maintenance. Please be patient. <b>Withdraws are disabled</b></div>'+
                 '<button id="close_fail" type="button" class="close"  aria-label="Close">'+
                   '<span aria-hidden="true">&times;</span>'+
                 '</button>'+
@@ -131,7 +128,7 @@
             '</div>'
         }
     %>
-    <!--<div class="container pt-2">
+    <div class="container pt-2">
       <div id="alert-fail" class="alert alert-danger alert-dismissible col-md-12" role="alert" >
         <div id="fail-message"><b>Crew (CREW)</b> will delisted. Please close your orders and withdraw CREW balances</div>
         <button id="close_fail" type="button" class="close"  aria-label="Close">
@@ -139,5 +136,4 @@
         </button>
         </div>
       </div>
-    </div>-->
-    <%- message %>
+<%- message %>

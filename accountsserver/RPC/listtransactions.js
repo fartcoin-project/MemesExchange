@@ -34,7 +34,7 @@ exports.queryDaemon = function(coin, headers, key, count = 1000)
             const strJSON = '{"jsonrpc": "1.0", "id":"curltest", "method": "listtransactions", "params": ["'+key+'",  '+count+', 0] }';
             const result = await utils.postString(coin.hostname, {'nPort' : coin.port, 'name' : "http"}, "/", headers, strJSON);
             
-            if (result.success == false)
+            if (result.success === false)
                 return ok(null);
             
             return ok(result.data && result.data.result ? result.data.result : JSON.parse(result.data).result);

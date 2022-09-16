@@ -12,7 +12,7 @@ const orders = require("../users/orders.js");
 exports.onDelTrade = function(ws, req, data)
 {
     utils.GetSessionStatus(req, status => {
-        if (!status.active || status.id != 1)
+        if (!status.active || status.id !== 1)
             return;
             
         DeleteTrade(data, ret => {
@@ -24,7 +24,7 @@ exports.onDelTrade = function(ws, req, data)
 exports.onChangeRole = function(ws, req, data)
 {
     utils.GetSessionStatus(req, status => {
-        if (!status.active || status.id != 1)
+        if (!status.active || status.id !== 1)
         {
             if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({request: 'user-role-change', message: 'Error: bad status'}));
             return;
@@ -38,7 +38,7 @@ exports.onChangeRole = function(ws, req, data)
         
         let bIsRoleValid = false;
         for (var i=0; i<g_constants.Roles.length; i++)    
-            if (data.role == g_constants.Roles[i])  bIsRoleValid = true;
+            if (data.role === g_constants.Roles[i])  bIsRoleValid = true;
             
         if (!bIsRoleValid)
         {
@@ -47,7 +47,7 @@ exports.onChangeRole = function(ws, req, data)
         }
             
         admin_utils.GetUserRole(data.userID, info => {
-            if (!info.role || info.role == data.role)
+            if (!info.role || info.role === data.role)
             {
                 if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({request: 'user-role-change', message: 'Error: same new role'}));
                 return;
@@ -81,7 +81,7 @@ exports.onDeleteOrders = function(ws, req, data)
         return;
         
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return;
             
        const WHERE = 'coin="'+escape(data.coinName)+'" AND price*1+0.000001 > '+escape(data.price)+'*1 AND price*1-0.000001 < '+escape(data.price) + '*1';
@@ -107,7 +107,7 @@ function AsyncCloseOrder(rows, index)
 exports.onQueryRole = function(ws, req, data)
 {
     utils.GetSessionStatus(req, status => {
-        if (status.id == 1)
+        if (status.id === 1)
         {
             if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({request: 'user-role', message: 'root'}));
             return;
@@ -162,7 +162,7 @@ function DeleteTrade(data, callback)
         for (var i=0; i<g_constants.DONATORS.length; i++)
         {
             if (g_constants.DONATORS[i].percent && g_constants.DONATORS[i].userID)
-                orders.AddBalance(g_constants.DONATORS[i].userID, -1*(comission*(g_constants.DONATORS[i].percent*1-1)) / 100.0, price_pair, () => {});
+                orders.AddBalance(g_constants.DONATORS[i].userID, -1*(comission*(g_constants.DONATORS[i].percent-1)) / 100.0, price_pair, () => {});
         }
     }
 

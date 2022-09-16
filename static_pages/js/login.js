@@ -18,7 +18,7 @@ function onSubmit()
         
         $('#loader').hide();
         
-        if (data.result != true)
+        if (data.result !== true)
             return utils.alert_fail(data.message);
             
         if (data.redirect)
@@ -32,7 +32,7 @@ function onSubmit()
 
 function validate()
 {
-    if ($("#id_username")[0].value == "" || $("#id_password")[0].value.length == 0)
+    if ($("#id_username")[0].value === "" || $("#id_password")[0].value.length === 0)
         return false;
 
     return true;

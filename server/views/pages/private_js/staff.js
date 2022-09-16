@@ -11,9 +11,9 @@ $(() => {
 
 function UpdateCoins(message)
 {
-    $('#trading_status').text(message.trading == true ?  'Enabled' : 'Disabled');
+    $('#trading_status').text(message.trading === true ?  'Enabled' : 'Disabled');
     
-    if ($('#trading_status').text() == 'Enabled')
+    if ($('#trading_status').text() === 'Enabled')
         $('#trading_status').removeClass('text-danger').addClass('text-success');
     else
         $('#trading_status').removeClass('text-success').addClass('text-danger');

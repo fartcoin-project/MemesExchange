@@ -7,7 +7,7 @@ let g_LockedUsers = [];
 exports.LockUser = function(id)
 {
     for (let i=0; i<g_LockedUsers.length; i++)
-        if (g_LockedUsers[i] == id) return;
+        if (g_LockedUsers[i] === id) return;
         
     g_LockedUsers.push(id);
 }
@@ -16,7 +16,7 @@ exports.UnlockUser = function(id)
     let tmp = [];
     for (let i=0; i<g_LockedUsers.length; i++)
     {
-        if (g_LockedUsers[i] == id) continue;
+        if (g_LockedUsers[i] === id) continue;
         tmp.push(g_LockedUsers[i]);
     }
     g_LockedUsers = tmp;
@@ -25,7 +25,7 @@ exports.UnlockUser = function(id)
 exports.IsLockedUser = function(id)
 {
     for (let i=0; i<g_LockedUsers.length; i++)
-        if (g_LockedUsers[i] == id) return true;
+        if (g_LockedUsers[i] === id) return true;
         
     return false;
 }

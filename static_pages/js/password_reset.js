@@ -33,7 +33,7 @@ function onSubmit()
     $('#loader').show();
     $.post( "/password_reset", $( '#password_reset_form' ).serialize(), function( data ) {
         $('#loader').hide();
-        if (data.result != true)
+        if (data.result !== true)
         {
             $('#second-step-error').show();
             return;

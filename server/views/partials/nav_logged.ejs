@@ -1,4 +1,4 @@
-            <% var root = false; try{ root = status.id==1;}catch(e){}%>
+            <% var root = false; try{ root = status.id===1;}catch(e){}%>
             <% var adminArea = ""; if (root) adminArea = "<li class='nav-item'><a class='nav-link' href='/admin'>Admin Area</a></li>"%>
 	    <%- adminArea %>
 	    <li class="nav-item active"><a class="nav-link" href="/wallet"><%-__('Wallet')%></a></li>

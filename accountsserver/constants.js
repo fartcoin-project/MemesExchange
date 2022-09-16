@@ -88,10 +88,9 @@ exports.SSL_options = {
 
 exports.IsAllowedAddress = function(addr)
 {
-//    if (addr.indexOf("127.0.0.1") < 0 && addr.indexOf(PRIVATE ? PRIVATE.LocalIP : "127.0.0.1") < 0)
-//        return false;
+    return !(addr.indexOf("127.0.0.1") < 0 && addr.indexOf(PRIVATE ? PRIVATE.LocalIP : "127.0.0.1") < 0);
 
-    return true;
+
 }
 
 exports.WEB_SOCKETS = null;

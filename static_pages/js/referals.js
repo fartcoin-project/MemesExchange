@@ -4,7 +4,7 @@ $(() => {
     $('#id_fees').empty();
     
     $.getJSON('/getreferals', ret => {
-        if (ret.result != true)
+        if (ret.result !== true)
             return;
             
         const refs = ret.message.refs || [];
@@ -26,7 +26,7 @@ $(() => {
         
         for (var j=0; j<payouts.length; j++)
         {
-            if (unescape(payouts[j].comment).indexOf('no comment') == 0) continue;
+            if (unescape(payouts[j].comment).indexOf('no comment') === 0) continue;
             const tr = $('<tr><td>'+utils.timeConverter(payouts[j].time*1)+'</td><td>'+payouts[j].volume+'</td><td>'+unescape(payouts[j].comment)+'</td></tr>')
             $('#table_payouts').append(tr);
         }

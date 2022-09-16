@@ -1,17 +1,23 @@
 {
-  "name": "OpenTrade",
+  "name": "memesexchange",
   "version": "0.2.1",
   "description": "Open Source Cryptocurrency Exchange",
   "repository": {
     "type": "git",
-    "url": "https://github.com/3s3s/opentrade.git"
+    "url": "https://github.com/fartcoin-project/MemesExchange.git"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^1.0.0",
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.1",
+    "cors": "latest",
+    "ejs": "latest",
     "express": "latest",
-    "ws": "latest",
+    "google-recaptcha-api": "^1.0.0",
+    "jquery": "^3.6.1",
+    "popper.js": "latest",
     "sendmail": "latest",
     "sqlite3": "latest",
-    "ejs": "latest",
-    "cors": "latest"
+    "ws": "latest"
   }
 }

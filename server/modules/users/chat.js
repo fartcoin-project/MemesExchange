@@ -4,7 +4,7 @@ const utils = require("../../utils.js");
 const g_constants = require("../../constants.js");
 const WebSocket = require('ws');
 
-let chat = {ru: [], en: []};
+let chat = {nl: [], en: []};
 
 exports.onNewMessage = function(ws, req, messageObject)
 {
@@ -16,7 +16,7 @@ exports.onNewMessage = function(ws, req, messageObject)
             return;
             
         IsUserBanned(status.id, ret => {
-            if (ret == true)
+            if (ret === true)
                 return;
                 
             if (messageObject.text.length >150)

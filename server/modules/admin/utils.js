@@ -46,7 +46,7 @@ exports.ShowMainAdminPage = function(req, res)
 {
     try {
         utils.GetSessionStatus(req, status => {
-            if (status.id != 1)
+            if (status.id !== 1)
             {
                 utils.render(res, 'pages/index', {path : url.parse(req.url, true).path, status : status});
                 return;
@@ -64,7 +64,7 @@ exports.ShowMainStaffPage = function(req, res)
     try {
         utils.GetSessionStatus(req, status => {
             exports.GetUserRole(status.id, info => {
-                if (info.role != 'Support')
+                if (info.role !== 'Support')
                 {
                     utils.render(res, 'pages/index', {path : url.parse(req.url, true).path, status : status});
                     return;
@@ -110,7 +110,7 @@ exports.GetCoinBalance = function(coinName, callback)
 {
     g_constants.dbTables['balance'].selectAll('SUM(balance*1) AS sum_balance', 'coin="'+coinName+'" AND balance*1>0', '', (err, rows) => {
         if (err || !rows || !rows.length) rows = [{sum_balance : 0}];
-        if (coinName == g_constants.share.TRADE_MAIN_COIN)
+        if (coinName === g_constants.share.TRADE_MAIN_COIN)
         {
             g_constants.dbTables['orders'].selectAll('SUM(amount*price) AS blocked', 'buysell="buy" AND amount*price>0', '', (err2, rows2) => {
                 if (err2 || !rows2 || !rows2.length) rows2 = [{blocked : 0}];
@@ -136,7 +136,7 @@ exports.onGetCoinBalance = function(req, res)
     }
     const coin = escape(req.body.coin);
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return onError(req, res, 'User is not root');
 
         exports.GetCoinBalance(escape(coin), ret => {
@@ -154,7 +154,7 @@ exports.onFindBannedChatUser = function(req, res)
     }
     const query = escape(req.body.user);
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
         {
             onError(req, res, 'User is not root');
             return;
@@ -173,7 +173,7 @@ exports.onFindBannedChatUser = function(req, res)
             }
             WHERE += ') ';
             
-            if (query == '*')
+            if (query === '*')
                 WHERE = '';
             
             g_constants.dbTables['chatban'].selectAll('*', WHERE, '', (err, rows) => {
@@ -190,7 +190,7 @@ exports.onFindUserBalances = function(req, res)
         return onError(req, res, 'Bad request');
         
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return onError(req, res, 'User is not root');
             
         wallet.GetCoins(true, rows => {
@@ -223,7 +223,7 @@ exports.FixAllBalances = function()
     {
         if (index >= rows.length) 
         {
-            if (activeTable != "orders") return;
+            if (activeTable !== "orders") return;
             activeTable = "balance";
             //g_Fixed = {};
             
@@ -252,11 +252,11 @@ exports.FixBalance = function (userID, coinName, force)
 {
     return new Promise((ok, cancel) => {
         g_constants.dbTables['coins'].selectAll('ROWID AS id', 'name="'+coinName+'"', '', (err, rows) => {
-            if (err || !rows || rows.length != 1) return ok({result: false, timeout: 10, code: 1});
+            if (err || !rows || rows.length !== 1) return ok({result: false, timeout: 10, code: 1});
         
             const coinID = rows[0].id;
             exports.GetUserBalanceForCoin(userID, coinName, coinID, ret => {
-                if (ret.length != 1 || ret[0].result == false) return ok({result: false, timeout: 100, code: 2});
+                if (ret.length !== 1 || ret[0].result === false) return ok({result: false, timeout: 100, code: 2});
     
                 const realBalance = ret[0].deposit*1+ret[0].buy*1+ret[0].payouts*1-ret[0].withdraw*(-1)-ret[0].sell*1-ret[0].blocked*1;
                 const fixAmount = utils.roundDown(realBalance); //-ret[0].balance*1;
@@ -272,21 +272,21 @@ exports.FixBalance = function (userID, coinName, force)
                 {
                     if (Math.abs(realBalance-ret[0].balance*1) < 0.0001) 
                     {
-                        if (ret[0].balance*1 > 0 && realBalance*1 > 0)
+                        if (ret[0].balance*1 > 0 && realBalance > 0)
                             return ok({result: true, timeout: 100});
                     }
-                    if (realBalance*1 > ret[0].balance*1) return ok({result: true, timeout: 100});
-                    if (ret[0].balance*1 == 0 && fixAmount == 0) return ok({result: false, timeout: 100, code: 3});
+                    if (realBalance > ret[0].balance*1) return ok({result: true, timeout: 100});
+                    if (ret[0].balance*1 === 0 && fixAmount === 0) return ok({result: false, timeout: 100, code: 3});
                 }
                 
                 //if (userID != 2) return callback({result: false});
                 utils.balance_log('Fixing for userID='+userID+" coinName="+coinName+" oldBalance="+ret[0].balance*1+" fixAmount="+fixAmount+" blocked="+blocked+" ret="+JSON.stringify(ret)+" time="+Date.now()+"\n");
     
-                const WHERE = (coinName != g_constants.share.TRADE_MAIN_COIN) ? 'userID="'+userID+'" AND coin="'+coinName+'"  AND buysell="sell"' : 'userID="'+userID+'" AND buysell="buy"';
+                const WHERE = (coinName !== g_constants.share.TRADE_MAIN_COIN) ? 'userID="'+userID+'" AND coin="'+coinName+'"  AND buysell="sell"' : 'userID="'+userID+'" AND buysell="buy"';
     
                 g_constants.dbTables['orders'].delete(WHERE, ret => {
                     
-                    balance.UpdateBalance(userID, unescape(coinName), realBalance*1+(ret ? 0 : blocked*1), "admin fix balance", err => {
+                    balance.UpdateBalance(userID, unescape(coinName), realBalance+(ret ? 0 : blocked), "admin fix balance", err => {
                         if (err) 
                         { 
                             utils.balance_log('Fix balance failed: err='+(err ? JSON.stringify(err) : ""));
@@ -330,10 +330,10 @@ function GetDepositAndWithdraw(userID, coinID, data)
                 if (data[i]['confirmations'] && data[i]['confirmations'] < 0)
                     continue;
                     
-                if (data[i]['category'] == 'receive')
+                if (data[i]['category'] === 'receive')
                     ret.deposit += (data[i]['amount'] || 0)*1;
                     
-                if (data[i]['category'] != 'send')
+                if (data[i]['category'] !== 'send')
                     continue;
                 
                 ret.withdraw += (data[i]['amount'] || 0)*1;
@@ -370,7 +370,7 @@ exports.GetUserBalance = function(userID, coinsArray, index, result, callback, r
     
     let retJSON = {result: false, userID: userID, coin: coinsArray[index].name, deposit: 0, withdraw: 0, buy: 0, sell: 0, blocked: 0, balance: 0, payouts: 0};
     RPC.send3(userID, coinsArray[index].id, 'listtransactions', [utils.Encrypt(userID), 10000], async (ret) => {
-        if (userID == 2)
+        if (userID === 2)
         {
             var i = 0;
         }
@@ -395,38 +395,38 @@ exports.GetUserBalance = function(userID, coinsArray, index, result, callback, r
             retJSON.withdraw = dep.withdraw;
         }
 
-        const query1 = g_constants.share.TRADE_MAIN_COIN == coinsArray[index].name ? 
+        const query1 = g_constants.share.TRADE_MAIN_COIN === coinsArray[index].name ?
             {WHERE: 'sellUserID="'+userID+'"', from: "fromBuyerToSeller*1"} :
             {WHERE: 'coin="'+coinsArray[index].name+'" AND buyUserID="'+userID+'"', from: "fromSellerToBuyer*1"};
 
         g_constants.dbTables['history'].selectAll('SUM('+query1.from+') AS buy', query1.WHERE, '', (err, rows) => {
             if (!err && rows && rows.length) retJSON.buy = utils.roundDown(rows[0].buy);
             
-            const query2 = g_constants.share.TRADE_MAIN_COIN == coinsArray[index].name ? 
+            const query2 = g_constants.share.TRADE_MAIN_COIN === coinsArray[index].name ?
                 {WHERE: 'buyUserID="'+userID+'" AND price*1 > 0', from: "fromBuyerToSeller*1"} :
                 {WHERE: 'coin="'+coinsArray[index].name+'" AND sellUserID="'+userID+'"', from: "fromSellerToBuyer*1"};
             
             g_constants.dbTables['history'].selectAll('SUM('+query2.from+') AS sell', query2.WHERE, '', (err, rows) => {
                 if (!err && rows && rows.length) retJSON.sell = utils.roundDown(rows[0].sell);
                 
-                const query3 = g_constants.share.TRADE_MAIN_COIN == coinsArray[index].name ? 
+                const query3 = g_constants.share.TRADE_MAIN_COIN === coinsArray[index].name ?
                     {WHERE: 'userID="'+userID+'" AND amount*1 > 0 AND price*1 > 0 AND buysell="buy"', mul: "price"} :
                     {WHERE: 'coin="'+coinsArray[index].name+'" AND userID="'+userID+'" AND amount*price > 0 AND buysell="sell"', mul: "1"};
                 
                 g_constants.dbTables['orders'].selectAll('SUM(amount*'+query3.mul+') AS blocked', query3.WHERE, '', (err, rows) => {
-                    if (!err && rows && rows.length == 1) retJSON.blocked = utils.roundDown(rows[0].blocked);
+                    if (!err && rows && rows.length === 1) retJSON.blocked = utils.roundDown(rows[0].blocked);
                     
                     g_constants.dbTables['balance'].selectAll('balance', 'coin="'+coinsArray[index].name+'" AND userID="'+userID+'" ', '', (err, rows) => {
-                        if (!err && rows && rows.length == 1) retJSON.balance = utils.roundDown(rows[0].balance);
+                        if (!err && rows && rows.length === 1) retJSON.balance = utils.roundDown(rows[0].balance);
                         
                         g_constants.dbTables['coupons'].selectAll('SUM(amount*1) AS couponDep', 'coin="'+coinsArray[index].name+'" AND userTo="'+userID+'"', '', (err, rows) => {
-                            if (!err && rows && rows.length == 1 && utils.isNumeric(rows[0].couponDep)) retJSON.deposit += rows[0].couponDep*1;
+                            if (!err && rows && rows.length === 1 && utils.isNumeric(rows[0].couponDep)) retJSON.deposit += rows[0].couponDep*1;
                             
                             g_constants.dbTables['coupons'].selectAll('SUM(amount*1) AS couponW', 'coin="'+coinsArray[index].name+'" AND userFrom="'+userID+'"', '', (err, rows) => {
-                                if (!err && rows && rows.length == 1 && utils.isNumeric(rows[0].couponW)) retJSON.withdraw += rows[0].couponW*(-1);
+                                if (!err && rows && rows.length === 1 && utils.isNumeric(rows[0].couponW)) retJSON.withdraw += rows[0].couponW*(-1);
                                 
                                 g_constants.dbTables['payments'].selectAll('SUM(volume*1) AS fee', 'coin="'+coinsArray[index].name+'" AND volume*1<1 AND volume*1>0 AND userTo="'+userID+'"', '', (err, rows) => {
-                                    if (!err && rows && rows.length == 1 && utils.isNumeric(rows[0].fee)) retJSON.payouts += rows[0].fee*1;
+                                    if (!err && rows && rows.length === 1 && utils.isNumeric(rows[0].fee)) retJSON.payouts += rows[0].fee*1;
                                 
                                     retJSON.deposit = utils.roundDown(retJSON.deposit);
                                     retJSON.withdraw = utils.roundDown(retJSON.withdraw);
@@ -453,7 +453,7 @@ exports.onFixBalance = function(req, res)
         return onError(req, res, 'Bad request');
         
     utils.GetSessionStatus(req, async (status) => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return onError(req, res, 'User is not root');
             
         /*exports.FixBalance(req.query.userID, req.query.coin, ret => {
@@ -476,7 +476,7 @@ exports.onFindUser = function(req, res)
  
     const query = escape(req.body.user);
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return onError(req, res, 'User is not root');
 
         g_constants.dbTables['users'].selectAll('ROWID AS id, *', 'login GLOB "'+query+'" OR email GLOB "'+query+'" OR ROWID="'+query+'"', 'ORDER BY id LIMIT 1000', (err, rows) => {
@@ -497,7 +497,7 @@ exports.onFindTrades = function(req, res)
         return onError(req, res, 'Bad request');
 
     utils.GetSessionStatus(req, status => {
-        if (status.id != 1)
+        if (status.id !== 1)
             return onError(req, res, 'User is not root');
 
         g_constants.dbTables['history'].selectAll('ROWID AS id, *', '', 'ORDER BY id DESC LIMIT 1', (err, rows) => {
