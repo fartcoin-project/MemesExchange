@@ -18,7 +18,7 @@ npm install bootstrap
 npm install @floating-ui/react-dom
 npm install jquery@3.6.1
 npm install google-recaptcha-api --save
-
+npm install common.js
 
 [sudo] npm install 
 [sudo] npm install -g forever
