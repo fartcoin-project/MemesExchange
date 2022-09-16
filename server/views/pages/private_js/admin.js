@@ -338,7 +338,7 @@ $('#del_coin').click(e => {
         "<form>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-delcoin-name'>Coin name</label>" +
-                "<input type='text' class='form-control' id='id-delcoin-name' placeholder='Marycoin'>" +
+                "<input type='text' class='form-control' id='id-delcoin-name' placeholder='Fartcoin'>" +
             "</div>" +
         "</form>";
         
@@ -363,7 +363,7 @@ $('#add_coin').click(e => {
         "<form>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-name'>Coin name</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Marycoin'>" +
+                "<input type='text' class='form-control' id='id-newcoin-name' placeholder='Fartcoin'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-ticker'>Coin ticker</label>" +
@@ -371,7 +371,7 @@ $('#add_coin').click(e => {
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-icon'>Icon URL</label>" +
-                "<input type='text' class='form-control' id='id-newcoin-icon' placeholder='https://raw.githubusercontent.com/multicoins/marycoin/0.15.0.2hf/src/qt/res/icons/bitcoin.ico'>" +
+                "<input type='text' class='form-control' id='id-newcoin-icon' placeholder='https://raw.githubusercontent.com/multicoins/Fartcoin/0.15.0.2hf/src/qt/res/icons/bitcoin.ico'>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label class='col-form-label' for='id-newcoin-rpcaddress'>RPC address</label>" +

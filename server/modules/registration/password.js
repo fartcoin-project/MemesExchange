@@ -13,7 +13,7 @@ exports.onPassworReset = async function(req, res)
     {
         if (req.body && req.body['check'] && req.body['checked-email'] && 
             emailChecker[req.body['check']] && emailChecker[req.body['check']]['email'] &&
-            emailChecker[req.body['check']].email == req.body['checked-email'])
+            emailChecker[req.body['check']].email === req.body['checked-email'])
         {
             delete emailChecker[req.body['check']];
             return PasswordReset(req, res);
@@ -55,7 +55,7 @@ function ConfirmPasswordReset(req, res, user)
     
     const urlCheck = "https://"+req.headers.host+"/confirmpasswordreset/"+strCheck;
     
-    if (g_constants.share.emailVerificationEnabled == 'disabled')
+    if (g_constants.share.emailVerificationEnabled === 'disabled')
     {
         req.url = urlCheck;
         return exports.onConfirmReset(req, res);

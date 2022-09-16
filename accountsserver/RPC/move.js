@@ -15,7 +15,7 @@ exports.Run = async function(coin, headers, post_data, res)
         if (!data.params || data.params.length < 3 || 1*data.params[2] < 0)
             return res.end(JSON.stringify({error: {message: 'bad params'} }));
 
-    //if (coin.name != "Marycoin" && coin.name != "Dogecoin")// ||  (data.params[0] != "3b0a5347a1ad24e1a75fe7ce2c7906f4" && data.params[1] != "3b0a5347a1ad24e1a75fe7ce2c7906f4"))
+    //if (coin.name != "Fartcoin" && coin.name != "Dogecoin")// ||  (data.params[0] != "3b0a5347a1ad24e1a75fe7ce2c7906f4" && data.params[1] != "3b0a5347a1ad24e1a75fe7ce2c7906f4"))
     //    return res.end(JSON.stringify({error: {message: 'coin is offline'}}));
         
         const balance0 = await getbalance.GetAccountBalance(coin.name, data.params[0]);
@@ -31,7 +31,7 @@ exports.Run = async function(coin, headers, post_data, res)
         //    return res.end(JSON.stringify({error: 'fail', message: 'bad account balance: '+1*balanceTo}));
         
         const coinTime = (Date.now() / 1000).toFixed(0);
-        const comment = data.params.length == 5 ? data.params[4] : " ";
+        const comment = data.params.length === 5 ? data.params[4] : " ";
         
         const uid1 = utils.Hash(coin.name+data.params[0]+data.params[1]+coinTime+comment+"move"+data.params[2]);
         const uid2 = utils.Hash(coin.name+data.params[1]+data.params[0]+coinTime+comment+"move"+data.params[2]);

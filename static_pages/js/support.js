@@ -32,7 +32,7 @@ function onSubmit()
         $('#loader').hide();
 
         if (grecaptcha) grecaptcha.reset();
-        if (data.result != true)
+        if (data.result !== true)
         {
             //$('#alert-fail').text(data.message);
             //$('#alert-fail').show();

@@ -18,7 +18,7 @@ exports.Run = async function(coin, headers, post_data, res)
         const disableCache = data.params && data.params.length > 2 ? data.params[2]*1 : 0;
         
         const strCache = JSON.stringify([coin.name, account, minconf]);
-        if (disableCache == 0 && g_Cache[strCache] && g_Cache[strCache].time && Date.now() - g_Cache[strCache].time < 60000)
+        if (disableCache === 0 && g_Cache[strCache] && g_Cache[strCache].time && Date.now() - g_Cache[strCache].time < 60000)
             return res.end(g_Cache[strCache].data);
         
         let balance = await exports.GetAccountBalance(coin.name, account, minconf);
@@ -42,7 +42,7 @@ exports.Run = async function(coin, headers, post_data, res)
 exports.GetAccountBalance = function (coinName, account, minconf = 0)
 {
     return new Promise(async ok => {
-        if (account == "" || account == "*")
+        if (account === "" || account === "*")
         {
             const rows = await g_constants.dbTables["listtransactions"].Select2("SUM(1*amount + 1*fee ) AS balance", "coin='"+escape(coinName)+"' AND category<>'move' AND blocktime<>-1 AND fee<=0 AND confirmations>="+minconf);
             return ok(rows && rows.length ? rows[0].balance : 0);
@@ -63,7 +63,7 @@ exports.GetAccountBalance = function (coinName, account, minconf = 0)
             const uSend = unconfirmedSend && unconfirmedSend.length ? unconfirmedSend[0].balance : 0;
             
             const ret = rows && rows.length ? 1*rows[0].balance + (1*moved+1*uSend-1*realSkip): 0;
-            if (coinName == "Marycoin" && account == "3b0a5347a1ad24e1a75fe7ce2c7906f4" && skip < 0)
+            if (coinName === "Fartcoin" && account == "3b0a5347a1ad24e1a75fe7ce2c7906f4" && skip < 0)
             {
                 let r = 0;
             }

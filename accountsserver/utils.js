@@ -11,7 +11,7 @@ const getaddressesbyaccount = require("./RPC/getaddressesbyaccount");
 const setaccount = require("./RPC/setaccount");
 
 
-const log_file_db = require("fs").createWriteStream(__dirname + '/debug_db.log', {flags : 'w'});
+const log_file_db = require("fs").createWriteStream(__dirname + '/debug/debug_db.log', {flags : 'w'});
 
 exports.log_db = function(d) {
     log_file_db.write(util.format(d) + '\n');
@@ -240,7 +240,7 @@ exports.SaveTransactions = function(coin, headers, txs)
                 {
                     try {
                         const data = JSON.parse(txs[i].comment);
-                        if (txs[i].category == 'send' && data[0].from && data[0].from.length > 3)
+                        if (txs[i].category === 'send' && data[0].from && data[0].from.length > 3)
                             txs[i].account = data[0].from;
                     }
                     catch(e) {}
@@ -251,15 +251,15 @@ exports.SaveTransactions = function(coin, headers, txs)
                 const rows = await g_constants.dbTables["listtransactions"].Select2("*", "uid='"+escape(uid)+"'");
                 if (rows.length)
                 {
-                    let account = rows[0].account == "%20" ? 
+                    let account = rows[0].account === "%20" ?
                         (txs[i].account && txs[i].account.length > 3 ? txs[i].account : await GetAccount(txs[i].address)) : 
                         rows[0].account;
                             
-                    if (txs[i].category == 'send' && txs[i].account && txs[i].account.length)
+                    if (txs[i].category === 'send' && txs[i].account && txs[i].account.length)
                         account = txs[i].account;
                     //console.log('SaveTransactions1 coin='+coinName+', account='+txs[i].account);
                     
-                    if (txs[i].confirmations && rows[0].confirmations != txs[i].confirmations)
+                    if (txs[i].confirmations && rows[0].confirmations !== txs[i].confirmations)
                     {
                         const confirmations = escape(txs[i].confirmations) || 0;
                         
@@ -268,8 +268,8 @@ exports.SaveTransactions = function(coin, headers, txs)
                             "uid='"+escape(uid)+"'"
                         );
                     }
-                    if ((rows[0].blocktime == -1 && txs[i].blocktime && txs[i].blocktime != -1) ||
-                        (rows[0].account == "%20"))// && txs[i].account && txs[i].account.length))
+                    if ((rows[0].blocktime === -1 && txs[i].blocktime && txs[i].blocktime !== -1) ||
+                        (rows[0].account === "%20"))// && txs[i].account && txs[i].account.length))
                     {
                         const otheraccount = txs[i].otheraccount && txs[i].otheraccount.length ? escape(txs[i].otheraccount) : rows[0].otheraccount;
     
@@ -292,7 +292,7 @@ exports.SaveTransactions = function(coin, headers, txs)
                 //console.log('SaveTransactions2 coin='+coinName+', account='+txs[i].account);
                 
                 try {
-                    const account = txs[i].category == 'send' ? txs[i].account : await GetAccount(txs[i].address);
+                    const account = txs[i].category === 'send' ? txs[i].account : await GetAccount(txs[i].address);
                     
                     await g_constants.dbTables["listtransactions"].Insert(
                         coinName,

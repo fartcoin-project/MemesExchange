@@ -82,7 +82,7 @@ function FilterUserHistory(userID, coinID, data)
         let checked = {};
         for (let i=0; i<data.length; i++)
         {
-            if (data[i]['category'] != 'receive' && data[i]['category'] != 'send')
+            if (data[i]['category'] !== 'receive' && data[i]['category'] !== 'send')
                 continue
                     
             if (!checked[data[i]['txid']]) 
@@ -140,7 +140,7 @@ exports.GetAccountAddress = function(userID, coinName, callback)
     
     console.log('RPC call from GetAccountAddress');        
     RPC.send2(userID, coinName, commands.getaccountaddress, [account], ret => {
-        if (ret.result != 'success' || !ret.data) return callback(ret);
+        if (ret.result !== 'success' || !ret.data) return callback(ret);
             
         accountAddr[coinName] = {};
         accountAddr[coinName][userID] = {ret: ret, time: Date.now()}
@@ -164,7 +164,7 @@ exports.onGetAddress = function(req, res)
         }
         
         exports.GetAccountAddress(status.id, escape(req['body'].coin), ret => {
-            if (ret.result != 'success')
+            if (ret.result !== 'success')
             {
                 onError(req, res, ret.message);
                 return;
@@ -190,7 +190,7 @@ exports.GetCoins = async function(active, callback)
             try { rows[i].info = JSON.parse(utils.Decrypt(rows[i].info));}
             catch(e) {continue;}
     
-            if (rows[i].info.active != active)
+            if (rows[i].info.active !== active)
                 continue;
                 
             ret.push(rows[i]);
@@ -217,11 +217,11 @@ exports.onGetWallet = function(ws, req)
 
 exports.GetCoinWallet = function(socket, userID, coin, callback)
 {
-    if (balances[userID] == undefined)
+    if (balances[userID] === undefined)
         balances[userID] = {};
-    if (balances[userID][coin.id] == undefined)
+    if (balances[userID][coin.id] === undefined)
         balances[userID][coin.id] = {time:0, coinBalance:0};
-    if (coinsBalance[coin.id] == undefined)
+    if (coinsBalance[coin.id] === undefined)
     {
         coinsBalanceN[coin.name] = coinsBalance[coin.id] = { balance: 0 };
 
@@ -229,7 +229,7 @@ exports.GetCoinWallet = function(socket, userID, coin, callback)
         setInterval(UpdateCoinBalance, 120000, coin.id, coin.name);
     }
     
-    if ((Date.now() - balances[userID][coin.id].time < 120000) || (balances[userID][coin.id].coinBalance == coinsBalance[coin.id].balance && coinsBalance[coin.id].balance != 0))
+    if ((Date.now() - balances[userID][coin.id].time < 120000) || (balances[userID][coin.id].coinBalance === coinsBalance[coin.id].balance && coinsBalance[coin.id].balance !== 0))
     {
         if (Date.now() - balances[userID][coin.id].time < 600000)
             return GetCachedBalance(socket, userID, coin, callback);
@@ -242,7 +242,7 @@ exports.GetCoinWallet = function(socket, userID, coin, callback)
         if (socket  && (socket.readyState === WebSocket.OPEN)) socket.send(JSON.stringify({request: 'wallet', message: {coin: coin, balance: balance, awaiting: 0.0, hold: 0.0} }));
         
         orders.GetReservedBalance(userID, coin.name, ret => {
-            const reserved = (!ret || !ret.result || ret.result != 'success') ? 0 : ret.data;
+            const reserved = (!ret || !ret.result || ret.result !== 'success') ? 0 : ret.data;
             const hold = utils.roundDown(reserved);
             const data = JSON.stringify({request: 'wallet', message: {coin: coin, balance: utils.roundDown(balance), awaiting: 0.0, hold: hold} })
             
@@ -260,7 +260,7 @@ exports.GetCoinWallet = function(socket, userID, coin, callback)
     {
         console.log('RPC call from UpdateCoinBalance');
         RPC.send3(0, coinID, commands.getbalance, ["*", 1], ret => {
-            if (!ret || !ret.result || ret.result != 'success') return;
+            if (!ret || !ret.result || ret.result !== 'success') return;
                 
             coinsBalance[coinID].balance = utils.roundDown(ret.data);
             coinsBalanceN[coinName].balance = coinsBalance[coinID].balance;

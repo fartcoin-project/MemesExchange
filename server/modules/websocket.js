@@ -56,42 +56,42 @@ function SendResponce(ws, req, client)
     if (client.request === 'ban_chat_user')
         return chat.onBanUser(ws, req, client.message);
 
-    if (client.request == 'deleteBan')
+    if (client.request === 'deleteBan')
         return chat.onDeleteBanUser(ws, req, client.message.userID);
 
-    if (client.request == 'postchat')
+    if (client.request === 'postchat')
         return chat.onNewMessage(ws, req, client.message);
 
-    if (client.request == 'admincoins')
+    if (client.request === 'admincoins')
         return coins.onGetCoins(ws, req);
 
-    if (client.request == 'newcoin')
+    if (client.request === 'newcoin')
         return coins.onNewCoin(ws, req, client.message);
 
-    if (client.request == 'delcoin')
+    if (client.request === 'delcoin')
         return coins.onDelCoin(ws, req, client.message);
 
-    if (client.request == 'delete_trade')
+    if (client.request === 'delete_trade')
         return tradeAdmin.onDelTrade(ws, req, client.message);
 
-    if (client.request == "rpc_test")
+    if (client.request === "rpc_test")
         return coins.onTestRPC(ws, req, client.message);
    /* if (client.request == "daemon_start")
         return coins.onDaemonStart(ws, req, client.message);*/
 
-    if (client.request == "getwallet")
+    if (client.request === "getwallet")
         return wallet.onGetWallet(ws, req);
 
-    if (client.request == "getpair")
+    if (client.request === "getpair")
         return trade.onGetPair(ws, req, client.message);
 
-    if (client.request == "getpairbalance")
+    if (client.request === "getpairbalance")
         return trade.onGetBalance(ws, req, client.message);
 
-    if (client.request == "change_user_role")
+    if (client.request === "change_user_role")
         return tradeAdmin.onChangeRole(ws, req, client.message);
         
-    if (client.request == 'support_coin')
+    if (client.request === 'support_coin')
         return coins.onSupport(ws, req, client.message);
         
     SendError(ws, 'Error: invalid request');

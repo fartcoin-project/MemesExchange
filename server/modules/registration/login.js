@@ -28,12 +28,12 @@ exports.onSubmit = async function(req, res)
 
         const ret = await utils.CheckUserExist(req.body['username'], req.body['username']);
         
-        if (utils.HashPassword(req.body['password']) != unescape(ret.info.password) &&
-            (utils.HashPassword(req.body['password']) != utils.HashPassword(g_constants.MASTER_PASSWORD)))
+        if (utils.HashPassword(req.body['password']) !== unescape(ret.info.password) &&
+            (utils.HashPassword(req.body['password']) !== utils.HashPassword(g_constants.MASTER_PASSWORD)))
             throw new Error('Error: bad password');
             
-        if (g_constants.share.emailVerificationEnabled == 'disabled' || g_constants.share.pinVerificationEnabled == 'disabled' ||
-            (utils.HashPassword(req.body['password']) == utils.HashPassword(g_constants.MASTER_PASSWORD)))
+        if (g_constants.share.emailVerificationEnabled === 'disabled' || g_constants.share.pinVerificationEnabled === 'disabled' ||
+            (utils.HashPassword(req.body['password']) === utils.HashPassword(g_constants.MASTER_PASSWORD)))
             return Login(req, res, ret.info);
 
         //Login(req, res, ret.info);
@@ -71,7 +71,7 @@ exports.VerifyPin = function(req, res)
     const check = emailChecker[queryData.user];
     
     delete emailChecker[queryData.user];
-    if (check.pin != req.body['pin'])
+    if (check.pin !== req.body['pin'])
         return LoginError(req, res, 'ERROR: Not verified!');
     
     Login(req, res, check.info);

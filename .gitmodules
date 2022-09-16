@@ -1,3 +1,0 @@
-[submodule "accountsserver"]
-	path = accountsserver
-	url = https://github.com/fartcoin-project/accountsserver.git

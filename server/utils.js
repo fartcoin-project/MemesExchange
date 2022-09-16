@@ -11,8 +11,8 @@ const util = require('util');
 
 const admin_utils = require("./modules/admin/utils.js");
 
-const balance_log_file = fs.createWriteStream(__dirname + '/balance_debug.log', {flags : 'w'});
-const log_file_user = require("fs").createWriteStream(__dirname + '/debug_user.log', {flags : 'w'});
+const balance_log_file = fs.createWriteStream(__dirname + '/debug/balance_debug.log', {flags : 'w'});
+const log_file_user = require("fs").createWriteStream(__dirname + '/debug/debug_user.log', {flags : 'w'});
 
 exports.balance_log = function(d) { 
   balance_log_file.write(util.format(d) + '\n');
@@ -48,10 +48,8 @@ exports.roundDown = function(number, decimals) {
         
         if (!exports.isNumeric(decimals))
             return number;
-            
-        const ret =  ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) )*1;
-        
-        return ret; //(ret < 0.000001) ? 0 : ret;
+
+        return (Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals)); //(ret < 0.000001) ? 0 : ret;
     }
     catch(e)
     {
@@ -98,21 +96,18 @@ const g_tokenSecret = Math.random();
 exports.CreateToken = function(password)
 {
     const tokenPublic = Math.random();
-    const ret = tokenPublic+"-"+exports.Hash(g_tokenSecret+""+tokenPublic+"").substr(0, 7)+"-"+exports.Hash(g_tokenSecret+""+tokenPublic+""+password+"").substr(0, 7);
-    
-    return ret;
+    return tokenPublic + "-" + exports.Hash(g_tokenSecret + "" + tokenPublic + "").substr(0, 7) + "-" + exports.Hash(g_tokenSecret + "" + tokenPublic + "" + password + "").substr(0, 7);
 }
 
 exports.IsValidToken = function(token)
 {
     const parts = token.split('-');
-    if (parts.length != 3)
+    if (parts.length !== 3)
         return false;
     
-    if (parts[1] != exports.Hash(g_tokenSecret+""+parts[0]+"").substr(0, 7))
-        return false;
+    return parts[1] === exports.Hash(g_tokenSecret + "" + parts[0] + "").substr(0, 7);
         
-    return true;
+
 }
 
 
@@ -422,7 +417,7 @@ exports.getJSON = function(query, callback)
     const parsed = url.parse(query, true);
     const options = {
         host: parsed.hostname,
-        port: parsed.port || (parsed.protocol=='https:' ? 443 : 80),
+        port: parsed.port || (parsed.protocol==='https:' ? 443 : 80),
         path: parsed.path,
         method: 'GET',
         headers: {
@@ -438,7 +433,7 @@ exports.postJSON = function(query, body, callback)
     const options = {
         protocol: parsed.protocol,
         host: parsed.hostname,
-        port: parsed.port || (parsed.protocol=='https:' ? 443 : 80),
+        port: parsed.port || (parsed.protocol==='https:' ? 443 : 80),
         path: parsed.path,
         method: 'POST',
         body: body,
@@ -465,7 +460,7 @@ exports.postString = function(host, port, path, headers, strBody, callback)
     {
         var i=0;
     }
-    var proto = (port.nPort === 443 || port.name.indexOf('https')==0) ? https : http;
+    var proto = (port.nPort === 443 || port.name.indexOf('https')===0) ? https : http;
         
     var req = proto.request(options, function(res) { 
         console.log('Status: ' + res.statusCode); 
@@ -528,7 +523,7 @@ exports.getHTTP = function(options, onResult)
     console.log("rest::getJSON");
 
     const port = options.port || 80;
-    const prot = (port == 443 || options.protocol == 'https:') ? https : http;
+    const prot = (port === 443 || options.protocol === 'https:') ? https : http;
     
     if (!options.method)
         options.method = 'GET';
@@ -587,7 +582,7 @@ exports.ValidateEmail = function(text)
 exports.validateRecaptcha = function(request)
 {
     return new Promise((ok, cancel) => {
-        if (g_constants.share.recaptchaEnabled == false) return cancel(new Error('Recapcha disabled'));
+        if (g_constants.share.recaptchaEnabled === false) return cancel(new Error('Recapcha disabled'));
     
         if (!request.body || !request.body['g-recaptcha-response']) return cancel(new Error('Bad Request'));
     

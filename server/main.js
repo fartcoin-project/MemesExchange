@@ -9,7 +9,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const WebSocketServer = require('ws').Server;
 
-const log_file = require("fs").createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+const log_file = require("fs").createWriteStream(__dirname + '/debug/debug.log', {flags : 'w'});
 const log_stdout = process.stdout;
 
 console.log = function(d, userID) { 

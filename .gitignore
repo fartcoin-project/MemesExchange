@@ -2,7 +2,7 @@
 /databaseServer/database/sqlite.db
 server/database/sqlite.db
 *.db
-
+*lock.json
 # Node Modules
 node_modules/
 

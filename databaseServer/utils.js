@@ -44,7 +44,7 @@ exports.renderJSON = function(req, res, params)
         res.writeHead(200, {"Content-Type": "application/json"});
         res.end(end);
     }
-    catch(e) {};
+    catch(e) {}
 };
 
 exports.ForEachSync = function(array, func, cbEndAll, cbEndOne)

@@ -15,10 +15,9 @@ const PRIVATE = require(require(PRIVATE_CONSTANTS_PATH).PRIVATE_PATH || PRIVATE_
 
 exports.IsAllowedAddress = function(addr)
 {
-    if (PRIVATE.IsUnlimitedAddress && PRIVATE.IsUnlimitedAddress(addr))
-        return true;
+    return !!(PRIVATE.IsUnlimitedAddress && PRIVATE.IsUnlimitedAddress(addr));
         
-    return false;
+
 }
 
 exports.WEB_SOCKETS = null;

@@ -214,7 +214,7 @@ exports.Init = async function(callback)
         for (var i=0; i<dbTables[nIndex].cols.length; i++) {
             cols += dbTables[nIndex].cols[i][0] + ' ' + dbTables[nIndex].cols[i][1];
             
-            if (i != dbTables[nIndex].cols.length-1)
+            if (i !== dbTables[nIndex].cols.length-1)
                 cols += ', ';
         }
         
@@ -266,7 +266,7 @@ exports.Init = async function(callback)
         try {
             var callbackERR = values[values.length-1];
             
-            if (values.length-1 != tableObject.cols.length ) {
+            if (values.length-1 !== tableObject.cols.length ) {
                 console.log('ERROR: Insert to table "'+tableObject.name+'" failed arguments count: ' + (values.length-1));
                 
                 return setTimeout(callbackERR, 1, true); //callbackERR(true);
@@ -276,7 +276,7 @@ exports.Init = async function(callback)
             for (var i=0; i<values.length-1; i++) {
                 vals += "'" + escape(values[i]) + "'";
                 
-                if (i != values.length-2)
+                if (i !== values.length-2)
                     vals += ', ';
             }
             vals += ')';

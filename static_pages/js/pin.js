@@ -8,7 +8,7 @@ $('#pin_check_form').submit(e => {
     let user = '';
     for (let i = 0; i < vars.length; i++) {
         let pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == 'user') {
+        if (decodeURIComponent(pair[0]) === 'user') {
             user = decodeURIComponent(pair[1]);
             break;
         }
@@ -19,7 +19,7 @@ $('#pin_check_form').submit(e => {
     $.post( "/verifypin?user="+user, $( '#pin_check_form' ).serialize(), data => {
         $('#loader').hide();
         
-        if (data.result != true)
+        if (data.result !== true)
             return utils.alert_fail(data.message);
 
         window.location.href = "https://"+window.location.hostname+($('#id_redirect').val() || "/");

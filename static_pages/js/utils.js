@@ -6,7 +6,7 @@ const storage = {
     deleteKey : function(parent, key) {
         var jsonSaved =this.getItem(parent).value || {}; 
     
-        if (jsonSaved[key] == undefined)
+        if (jsonSaved[key] === undefined)
             return;
             
         delete jsonSaved[key];
@@ -15,13 +15,13 @@ const storage = {
     },
     getItem : function(key) {
         var stor;
-        if (window.content != undefined)
+        if (window.content !== undefined)
             stor = window.content.localStorage;
         else
             stor = localStorage;
     
         var str = stor.getItem(key);
-        if (str == undefined)
+        if (str === undefined)
             return null;
         
         try {
@@ -41,7 +41,7 @@ const storage = {
         oldValue['value'] = value;
         
         var stor;
-        if (window.content != undefined)
+        if (window.content !== undefined)
             stor = window.content.localStorage;
         else
             stor = localStorage;
@@ -52,7 +52,7 @@ const storage = {
     deleteKeyS : function(parent, key) {
         var jsonSaved =this.getItemS(parent).value || {}; 
     
-        if (jsonSaved[key] == undefined)
+        if (jsonSaved[key] === undefined)
             return;
             
         delete jsonSaved[key];
@@ -61,13 +61,13 @@ const storage = {
     },
     getItemS : function(key) {
         var stor;
-        if (window.content != undefined)
+        if (window.content !== undefined)
             stor = window.content.sessionStorage;
         else
             stor = sessionStorage;
     
         var str = stor.getItem(key);
-        if (str == undefined)
+        if (str === undefined)
             return null;
         
         try {
@@ -87,7 +87,7 @@ const storage = {
         oldValue['value'] = value;
         
         var stor;
-        if (window.content != undefined)
+        if (window.content !== undefined)
             stor = window.content.sessionStorage;
         else
             stor = sessionStorage;
@@ -103,7 +103,7 @@ const utils =
     DEFAULT_PAIR: DEFAULT_PAIR,
     COMISSION: TRADE_COMISSION,
     
-    OPENTRADE: "OpenTrade",
+    MemesExchange: "MemesExchange",
     USD_NAME: "US Dollar",
     USD_TICKER: "USD",
     RUB_NAME: "Ruble",
@@ -111,12 +111,12 @@ const utils =
     
     IsFiat: function(coin)
     {
-        if (coin == utils.USD_NAME) return true;
-        if (coin == utils.RUB_NAME) return true;
-        if (coin == utils.USD_TICKER) return true;
-        if (coin == utils.RUB_TICKER) return true;
+        if (coin === utils.USD_NAME) return true;
+        if (coin === utils.RUB_NAME) return true;
+        if (coin === utils.USD_TICKER) return true;
+        return coin === utils.RUB_TICKER;
         
-        return false;
+
     },
     
     ValidateEmail: function(text)
@@ -142,7 +142,7 @@ const utils =
         if (!utils.isNumeric(str))
             return 0.0;
         
-        if ((str*1.0).toFixed(8)*1.0 == str*1.0)
+        if ((str*1.0).toFixed(8)*1.0 === str*1.0)
             return str*1.0;
         
         const str0 = str.toString();
@@ -363,7 +363,7 @@ const modals = {
         $('#myModalLabel').text(title);
         
         $('.modal-body').html('');
-        if (bodyIsObject == undefined)
+        if (bodyIsObject === undefined)
             $('.modal-body').append($(body));
         else
             $('.modal-body').append(body);

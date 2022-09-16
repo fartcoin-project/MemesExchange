@@ -24,9 +24,9 @@
               <iframe frameBorder="0" scrolling='no' style='height: 500px;' class="col-md-12" src='../chart.html'></iframe>
             </div>
           </div>
-          <!--<div class="embed-responsive" style='padding-top: 75%' >
+          <<div class="embed-responsive" style='padding-top: 75%' >
             <iframe style='height: 500px;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
-          </div>-->
+          </div>
         </div>
 <!-- End CHART-->
 
@@ -164,7 +164,7 @@
                 <div class="form-group row">
                   <label for="inputBuyPrice" class="col-md-4 col-form-label form-control-sm">Price:</label>
                   <div class="col-md-8">
-                    <input type="text" class="form-control" id="inputBuyPrice" placeholder="0.0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0 ">
+                    <input type="text" class="form-control" id="inputBuyPrice" placeholder="0.0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode == 0 ">
                     <span class="currency" id="id_price_buy"></span>
                   </div>
                 </div>
@@ -178,7 +178,7 @@
                 <div class="form-group row">
                   <label for="inputBuyTotal" class="col-md-4 col-form-label form-control-sm">Total:</label>
                   <div class="col-md-8">
-                    <input type="text" class="form-control" id="inputBuyTotal" placeholder="0.0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0 ">
+                    <input type="text" class="form-control" id="inputBuyTotal" placeholder="0.0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode == 0 ">
                     <span class="currency" id="id_total_buy"></span>
                   </div>
                 </div>
@@ -454,6 +454,6 @@
 
 
     <%- include ('../partials/footer') %>
-    <script src='/js/index.js'></script>
+    <script src='./js/index.js'></script>
   </body>
 </html>
