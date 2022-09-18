@@ -2,7 +2,7 @@
 <html lang="en">
     
     <%- include ('../partials/head') %>
-  <body>
+  <body class="border-box">
 
     <%- include ('../partials/header') %>
 
@@ -10,53 +10,38 @@
     <div class="container pt-2">
       <%- include ('../partials/alerts') %>
       <input id='id_token' type='hidden' <% var value = ''; try{if (status.token) value = "value='"+status.token+"'"}catch(e){} %> <%- value %>>
-
-
-
+    </div>
 <!-- Start new row----------------------------------------------------------------------------------------------------->
-      <div class='row'>
-
-
-<!--Begin CHART Layout -->
-        <div class='col-md-9 pl-1.4'>
-          <div class='container p-0'>
-            <div class='row pl-0'>
-              <iframe frameBorder="0" scrolling='no' style='height: 500px;' class="col-md-12" src='../chart.html'></iframe>
-            </div>
-          </div>
-          <<div class="embed-responsive" style='padding-top: 75%' >
-            <iframe style='height: 500px;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
-          </div>
+    <div class='row' style='border-radius: 20px;'>
+        <!--Begin CHART Layout -->
+        <div class='col-md-9'>
+             <iframe class="iframe" src='../chart.html' style="max-height: 600px;"></iframe>
         </div>
-<!-- End CHART-->
-
-
-
-<!-- Begin Markets & chat-->
-        <div class="col-md-3 p-2">
-
-	<!--- MARKETS --->
-	  <div class="card">
+        <!-- End CHART-->
+        <!-- Begin Markets & chat-->
+        <div class="col-md-3">
+              <!--- MARKETS --->
+          <div class="card h-100">
             <div class="card-header">
-		<div align="center" width="30px" position="relative" vertical-align="middle" border="2px" border-top-width="30" >
-			<a href="https://memesexchange.com/signup" >
-				<img height="50" align="center" title="Sign Up Now!" src="https://www.fartcoin-project.com/wp-content/uploads/2019/01/Bitcoin-accepted.jpg"/>
-			</a>
-			<!-- <%-__('Markets')%> -->
-		</div>
+              <div align="center" width="30px" position="relative" vertical-align="middle" border="0px"radius="50px" border-top-width="1px" >
+                <a href="https://memesexchange.com/signup" >
+                  <img height="50" align="center" title="Sign Up Now!" src="https://www.fartcoin-project.com/wp-content/uploads/2019/01/Bitcoin-accepted.jpg"/>
+                </a>
+                 <%-('Markets')%>
+              </div>
             </div>
             <div class="card-body p-0">
               <div id='market-flex' class="d-flex d-flex-market align-items-start bd-highlight mb-0" >
                 <div id='market-container' class='container p-0'>
                   <table class="table table-sm  table-hover table-orders">
                     <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Coin</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Vol</th>
-                        <th scope="col">Ch (%)</th>
-                      </tr>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Coin</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Vol</th>
+                      <th scope="col">Ch (%)</th>
+                    </tr>
                     </thead>
                     <tbody id='table-market'>
                     </tbody>
@@ -64,49 +49,12 @@
                 </div>
               </div>
             </div>
-         <!--- End MARKETS --->
-
-	 <!---  Begin Chat --->
-          <div class="card">
-            <div id='id_chat_header' class="card-header">Chat</div>
-            <div class="card-body p-0">
-              <button id='id_btn_chat_nl' type="button" class="btn btn-outline-primary btn-sm">NL</button>
-              <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">EN</button>
-              <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 200px">
-		        <div id='chat-container_loading' class='container'>
-		          <div class='row'><div class='col-md-12'>Loading...</div></div>
-		        </div>
-		        <div id='chat-container_nl' class='container font_14'></div>
-		        <div id='chat-container_en' class='container font_14'></div>
-              </div>
-              <div class="input-group">
-                <input id='chat_message' type="text" class="form-control" maxlength="150">
-                <span class="input-group-btn">
-                  <button id='button_chat' class="btn btn-secondary" type="button">Submit</button>
-                </span>
-              </div>
-            </div>
-           </div>
-	  <!---- End chat---->
-
-
           </div>
-<!-- End Markets & chat-->
-        </div>
-      </div>
-<!-- End of row----------------------------------------------------------------------------------------------------->
-
-
-
-
-
-
-<div class='row' >
-<div class="col-md-9 m-2">
-<!-- Start new row----------------------------------------------------------------------------------------------------->
-       <div class='row' >
- <!-- Begin Buy order input-->
-        <div class="col-md-4 p-2">
+        </div> <!--- End MARKETS --->
+    </div>     <!-- End of row------------------------------------------------------->
+    <div class="col-md-12">
+      <div class='row' ><!-- Start new row--------------------------------------------->
+        <div class="col-md-3 m-2"><!-- Begin Buy order input-->
           <div class="card">
             <div id='header_buy' class="card-header" style="background-color:#9ed3ca" position='relative' float="left" >
             </div>
@@ -195,7 +143,7 @@
 
 
 <!-- Begin Active order & History-->
-        <div class="col-md-4 p-2">
+        <div class="col-md-3 m-2">
           <div class="card">
                   <div class="card-header" style="background-color:#d5e7e8" position='relative' float="center">
               Your active orders:
@@ -250,8 +198,8 @@
 
 
 <!-- Begin Sell order input-->
-        <div class="col-md-4 p-2">
-          <div class="card">
+        <div class="col-md-3 m-2">
+            <div class="card">
                   <div id='header_sell' class="card-header" style="background-color:#c4717f" position='relative' float="right" >
                     
                   </div>
@@ -330,13 +278,71 @@
                         <button type="submit" class="btn btn-primary"><%-__('Sell')%></button>
                       </form>
                   </div>
-                </div>          
-         </div>
+            </div>
+        </div>
 <!-- End Sell order input-->
+         <!-- Begin Trade History-->
+         <div class="col-md-2 m-2">
+           <div class="card">
+             <div class="card-header p-0" style="background-color:#d5e7e8">
+               <table class='table table-orders m-0'>
+                 <tr>
+                   <td><strong><%-__('Trade history')%>:</strong></td>
+                 </tr>
+               </table>
 
+             </div>
+             <div class="card-body div-orders p-0">
+               <table class="table table-striped table-sm table-orders">
+                 <thead>
+                 <tr>
+                   <th>Time</th>
+                   <th>Type</th>
+                   <th>Volume</th>
+                   <th>Price</th>
+                   <th></th>
+                 </tr>
+                 </thead>
+                 <tbody id='id_trade_history'>
+                 </tbody>
+               </table>
+             </div>
+           </div>
+         </div>
+         <!-- End Trade History-->
 
+         <!---  Begin Chat
+         <div class="col-md-2  p-0">
+              <div class="card">
+                <div id='id_chat_header' class="card-header">Chat</div>
+                <div class="card-body p-0">
+                  <button id='id_btn_chat_nl' type="button" class="btn btn-outline-primary btn-sm">NL</button>
+                  <button id='id_btn_chat_en' type="button" class="btn btn-outline-primary btn-sm">EN</button>
+                  <div id='chat-flex' class="d-flex d-flex-chat align-items-start bd-highlight mb-0" style="height: 200px">
+                    <div id='chat-container_loading' class='container'>
+                      <div class='row'><div class='col-md-12'>Loading...</div></div>
+                    </div>
+                    <div id='chat-container_nl' class='container font_14'></div>
+                    <div id='chat-container_en' class='container font_14'></div>
+                  </div>
+                  <div class="input-group">
+                    <input id='chat_message' type="text" class="form-control" maxlength="150">
+                    <span class="input-group-btn">
+                      <button id='button_chat' class="btn btn-secondary" type="button">Submit</button>
+                    </span>
+                  </div>
+                </div>
+               </div>
+         </div>--->
+         <!---- End chat---->
 
-</div> <!-- <div class='row'> -->
+       </div>
+
+  <!-- <div class='row'>
+
+          <div class="embed-responsive" style='padding-top: 1%' >
+           <iframe style='height: 500px;' scrolling='no' class="embed-responsive-item" src='../chart.html'></iframe>
+         </div>-->
 <!-- End of row----------------------------------------------------------------------------------------------------->
 
 
@@ -347,7 +353,7 @@
 <!-- Start new row----------------------------------------------------------------------------------------------------->
        <!-- Sell Orders-->
        <div class='row'>
-        <div class="col-md-4 p-2">
+        <div class="col-md-4 m-2">
             <div class="card">
               <div class="card-header p-0" style="background-color:#c4717f" >
                 <table class='table table-orders m-0'>
@@ -356,7 +362,7 @@
                    <td class='form_title_volume' align="right">Volume:<span id='id_sell_volume'></span></td>
                   </tr>
                 </table>
-                
+
               </div>
               <div class="card-body div-orders p-0">
                 <table class="table table-striped table-sm table-orders table-hover">
@@ -368,46 +374,15 @@
                   </tbody>
                 </table>
               </div>
-            </div>          
+            </div>
           </div>
 	<!-- End Sell Orders-->
 
 
-	<!-- Begin Trade History-->
-        <div class="col-md-4 p-2">
-            <div class="card">
-             <!-- <div class="card-header">
-                Trade history:
-              </div>-->
-              <div class="card-header p-0" style="background-color:#d5e7e8">
-                <table class='table table-orders m-0'>
-                  <tr>
-                    <td><strong><%-__('Trade history')%>:</strong></td>
-                  </tr>
-                </table>
-                
-              </div>
-              <div class="card-body div-orders p-0">
-		        <table class="table table-striped table-sm table-orders">
-		          <thead>
-		            <tr>
-		              <th>Time</th>
-		              <th>Type</th>
-		              <th>Volume</th>
-		              <th>Price</th>
-		              <th></th>
-		            </tr>
-		          </thead>
-		          <tbody id='id_trade_history'>
-		          </tbody>
-		        </table>
-             </div>
-           </div>
-         </div>
-	<!-- End Trade History-->
+
 
 	<!-- Begin Buy Orders-->
-        <div class="col-md-4 p-2">
+        <div class="col-md-4 m-2">
             <div class="card">
               <div class="card-header p-0"  style="background-color:#9ed3ca" >
                 <table class='table table-orders m-0'>
@@ -436,7 +411,7 @@
 <!-- End of row----------------------------------------------------------------------------------------------------->
 </div>
 <!-- News---->
-<div class="col-md-3 p-2">
+<div class="col-auto">
 
 </div>
 <!-- EndNews---->
@@ -454,6 +429,6 @@
 
 
     <%- include ('../partials/footer') %>
-    <script src='./js/index.js'></script>
+    <script src='../js/index.js'></script>
   </body>
 </html>
