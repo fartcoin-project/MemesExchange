@@ -312,7 +312,7 @@ function UpdateMarket(message)
   for (var i=0; i<message.coins.length; i++)
   {
     const coinName = unescape(message.coins[i].name);
-    const coinIcon = '<img style="float:left;" width="16px" src="'+unescape(message.coins[i].icon)+'"  alt="CoinIcon"/>';
+    const coinIcon = '<img style="float:left;" width="32px" src="'+unescape(message.coins[i].icon)+'"  alt="CoinIcon"/>';
     
     coinNameToTicker[coinName] = {ticker: message.coins[i].ticker};
     coinTickerToName[message.coins[i].ticker] = {name: coinName};
@@ -354,15 +354,15 @@ function UpdateMarket(message)
    // else if (rowClass == chColor) chColor = "";
 
     const tr = $('<tr class="'+rowClass+'"></tr>')
-      .append($('<td class="align-middle">'+coinIcon+'</td>'))
-      .append($('<td class="align-middle" >'+message.coins[i].ticker+'</td>'))
-      .append($('<td class="align-middle">'+price+'</td>'))
-      .append($('<td class="align-middle">'+vol+'</td>'))
-      .append($('<td class="align-middle"><span class="'+chColor+'">'+(ch*1).toFixed(2)+'</span></td>'))
-      .css( 'cursor', 'pointer' )
-      .on('click', e => {
-        if (coinName === g_CurrentPair)
-          return;
+        .append($('<td class="align-middle">'+coinIcon+'</td>'))
+        .append($('<td class="align-middle" >'+message.coins[i].ticker+'</td>'))
+        .append($('<td class="align-middle">'+price+'</td>'))
+        .append($('<td class="align-middle">'+vol+'</td>'))
+        .append($('<td class="align-middle"><span class="'+chColor+'">'+(ch*1).toFixed(2)+'</span></td>'))
+        .css( 'cursor', 'pointer' )
+        .on('click', e => {
+          if (coinName === g_CurrentPair)
+            return;
           
         utils.ChangeUrl(document.title + "(" + coinName + ' market)', '/market/'+MC+'-'+BTC);
         storage.setItemS('CurrentPair', coinName);

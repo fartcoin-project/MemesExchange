@@ -13,7 +13,7 @@ catch(e)
 let g_LB_Data = {};
 //let g_MC_BTC_Price = 1000000;
 let g_CurrentPair = utils.DEFAULT_PAIR;
-let g_currentChartPeriod = 12;
+let g_currentChartPeriod = 24;
 
 $(() => {
   const currentPair = storage.getItemS('CurrentPair');
@@ -38,7 +38,7 @@ function UpdateMCFromLB()
   const coinNameToTicker = cntObject.value;
 
   const MC_price = storage.getItem("MC_BTC_Price");
-  const g_MC_BTC_Price = (MC_price == null || !MC_price.value) ? 1000000 : MC_price.value;
+  let g_MC_BTC_Price = (MC_price == null || !MC_price.value) ? 1000000 : MC_price.value;
 
   const MC = coinNameToTicker[utils.MAIN_COIN] ? coinNameToTicker[utils.MAIN_COIN].ticker || 'MC' : 'MC';
 
@@ -57,7 +57,7 @@ function UpdateMCFromLB()
     if (!g_LB_Data || !g_LB_Data.USD || !g_LB_Data.RUB)
       return;
 
-    if (MC == 'BTC') g_MC_BTC_Price = 0;
+    if (MC === 'BTC') g_MC_BTC_Price = 0;
 
     const USD = g_LB_Data.USD.rates.last/(g_MC_BTC_Price+1);
     const BTC = 1/(g_MC_BTC_Price+1);
@@ -193,7 +193,7 @@ function drawChart(chartData)
         maxValue: 24,
         ticks: [0, 4, 8, 12, 16, 20, 24]
       },*/
-      //width: 800,
+      height: 300,
       legend: 'none',
       colors: ['blue'],
       //vAxis: {viewWindow: {min: vAxisMin} },
