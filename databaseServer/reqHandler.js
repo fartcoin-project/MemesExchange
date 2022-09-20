@@ -23,10 +23,10 @@ function ProcessQuery(q, callback)
         
         if (!json.dbPath) throw new Error('Error: dbPath is required!');
         if (!json.command) throw new Error('Error: command (init or sql) is required!');
-        if (json.command === 'sql' && !json.sql) throw new Error('Error: command=sql but sql not found!')
-        if (json.command === 'init' && (!json.dbPath || !json.dbStructure)) throw new Error('Error: command=init but dbPath or dbStructure not found!')
+        if (json.command == 'sql' && !json.sql) throw new Error('Error: command=sql but sql not found!')
+        if (json.command == 'init' && (!json.dbPath || !json.dbStructure)) throw new Error('Error: command=init but dbPath or dbStructure not found!')
         
-        if (json.command === 'init')
+        if (json.command == 'init')
         {
             if (!json.dbStructure.dbTables) throw new Error('dbStructure.dbTables not found');
             
@@ -34,7 +34,7 @@ function ProcessQuery(q, callback)
                 return callback({result: true, message: 'dbPath='+json.dbPath});
 //            return utils.renderJSON(req, res, {result: true, message: 'dbPath='+json.dbPath});
         }
-        if (json.command === 'sql')
+        if (json.command == 'sql')
         {
             database.RunQuery(json.dbPath, json.sql, (err, rows) => {
                 return callback({result: true, err: err, rows: rows});

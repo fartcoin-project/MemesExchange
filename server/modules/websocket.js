@@ -11,7 +11,7 @@ const WebSocket = require('ws')
 
 exports.onConnect = function(ws, req)
 {
-   ws.on('open', function open() {});
+   //ws.on('open', function open() {});
 
     const request = req;
     ws.on('message', data => {

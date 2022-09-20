@@ -21,7 +21,7 @@ exports.onSubmit = async function(req, res)
             return SignupError(req, res, ret.message);
         }
         catch(e) {
-            if (g_constants.share.emailVerificationEnabled === 'disabled') return Signup(req, res);
+            if (g_constants.share.emailVerificationEnabled == 'disabled') return Signup(req, res);
         
             return SendConfirmEmail(req, res);
         }
@@ -36,7 +36,7 @@ exports.onSubmit = async function(req, res)
             if (!req.body || !req.body['username'] || !req.body['email'] || !req.body['password1'] || !req.body['password2'])
                 return cancel(new Error('Bad Request'));
     
-            if (req.body['password1'] !== req.body['password2'])
+            if (req.body['password1'] != req.body['password2'])
                 return cancel(new Error('The two password fields didn\'t match.'));
     
             if (!utils.ValidateEmail(req.body['email']))
@@ -105,7 +105,7 @@ function InsertNewUser(user, email, password, res, IP)
         utils.render(res, 'pages/registration/signup_confirm', {error: false, message: 'Success. Registration confirmed!'});
         
         g_constants.dbTables['users'].selectAll('ROWID AS id, *', 'login="'+escape(user)+'" AND email="'+escape(email)+'"', '', (err, rows) => {
-            if (err || !rows || rows.length !== 1)
+            if (err || !rows || rows.length != 1)
                 return;
                 
             return utils.UpdateRef(IP, rows[0].id);

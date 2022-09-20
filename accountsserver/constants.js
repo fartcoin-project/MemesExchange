@@ -2,13 +2,13 @@
 
 const DOMAIN = '127.0.0.1';
 
-exports.DEBUG_LOG = false;
+exports.DEBUG_LOG = true;
 
 exports.share = {
     my_port: 13336
 };
 
-const DATABASE_PATH = './database/sqlite.db';
+const DATABASE_PATH = '../../sqlite.bd';
 exports.dbTables = [
    {
       'name' : 'KeyValue',

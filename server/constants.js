@@ -2,10 +2,10 @@
 
 const SUPPORT_EMAIL = 'info@omariskandarani.com';
 const NOREPLY_EMAIL = 'noreply@memesexchange.com';
-const DOMAIN = 'localhost';
+const DOMAIN = '127.0.0.1';
 const MAILER_NAME = 'MemesExchange';
 const START_MESSAGE = 'The MemesExchange.com Server is Online!';
-const MemesExchange = "MemesExchange";
+const OPENTRADE = "MemesExchange";
 
 exports.ACCOUNTS_SERVER = "127.0.0.1";
 exports.ACCOUNTS_PORT = 13336;
@@ -15,8 +15,8 @@ exports.ALLOW_EMAIL_CHANGING = true;
 exports.DEBUG_LOG = true;
 
 exports.share = {
-   tradeEnabled: true,
-   withdrawEnabled: true,
+   tradeEnabled: false,
+   withdrawEnabled: false,
    recaptchaEnabled: false,
    emailVerificationEnabled: 'disabled', //'disabled' // !!! WARNING !!! DANGER !!! DO NOT CHANGE IT IN PRODUCTION !!! FOR TESTS ONLY !!!
    pinVerificationEnabled: 'disabled', //'disabled'
@@ -36,7 +36,7 @@ const MAX_IP_CONNECTIONS = 100;
 
 const MAX_USER_WITHDRAW = 100; //Percentage from trade deposit
 
-const DATABASE_PATH = './database/sqlite.db';
+const DATABASE_PATH = '../../sqlite.bd';
 const PRIVATE_CONSTANTS_PATH = "./modules/private_constants";
 
 exports.dbTables = [
@@ -225,7 +225,7 @@ exports.dbIndexes = [
 
 const DashForks = ['DASH', 'WAVI'];
 
-exports.DEBUG_MODE = process.env.PORT ? true : false;
+exports.DEBUG_MODE = !!process.env.PORT;
 exports.WEB_SOCKETS = null;
 exports.ExchangeBalanceAccountID = 0;
 
@@ -243,7 +243,7 @@ exports.NOREPLY_EMAIL = PRIVATE.NOREPLY_EMAIL || NOREPLY_EMAIL;
 exports.START_MESSAGE = PRIVATE.START_MESSAGE || START_MESSAGE;
 exports.MAILER_NAME = PRIVATE.MAILER_NAME || MAILER_NAME;
 exports.MAX_USER_WITHDRAW = PRIVATE.MAX_USER_WITHDRAW || MAX_USER_WITHDRAW;
-exports.MemesExchange = PRIVATE.MemesExchange || MemesExchange;
+exports.OPENTRADE = PRIVATE.OPENTRADE || OPENTRADE;
 exports.DOMAIN = PRIVATE.DOMAIN || DOMAIN;
 
 exports.share["my_portSSL"] = PRIVATE.SSL_PORT || 443;

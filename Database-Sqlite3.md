@@ -1,6 +1,3 @@
-
-# These are the Tables being created when first time launching the Exchange
-
 CREATE TABLE KeyValue (key TEXT UNIQUE PRIMARY KEY, value TEXT);
 CREATE TABLE users (login TEXT UNIQUE, email TEXT UNIQUE, password TEXT, info TEXT, PRIMARY KEY (login, email));
 CREATE TABLE chatban (userID TEXT UNIQUE, startBanTime INTEGER, endBanTime INTEGER, comment TEXT, PRIMARY KEY (userID));
@@ -19,7 +16,3 @@ CREATE INDEX uid ON balance (userID);
 CREATE INDEX uid_orders ON orders (userID, coin, buysell, amount, price);
 CREATE INDEX history_index ON history (buyUserID, sellUserID, coin, coin_pair, time);
 
-
-
-    RUB_NAME: "Ruble",
-    RUB_TICKER: "RUB",

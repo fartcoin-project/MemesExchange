@@ -95,7 +95,7 @@ exports.Init = function(dbPath, callback)
         try {
             var callbackERR = values[values.length-1];
             
-            if (values.length-1 !== tableObject.cols.length ) {
+            if (values.length-1 != tableObject.cols.length ) {
                 console.log('ERROR: Insert to table "'+tableObject.name+'" failed arguments count: ' + (values.length-1));
                 
                 return setTimeout(callbackERR, 1, true); //callbackERR(true);

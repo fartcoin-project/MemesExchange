@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="AccountServer" type="NodeJSConfigurationType" path-to-js-file="main.js" working-dir="$PROJECT_DIR$/accountsserver">
+  <configuration default="false" name="AccountServer" type="NodeJSConfigurationType" node-parameters=" --trace-warnings" path-to-js-file="main.js" working-dir="$PROJECT_DIR$/accountsserver">
     <method v="2" />
   </configuration>
 </component>
