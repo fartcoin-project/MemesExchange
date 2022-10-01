@@ -370,7 +370,7 @@ function UpdateMarket(message)
       });
       
     //$('#table-market').append(tr);
-    if (BTC == "USD")
+    if (BTC === "USD")
       markets.unshift(tr);
     else
       markets.push(tr);
